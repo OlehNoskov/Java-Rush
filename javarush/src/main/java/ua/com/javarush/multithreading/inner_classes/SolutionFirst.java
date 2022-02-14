@@ -1,4 +1,4 @@
-package ua.com.javarush.multithreading;
+package ua.com.javarush.multithreading.inner_classes;
 
 public class SolutionFirst {
     private String country;
