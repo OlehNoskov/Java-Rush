@@ -39,6 +39,10 @@ public abstract class BaseObject {
     public abstract void draw(Canvas canvas);
     public abstract void move();
     boolean intersects(BaseObject object){
-
+        double dx = x - object.x;
+        double dy = y - object.y;
+        double destination = Math.sqrt(dx * dx + dy * dy);
+        double destination2 = Math.max(radius, object.radius);
+        return destination <= destination2;
     }
 }
