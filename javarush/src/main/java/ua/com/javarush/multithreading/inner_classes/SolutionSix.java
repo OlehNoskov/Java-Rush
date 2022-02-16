@@ -7,28 +7,65 @@ import java.util.List;
 public class SolutionSix {
 
     public List<User> getUsers(){
-        return new AbstractDbSelectExecutor<User>() {
+
+        return new AbstractDbSelectExecutor<User>(){
             @Override
             public String getQuery() {
-                return ;
+                return ("SELECT * FROM USER");
             }
-        };
+        }.execute();
     }
 
-
     public List<Location> getLocations(){
-        return null;
+        return new AbstractDbSelectExecutor<Location>(){
+            @Override
+            public String getQuery() {
+                return ("SELECT * FROM LOCATION");
+            }
+        }.execute();
     }
 
     public List<Server> getServers(){
-        return null;
+        return new AbstractDbSelectExecutor<Server>(){
+            @Override
+            public String getQuery() {
+                return ("SELECT * FROM LOCATION");
+            }
+        }.execute();
     }
 
     public List<Subject> getSubjects(){
-        return null;
+        return new AbstractDbSelectExecutor<Subject>(){
+            @Override
+            public String getQuery() {
+                return ("SELECT * FROM LOCATION");
+            }
+        }.execute();
     }
 
     public List<Subscription> getSubscriptions(){
-        return null;
+        return new AbstractDbSelectExecutor<Subscription>(){
+            @Override
+            public String getQuery() {
+                return ("SELECT * FROM LOCATION");
+            }
+        }.execute();
+    }
+
+    public static void print (List list){
+        String format = "Id=%d, name = '%s', description=%s";
+        for (Object obj : list){
+            NamedItem namedItem = (NamedItem) obj;
+            System.out.println(String.format(format, namedItem.getId(), namedItem.getName(), namedItem.getDescription()));
+        }
+    }
+
+    public static void main(String[] args) {
+        SolutionSix solutionSix = new SolutionSix();
+        print(solutionSix.getUsers());
+        print(solutionSix.getLocations());
+        print(solutionSix.getServers());
+        print(solutionSix.getSubjects());
+        print(solutionSix.getSubscriptions());
     }
 }
