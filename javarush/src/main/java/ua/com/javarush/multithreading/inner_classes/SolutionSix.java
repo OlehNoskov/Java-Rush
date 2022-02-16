@@ -1,5 +1,6 @@
 package ua.com.javarush.multithreading.inner_classes;
 
+import org.springframework.boot.web.servlet.server.Session;
 import ua.com.javarush.multithreading.inner_classes.vo.*;
 
 import java.util.List;
@@ -7,7 +8,6 @@ import java.util.List;
 public class SolutionSix {
 
     public List<User> getUsers(){
-
         return new AbstractDbSelectExecutor<User>(){
             @Override
             public String getQuery() {
@@ -29,7 +29,7 @@ public class SolutionSix {
         return new AbstractDbSelectExecutor<Server>(){
             @Override
             public String getQuery() {
-                return ("SELECT * FROM LOCATION");
+                return ("SELECT * FROM SERVER");
             }
         }.execute();
     }
@@ -38,7 +38,7 @@ public class SolutionSix {
         return new AbstractDbSelectExecutor<Subject>(){
             @Override
             public String getQuery() {
-                return ("SELECT * FROM LOCATION");
+                return ("SELECT * FROM SUBJECT");
             }
         }.execute();
     }
@@ -47,7 +47,7 @@ public class SolutionSix {
         return new AbstractDbSelectExecutor<Subscription>(){
             @Override
             public String getQuery() {
-                return ("SELECT * FROM LOCATION");
+                return ("SELECT * FROM SUBSCRIPTION");
             }
         }.execute();
     }
@@ -58,6 +58,7 @@ public class SolutionSix {
             NamedItem namedItem = (NamedItem) obj;
             System.out.println(String.format(format, namedItem.getId(), namedItem.getName(), namedItem.getDescription()));
         }
+        System.out.println();
     }
 
     public static void main(String[] args) {
