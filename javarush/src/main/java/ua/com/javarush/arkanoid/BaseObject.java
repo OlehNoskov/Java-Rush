@@ -38,6 +38,7 @@ public abstract class BaseObject {
 
     public abstract void draw(Canvas canvas);
     public abstract void move();
+
     boolean intersects(BaseObject object){
         double dx = x - object.x;
         double dy = y - object.y;

@@ -2,7 +2,7 @@ package ua.com.javarush.arkanoid;
 
 public class Brick extends BaseObject{
 
-    public Brick(double x, double y, double radius) {
+    public Brick(double x, double y) {
         super(x, y, 3);
     }
 
