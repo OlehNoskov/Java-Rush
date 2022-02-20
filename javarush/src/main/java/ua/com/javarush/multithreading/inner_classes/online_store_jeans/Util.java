@@ -71,7 +71,7 @@ public class Util {
 
             @Override
             public String getTM() {
-                return Company.Levis.fullName;
+                return "Levis";
             }
         }
 
@@ -83,7 +83,7 @@ public class Util {
 
             @Override
             public String getTM() {
-                return Company.Denim.fullName;
+                return "Denim";
             }
         }
 
