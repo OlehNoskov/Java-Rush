@@ -8,6 +8,7 @@ import ua.com.javarush.multithreading.inner_classes.mvc.view.UsersView;
 public class Solution {
 
     public static void main(String[] args) {
+
         Model model = new MainModel();
         UsersView usersView = new UsersView();
         Controller controller = new Controller();
@@ -17,5 +18,6 @@ public class Solution {
         controller.setUsersView(usersView);
 
         usersView.fireEventShowAllUsers();
+        usersView.fireEventShowDeletedUsers();
     }
 }

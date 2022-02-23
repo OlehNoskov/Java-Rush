@@ -16,9 +16,14 @@ public class FakeModel implements Model {
 
     @Override
     public void loadUsers() {
-           List<User> users = new LinkedList<User>();
-           users.add(new User("A", 1L,1));
-           users.add(new User("B", 2L,1));
-           modelData.setUsers(users);
+        List<User> users = new LinkedList<User>();
+        users.add(new User("A", 1L, 1));
+        users.add(new User("B", 2L, 1));
+        modelData.setUsers(users);
+    }
+
+    @Override
+    public void loadDeletedUsers() {
+        throw new UnsupportedOperationException();
     }
 }
