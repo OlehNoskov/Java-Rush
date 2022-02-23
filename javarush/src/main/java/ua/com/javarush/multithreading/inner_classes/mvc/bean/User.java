@@ -18,7 +18,6 @@ public class User implements Cloneable {
         this("", 0, 0);
     }
 
-    //methods with logic
     public boolean isNew() {
         return id == 0;
     }
@@ -37,7 +36,6 @@ public class User implements Cloneable {
         return new User(name, newId, level);
     }
 
-    /////  getters and setters
     public String getName() {
         return name;
     }
