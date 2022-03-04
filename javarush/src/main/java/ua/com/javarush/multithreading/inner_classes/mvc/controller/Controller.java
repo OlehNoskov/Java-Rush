@@ -36,4 +36,9 @@ public class Controller {
         model.loadUserById(userId);
         usersView.refresh(model.getModelData());
     }
+
+    public void onUserDelete( long userId){
+        model.deleteUserById(userId);
+        usersView.refresh(model.getModelData());
+    }
 }

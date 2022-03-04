@@ -6,7 +6,7 @@ import ua.com.javarush.multithreading.inner_classes.mvc.model.service.UserServic
 
 import java.util.List;
 
-public class MainModel implements Model{
+public class MainModel implements Model {
 
     private ModelData modelData = new ModelData();
     private UserService userService = new UserServiceImpl();
@@ -18,7 +18,7 @@ public class MainModel implements Model{
 
     @Override
     public void loadUsers() {
-        List<User> users = userService.getUsersBetweenLevels(1,100);
+        List<User> users = getAllUsers();
         modelData.setUsers(users);
         modelData.setDisplayDeletedUserList(false);
     }
@@ -33,5 +33,15 @@ public class MainModel implements Model{
     public void loadUserById(long userId) {
         User user = userService.getUsersById(userId);
         modelData.setActiveUser(user);
+    }
+
+    @Override
+    public void deleteUserById(long userId) {
+        userService.deleteUser(userId);
+    }
+
+    private List<User> getAllUsers() {
+        List<User> users = userService.filterOnlyActiveUsers(userService.getUsersBetweenLevels(1, 100));
+        return users;
     }
 }
