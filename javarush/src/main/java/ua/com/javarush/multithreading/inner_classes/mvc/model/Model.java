@@ -11,4 +11,6 @@ public interface Model {
     void loadUserById(long userId);
 
     void deleteUserById(long userId);
+
+    void changeUserData(String name, long userId, int level);
 }

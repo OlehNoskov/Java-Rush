@@ -4,8 +4,6 @@ import ua.com.javarush.multithreading.inner_classes.mvc.bean.User;
 import ua.com.javarush.multithreading.inner_classes.mvc.controller.Controller;
 import ua.com.javarush.multithreading.inner_classes.mvc.model.ModelData;
 
-import java.util.List;
-
 public class UsersView implements View {
 
     private Controller controller;
@@ -17,13 +15,11 @@ public class UsersView implements View {
 
     @Override
     public void refresh(ModelData modelData) {
-        System.out.println("All users!!!");
-        List<User> users = modelData.getUsers();
-
-        for (User user : users) {
+        System.out.println("All " + (modelData.isDisplayDeletedUserList() ? "deleted " : "") + "users:");
+        for (User user : modelData.getUsers()) {
             System.out.println("\t" + user);
         }
-        System.out.println("=========================");
+        System.out.println("===================================================");
     }
 
     public void fireEventShowAllUsers() {

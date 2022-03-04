@@ -34,11 +34,16 @@ public class Controller {
 
     public void onOpenUserEditForm(long userId){
         model.loadUserById(userId);
-        usersView.refresh(model.getModelData());
+        editUserView.refresh(model.getModelData());
     }
 
     public void onUserDelete( long userId){
         model.deleteUserById(userId);
+        usersView.refresh(model.getModelData());
+    }
+
+    public void onUserChange(String name, long userId, int level){
+        model.changeUserData(name, userId, level);
         usersView.refresh(model.getModelData());
     }
 }
