@@ -6,7 +6,7 @@ import ua.com.javarush.multithreading.inner_classes.mvc.model.ModelData;
 
 import java.util.List;
 
-public class EditUserView implements View{
+public class EditUserView implements View {
 
     private Controller controller;
 
