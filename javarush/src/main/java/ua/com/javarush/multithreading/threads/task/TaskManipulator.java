@@ -2,25 +2,30 @@ package ua.com.javarush.multithreading.threads.task;
 
 public class TaskManipulator implements Runnable, CustomThreadManipulator {
 
-    private TaskManipulator taskManipulator;
+    private Thread thread;
 
     @Override
     public void run() {
-        System.out.println(Thread.currentThread().getName());
-        try {
-            Thread.sleep(100);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
+
+        Thread thread = Thread.currentThread();
+        while (!thread.isInterrupted()) {
+            System.out.println(thread.getName());
+            try {
+                Thread.sleep(100);
+            } catch (InterruptedException e) {
+                break;
+            }
         }
     }
 
     @Override
     public void start(String threadName) {
-        this.taskManipulator = new TaskManipulator();
+        thread = new Thread(this, threadName);
+        thread.start();
     }
 
     @Override
     public void stop() {
-
+        thread.interrupt();
     }
 }
