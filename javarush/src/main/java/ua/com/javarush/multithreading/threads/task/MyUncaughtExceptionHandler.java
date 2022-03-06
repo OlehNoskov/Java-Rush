@@ -12,7 +12,13 @@ public class MyUncaughtExceptionHandler extends TimerTask {
             throw new NullPointerException();
         }
         this.original = original;
-        this.handler = null;    //init handler here
+        this.handler = (t, e) -> {
+            StringBuilder builder = new StringBuilder();
+            for (int i = 0; i < t.getName().length(); i++) {
+                builder.append('*');
+            }
+            System.out.println(e.getMessage().replaceAll(t.getName(), builder.toString()));
+        };
     }
 
     public void run() {
