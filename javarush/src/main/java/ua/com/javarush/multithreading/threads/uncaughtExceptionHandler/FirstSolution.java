@@ -1,4 +1,4 @@
-package ua.com.javarush.multithreading.threads.task;
+package ua.com.javarush.multithreading.threads.uncaughtExceptionHandler;
 
 public class FirstSolution extends Thread {
 
