@@ -1,30 +1,17 @@
-package ua.com.javarush.multithreading.big_task_refactoring;
+package ua.com.javarush.multithreading.big_task_refactoring.human;
 
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 public class Student extends Human {
 
-    private List<Human> children = new ArrayList<>();
     private double averageGrade;
-    private String university;
+    private int course;
     private Date beginningOfSession;
     private Date endOfSession;
 
     public Student(String name, int age, double averageGrade) {
-        super(false);
-        this.name = name;
-        this.age = age;
+        super(name, age);
         this.averageGrade = averageGrade;
-    }
-
-    public List<Human> getChildren() {
-        return children;
-    }
-
-    public void setChildren(List<Human> children) {
-        this.children = children;
     }
 
     public void live() {
@@ -34,12 +21,8 @@ public class Student extends Human {
     public void learn() {
     }
 
-    public String getUniversity() {
-        return university;
-    }
-
-    public void setUniversity(String university) {
-        this.university = university;
+    public int getCourse() {
+        return course;
     }
 
     public void printData() {
@@ -54,15 +37,12 @@ public class Student extends Human {
         averageGrade += 0.2;
     }
 
-    public void setValue(String name, double value) {
-        if (name.equals("averageGrade")) {
-            averageGrade = value;
-            return;
-        }
-        if (name.equals("course")) {
-            course = (int) value;
-            return;
-        }
+    public void setCourse(int course){
+        this.course = course;
+    }
+
+    public void setAverageGrade(double averageGrade){
+        this.averageGrade = averageGrade;
     }
 
     public void setBeginningOfSession(int day, int month, int year) {
@@ -75,5 +55,10 @@ public class Student extends Human {
 
     public double getAverageGrade() {
         return averageGrade;
+    }
+
+    @Override
+    public String getPosition(){
+        return "Student";
     }
 }

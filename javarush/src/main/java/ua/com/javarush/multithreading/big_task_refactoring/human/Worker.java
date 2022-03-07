@@ -1,16 +1,12 @@
-package ua.com.javarush.multithreading.big_task_refactoring;
+package ua.com.javarush.multithreading.big_task_refactoring.human;
 
-public class Worker {
-    private Human human;
+public class Worker extends Human {
+
     private double salary;
     public String company;
 
     public Worker(String name, int age) {
-        human = new Human(false);
-    }
-
-    public void live() {
-        human.live();
+        super(name, age);
     }
 
     public double getSalary() {

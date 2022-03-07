@@ -1,4 +1,4 @@
-package ua.com.javarush.multithreading.big_task_refactoring;
+package ua.com.javarush.multithreading.big_task_refactoring.human;
 
 import java.util.ArrayList;
 import java.util.List;
