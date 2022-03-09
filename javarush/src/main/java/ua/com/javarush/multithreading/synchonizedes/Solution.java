@@ -36,7 +36,7 @@ public class Solution {
 
     public void clear() {
         for (int i = 0; i < buckets.length; i++) {
-            synchronized (locks[i% NUMBER_LOCKS]) {
+            synchronized (locks[i % NUMBER_LOCKS]) {
                 buckets[i] = null;
             }
         }
