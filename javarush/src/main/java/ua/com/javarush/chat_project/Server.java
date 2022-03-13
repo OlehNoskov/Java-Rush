@@ -34,6 +34,28 @@ public class Server {
 
         @Override
         public void run() {
+            ConsoleHelper.writeMessage("Установлено новое соединение с: " + socket.getRemoteSocketAddress());
+            String userName = null;
+            try (Connection connection = new Connection(socket)) {
+                userName = serverHandshake(connection);
+
+                //Сообщаем всем учасникам, что присоединился новый участник
+                sendBroadcastMessage(new Message(MessageType.USER_ADDED, userName));
+
+                //Сообщаем новому участнику, о существующих в чате участниках
+                notifyUsers(connection, userName);
+                //Обрабатываем сообщения пользователей
+                serverMainLoop(connection, userName);
+
+            } catch (IOException | ClassNotFoundException e) {
+                ConsoleHelper.writeMessage("Произошда ошибка при обмене данными с удаленным адресом " +
+                        socket.getRemoteSocketAddress());
+            }
+            if (userName != null) {
+                connectionMap.remove(userName);
+                sendBroadcastMessage(new Message(MessageType.USER_REMOVED, userName));
+            }
+            ConsoleHelper.writeMessage("Соединение с " + socket.getRemoteSocketAddress() + "закрыто!");
 
         }
 
@@ -85,6 +107,18 @@ public class Server {
                 if (name.equals(userName))
                     continue;
                 connection.send(new Message(MessageType.USER_ADDED, name));
+            }
+        }
+
+        private void serverMainLoop(Connection connection, String userName) throws IOException, ClassNotFoundException {
+            while (true) {
+                Message message = connection.receive();
+                if (message.getType() == MessageType.TEXT) {
+                    String data = message.getData();
+                    sendBroadcastMessage(new Message(MessageType.TEXT, userName + ":" + data));
+                } else {
+                    ConsoleHelper.writeMessage("Получено сообщение от  " + socket.getRemoteSocketAddress());
+                }
             }
         }
     }
