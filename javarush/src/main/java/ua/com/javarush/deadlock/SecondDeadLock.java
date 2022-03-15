@@ -1,4 +1,4 @@
-package ua.com.javarush.cycles;
+package ua.com.javarush.deadlock;
 
 public class SecondDeadLock {
 
