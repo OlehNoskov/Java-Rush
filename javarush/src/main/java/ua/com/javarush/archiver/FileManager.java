@@ -6,6 +6,7 @@ import java.nio.file.DirectoryStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class FileManager {
@@ -14,26 +15,29 @@ public class FileManager {
 
     public FileManager(Path rootPath) throws IOException {
         this.rootPath = rootPath;
-        collectFilesList(rootPath);
+        this.fileList = new ArrayList<>();
+        collectFileList(rootPath);
     }
 
     public List<Path> getFileList() {
         return fileList;
     }
 
-    private void collectFilesList(Path path) throws IOException {
-        //Проверка, что path является файлом!
+    private void collectFileList(Path path) throws IOException {
+        // Добавляем только файлы
         if (Files.isRegularFile(path)) {
-            //Получение относительного пути файла относительно к rootPath и добавленние в список.
-            fileList.add(rootPath.relativize(path));
-            //Если путь это директория
-        } else if (Files.isDirectory(path)) {
-            DirectoryStream<Path> directoryStream = Files.newDirectoryStream(path);
-            //Проходит мо содержимому директории
-            for (Path entry: directoryStream){
-                collectFilesList(entry);
+            Path relativePath = rootPath.relativize(path);
+            fileList.add(relativePath);
+        }
+        // Добавляем содержимое директории
+        if (Files.isDirectory(path)) {
+            // Рекурсивно проходимся по всему содержмому директории
+            // Чтобы не писать код по вызову close для DirectoryStream, обернем вызов newDirectoryStream в try-with-resources
+            try (DirectoryStream<Path> directoryStream = Files.newDirectoryStream(path)) {
+                for (Path file : directoryStream) {
+                    collectFileList(file);
+                }
             }
-            directoryStream.close();
         }
     }
 }

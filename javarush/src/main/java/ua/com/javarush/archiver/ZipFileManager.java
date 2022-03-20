@@ -50,13 +50,13 @@ public class ZipFileManager {
 
     private void addNewZipEntry(ZipOutputStream zipOutputStream, Path filePath, Path fileName) throws Exception {
         Path fullPath = filePath.resolve(fileName);
+        //Создаем InputStream для файла fileName в директории filePath (полный путь fullPath!)
         try (InputStream inputStream = Files.newInputStream(fullPath)) {
             ZipEntry entry = new ZipEntry(fileName.toString());
 
+            //Помещаем новый элемент архива
             zipOutputStream.putNextEntry(entry);
-
             copyData(inputStream, zipOutputStream);
-
             zipOutputStream.closeEntry();
         }
     }
