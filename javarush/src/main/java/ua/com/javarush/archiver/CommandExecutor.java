@@ -2,7 +2,6 @@ package ua.com.javarush.archiver;
 
 import ua.com.javarush.archiver.command.*;
 
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -23,7 +22,7 @@ public class CommandExecutor {
         ALL_KNOW_COMMANDS_MAP.put(Operation.EXIT,new ExitCommand());
     }
 
-    public static void execute(Operation operation) throws IOException {
+    public static void execute(Operation operation) throws Exception {
        ALL_KNOW_COMMANDS_MAP.get(operation).execute();
     }
 }
