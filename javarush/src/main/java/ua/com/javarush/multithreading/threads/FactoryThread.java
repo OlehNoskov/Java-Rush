@@ -3,7 +3,7 @@ package ua.com.javarush.multithreading.threads;
 import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.atomic.AtomicInteger;
 
-public class Solution {
+public class FactoryThread {
 
     public static class AmigoThreadFactory implements ThreadFactory {
 

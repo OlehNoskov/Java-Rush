@@ -2,6 +2,7 @@ package ua.com.javarush.multithreading.threads;
 
 import java.io.IOException;
 import java.io.InputStream;
+
 import java.net.Socket;
 
 public class FourSolution extends Thread {
