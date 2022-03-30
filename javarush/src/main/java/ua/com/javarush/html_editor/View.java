@@ -8,6 +8,7 @@ import javax.swing.*;
 import javax.swing.undo.CannotRedoException;
 import javax.swing.undo.CannotUndoException;
 import javax.swing.undo.UndoManager;
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -123,5 +124,22 @@ public class View extends JFrame implements ActionListener {
 
     public UndoListener getUndoListener() {
         return undoListener;
+    }
+
+    public boolean isHtmlTabSelected() {
+        return tabbedPane.getSelectedIndex() == 0;
+    }
+
+    public void selectedHtmlTab() {
+        tabbedPane.setSelectedIndex(0);
+        resetUndo();
+    }
+
+    public void update() {
+        htmlTextPane.setDocument(controller.getDocument());
+    }
+
+    public void showAbout(){
+        JOptionPane.showMessageDialog(this, "Program HTML EDITOR by Noskov Oleh", "About us", JOptionPane.INFORMATION_MESSAGE);
     }
 }

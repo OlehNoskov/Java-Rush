@@ -3,6 +3,7 @@ package ua.com.javarush.html_editor.actions;
 import ua.com.javarush.html_editor.View;
 
 import javax.swing.*;
+
 import java.awt.event.ActionEvent;
 
 public class RedoAction extends AbstractAction {

@@ -5,6 +5,7 @@ import javax.swing.text.MutableAttributeSet;
 import javax.swing.text.SimpleAttributeSet;
 import javax.swing.text.StyleConstants;
 import javax.swing.text.StyledEditorKit;
+
 import java.awt.event.ActionEvent;
 
 public class SubscriptAction extends StyledEditorKit.StyledTextAction {
