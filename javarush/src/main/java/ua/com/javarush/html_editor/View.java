@@ -38,9 +38,28 @@ public class View extends JFrame implements ActionListener {
         this.controller = controller;
     }
 
+    //данный метод вызывается при выборе пунктов меню
     @Override
     public void actionPerformed(ActionEvent e) {
-
+        switch (e.getActionCommand()) {
+            case "Новый":
+                controller.createNewDocument();
+                break;
+            case "Открыть":
+                controller.openDocument();
+                break;
+            case "Сохранить":
+                controller.saveDocument();
+                break;
+            case "Сохранить как...":
+                controller.saveDocumentAs();
+                break;
+            case "Выход":
+                controller.exit();
+                break;
+            case "О программе":
+                showAbout();
+        }
     }
 
     public void init() {
@@ -91,7 +110,12 @@ public class View extends JFrame implements ActionListener {
     }
 
     public void selectedTabChanged() {
-
+        if (tabbedPane.getSelectedIndex() == 0) {
+            controller.setPlainText(plainTextPane.getText());
+        } else if (tabbedPane.getSelectedIndex() == 1) {
+            plainTextPane.setText(controller.getPlainText());
+        }
+        resetUndo();
     }
 
     public boolean canUndo() {
@@ -139,7 +163,7 @@ public class View extends JFrame implements ActionListener {
         htmlTextPane.setDocument(controller.getDocument());
     }
 
-    public void showAbout(){
+    public void showAbout() {
         JOptionPane.showMessageDialog(this, "Program HTML EDITOR by Noskov Oleh", "About us", JOptionPane.INFORMATION_MESSAGE);
     }
 }

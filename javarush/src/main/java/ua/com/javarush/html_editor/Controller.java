@@ -2,9 +2,8 @@ package ua.com.javarush.html_editor;
 
 import ua.com.javarush.html_editor.listeners.UndoListener;
 
+import javax.swing.*;
 import javax.swing.text.BadLocationException;
-import javax.swing.text.Document;
-import javax.swing.text.html.HTML;
 import javax.swing.text.html.HTMLDocument;
 import javax.swing.text.html.HTMLEditorKit;
 
@@ -23,7 +22,7 @@ public class Controller {
     }
 
     public void init() {
-
+        createNewDocument();
     }
 
     public void exit() {
@@ -63,13 +62,35 @@ public class Controller {
         }
     }
 
-//    public String getPlainText(){
-//        StringWriter writer = new StringWriter();
-//        try {
-//            new HTMLEditorKit().write(writer, document, 0, );
-//        }catch (IOException | BadLocationException e) {
-//            ExceptionHandler.log(e);
-//        }
-//        return writer
-//    }
+    public String getPlainText(){
+        StringWriter writer = new StringWriter();
+        try {
+            new HTMLEditorKit().write(writer, document, 0,document.getLength());
+        }catch (IOException | BadLocationException e) {
+            ExceptionHandler.log(e);
+        }
+        return writer.toString();
+    }
+
+    public void createNewDocument(){
+        view.selectedHtmlTab();
+        resetDocument();
+        view.setTitle("HTML Editor");
+        currentFile = null;
+    }
+
+    public void openDocument(){
+
+    }
+
+    public void saveDocument(){
+
+    }
+
+    public void saveDocumentAs(){
+        view.selectedHtmlTab();
+        JFileChooser fileChooser = new JFileChooser();
+        fileChooser.setFileFilter(new HTMLFileFilter());
+
+    }
 }
