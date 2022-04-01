@@ -1,4 +1,4 @@
-package ua.com.javarush.wait_notify.first_task;
+package ua.com.javarush.waitnotify.first_task;
 
 public class Solution {
     public static void main(String args[]) throws InterruptedException {

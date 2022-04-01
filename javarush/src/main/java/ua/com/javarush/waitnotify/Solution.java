@@ -1,4 +1,4 @@
-package ua.com.javarush.wait_notify;
+package ua.com.javarush.waitnotify;
 
 public class Solution {
     public static void main(String[] args) {

@@ -1,4 +1,4 @@
-package ua.com.javarush.chat_project;
+package ua.com.javarush.chatproject;
 
 import java.io.BufferedReader;
 import java.io.IOException;

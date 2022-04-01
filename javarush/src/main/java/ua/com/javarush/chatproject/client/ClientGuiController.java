@@ -1,4 +1,4 @@
-package ua.com.javarush.chat_project.client;
+package ua.com.javarush.chatproject.client;
 
 public class ClientGuiController extends Client {
 

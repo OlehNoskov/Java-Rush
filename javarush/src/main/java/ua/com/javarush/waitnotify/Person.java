@@ -1,4 +1,4 @@
-package ua.com.javarush.wait_notify;
+package ua.com.javarush.waitnotify;
 
 public class Person implements Runnable {
     private final Mail mail;

@@ -1,4 +1,4 @@
-package ua.com.javarush.chat_project.client;
+package ua.com.javarush.chatproject.client;
 
 import java.util.Collections;
 import java.util.Set;

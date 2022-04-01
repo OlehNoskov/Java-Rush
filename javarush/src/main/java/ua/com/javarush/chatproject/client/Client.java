@@ -1,9 +1,9 @@
-package ua.com.javarush.chat_project.client;
+package ua.com.javarush.chatproject.client;
 
-import ua.com.javarush.chat_project.Connection;
-import ua.com.javarush.chat_project.ConsoleHelper;
-import ua.com.javarush.chat_project.Message;
-import ua.com.javarush.chat_project.MessageType;
+import ua.com.javarush.chatproject.Connection;
+import ua.com.javarush.chatproject.ConsoleHelper;
+import ua.com.javarush.chatproject.Message;
+import ua.com.javarush.chatproject.MessageType;
 
 import java.io.IOException;
 import java.net.Socket;
