@@ -25,11 +25,11 @@ public class AbstractLogger implements Logger {
 
     @Override
     public void info(String message) {
-       switch (level){
-           case Level.INFO ->  System.out.println("Logging to console: " + message);
-           case Level.WARN ->  System.out.println("Send SMS to CEO: " + message);
-           case Level.ERROR ->  System.out.println("Logging to file: " + message);
-           case Level.FATAL ->  System.out.println("Call to director: " + message);
-       }
+        switch (level) {
+            case Level.INFO -> System.out.println("Logging to console: " + message);
+            case Level.WARN -> System.out.println("Send SMS to CEO: " + message);
+            case Level.ERROR -> System.out.println("Logging to file: " + message);
+            case Level.FATAL -> System.out.println("Call to director: " + message);
+        }
     }
 }
