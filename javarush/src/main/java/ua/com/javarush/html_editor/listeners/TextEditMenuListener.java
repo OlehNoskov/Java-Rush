@@ -5,6 +5,7 @@ import ua.com.javarush.html_editor.View;
 import javax.swing.*;
 import javax.swing.event.MenuEvent;
 import javax.swing.event.MenuListener;
+
 import java.awt.*;
 
 public class TextEditMenuListener implements MenuListener {

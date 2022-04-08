@@ -5,7 +5,7 @@ import ua.com.javarush.restaurant.ConsoleHelper;
 import java.util.Observable;
 import java.util.Observer;
 
-public class Cook implements Observer {
+public class Cook extends Observable implements Observer {
     private String name;
 
     public Cook(String name) {
@@ -13,12 +13,14 @@ public class Cook implements Observer {
     }
 
     @Override
-    public String toString() {
-        return name;
+    public void update(Observable o, Object order) {
+        ConsoleHelper.writeMessage("Start cooking " + order);
+        setChanged();
+        notifyObservers(order);
     }
 
     @Override
-    public void update(Observable o, Object order) {
-        ConsoleHelper.writeMessage("Start cooking " + order);
+    public String toString() {
+        return name;
     }
 }

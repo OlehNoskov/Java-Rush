@@ -13,6 +13,19 @@ public class Order {
     public Order(Tablet tablet) throws IOException {
         this.tablet = tablet;
         this.dishes = ConsoleHelper.getAllDishesForOrder();
+        ConsoleHelper.writeMessage(toString());
+    }
+
+    public int getTotalCookingTime() {
+        int totalCookingTime = 0;
+        for (Dish dish : dishes) {
+            totalCookingTime += dish.getDuration();
+        }
+        return totalCookingTime;
+    }
+
+    public boolean isEmpty() {
+        return dishes.isEmpty();
     }
 
     @Override
@@ -25,7 +38,7 @@ public class Order {
         for (int i = 1; i < dishes.size(); i++) {
             result += ", " + dishes.get(i).name();
         }
-        result += "] of " + tablet;
+        result += "] of " + tablet + ", cooking time " + getTotalCookingTime() + " min";
         return result;
     }
 }
