@@ -4,6 +4,8 @@ import ua.com.javarush.restaurant.ad.AdvertisementManager;
 import ua.com.javarush.restaurant.ad.NoVideoAvailableException;
 import ua.com.javarush.restaurant.kitchen.Order;
 
+import java.io.IOException;
+
 import java.util.Observable;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -23,16 +25,14 @@ public class Tablet extends Observable {
             if (order.isEmpty()) {
                 return null;
             }
-            AdvertisementManager manager = new AdvertisementManager(order.getTotalCookingTime() * 60);
-            try {
-                manager.processVideo();
-            } catch (NoVideoAvailableException e) {
-                logger.log(Level.INFO, "No video is available for the order " + order);
-            }
+            AdvertisementManager advertisementManager = new AdvertisementManager(order.getTotalCookingTime() * 60);
+            advertisementManager.processVideos();
             setChanged();
             notifyObservers(order);
-        } catch (Exception e) {
+        } catch (IOException e) {
             logger.log(Level.SEVERE, "Console is unavailable.");
+        } catch (NoVideoAvailableException e) {
+            logger.log(Level.INFO, "No video is available for the order " + order);
         }
         return order;
     }

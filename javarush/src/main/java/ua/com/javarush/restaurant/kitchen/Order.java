@@ -28,6 +28,14 @@ public class Order {
         return dishes.isEmpty();
     }
 
+    public List<Dish> getDishes() {
+        return dishes;
+    }
+
+    public Tablet getTablet() {
+        return tablet;
+    }
+
     @Override
     public String toString() {
         String result = "";

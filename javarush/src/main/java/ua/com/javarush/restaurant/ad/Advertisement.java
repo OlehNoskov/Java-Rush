@@ -7,7 +7,7 @@ public class Advertisement {
     private String name;
     //стоимость рекламы в копейках
     private long initialAmount;
-    //кол-во показов
+    //кол-во оплаченых показов
     private int hits;
     //продолжительность видео в секундах
     private int duration;
@@ -43,5 +43,9 @@ public class Advertisement {
             throw new UnsupportedOperationException();
         }
         hits--;
+    }
+
+    public boolean isActive() {
+        return hits > 0;
     }
 }
