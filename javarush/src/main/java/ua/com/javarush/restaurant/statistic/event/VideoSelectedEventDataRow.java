@@ -8,7 +8,7 @@ import java.util.List;
 public class VideoSelectedEventDataRow implements EventDataRow {
     //список видеороликов, отобранных для заказа
     private List<Advertisement> optimalVideoSet;
-    //суммв денег в копейках
+    //сумма денег за просмотр в копейках
     private long amount;
     //общая продолжительность показа отобранных рекламных роликов
     private int totalDuration;
@@ -29,11 +29,16 @@ public class VideoSelectedEventDataRow implements EventDataRow {
 
     @Override
     public Date getDate() {
-        return null;
+        return currentDate;
     }
 
+    //общая продолжительность показа отобранных рекламных роликов
     @Override
     public int getTime() {
-        return 0;
+        return totalDuration;
+    }
+
+    public long getAmount() {
+        return amount;
     }
 }
