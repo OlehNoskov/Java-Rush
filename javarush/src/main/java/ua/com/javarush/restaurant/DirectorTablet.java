@@ -1,11 +1,10 @@
 package ua.com.javarush.restaurant;
 
+import ua.com.javarush.restaurant.ad.Advertisement;
+import ua.com.javarush.restaurant.ad.StatisticAdvertisementManager;
 import ua.com.javarush.restaurant.statistic.StatisticManager;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Locale;
-import java.util.Map;
+import java.util.*;
 
 public class DirectorTablet {
     //Сумма заработанная на рекламе
@@ -42,13 +41,33 @@ public class DirectorTablet {
         }
     }
 
-    //Списокактивных роликов и оставшееся кол-во показов по каждому
+    //Отображение активных роликов отсортированныых по имени сначала English, после другие
     public void printActiveVideoSet() {
-//        StatisticManager.getInstance().printActiveVideoSet();
+        List<Advertisement> videoSet = StatisticAdvertisementManager.getInstance().getVideoSet(true);
+        Collections.sort(videoSet, new Comparator<Advertisement>() {
+            @Override
+            public int compare(Advertisement o1, Advertisement o2) {
+                return o1.getName().toLowerCase().compareTo(o2.getName().toLowerCase());
+            }
+        });
+
+        for (Advertisement advertisement : videoSet) {
+            System.out.println(advertisement.getName() + " - " + advertisement.getHits());
+        }
     }
 
-    //Список неактивных роликов
+    //Отображение НЕактивных роликов
     public void printArchivedVideoSet() {
-//        StatisticManager.getInstance().printArchivedVideoSet();
+        List<Advertisement> videoSet = StatisticAdvertisementManager.getInstance().getVideoSet(false);
+        Collections.sort(videoSet, new Comparator<Advertisement>() {
+            @Override
+            public int compare(Advertisement o1, Advertisement o2) {
+                return o1.getName().toLowerCase().compareTo(o2.getName().toLowerCase());
+            }
+        });
+
+        for (Advertisement advertisement : videoSet) {
+            System.out.println(advertisement.getName());
+        }
     }
 }
