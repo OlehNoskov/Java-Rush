@@ -2,6 +2,7 @@ package ua.com.javarush.restaurant;
 
 import java.util.List;
 
+//Producer - создает заказы
 public class RandomOrderGeneratorTask implements Runnable {
     private List<Tablet> tablets;
     private int interval;

@@ -1,6 +1,5 @@
 package ua.com.javarush.restaurant.statistic;
 
-import ua.com.javarush.restaurant.kitchen.Cook;
 import ua.com.javarush.restaurant.statistic.event.CookedOrderEventDataRow;
 import ua.com.javarush.restaurant.statistic.event.EventDataRow;
 import ua.com.javarush.restaurant.statistic.event.EventType;
@@ -16,7 +15,6 @@ public class StatisticManager {
         return ourInstance;
     }
 
-    private Set<Cook> cooks = new HashSet<>();
     private StatisticStorage statisticStorage = new StatisticStorage();
 
     private StatisticManager() {
@@ -24,10 +22,6 @@ public class StatisticManager {
 
     public void register(EventDataRow data) {
         this.statisticStorage.put(data);
-    }
-
-    public void register(Cook cook) {
-        this.cooks.add(cook);
     }
 
     private class StatisticStorage {
