@@ -1,6 +1,5 @@
 package ua.com.javarush.restaurant.statistic;
 
-import ua.com.javarush.restaurant.ConsoleHelper;
 import ua.com.javarush.restaurant.kitchen.Cook;
 import ua.com.javarush.restaurant.statistic.event.CookedOrderEventDataRow;
 import ua.com.javarush.restaurant.statistic.event.EventDataRow;
@@ -29,6 +28,30 @@ public class StatisticManager {
 
     public void register(Cook cook) {
         this.cooks.add(cook);
+    }
+
+    private class StatisticStorage {
+        private Map<EventType, List<EventDataRow>> storage = new HashMap<>();
+
+        private StatisticStorage() {
+            for (EventType type : EventType.values()) {
+                this.storage.put(type, new ArrayList<EventDataRow>());
+            }
+        }
+
+        private void put(EventDataRow data) {
+            EventType type = data.getType();
+            if (!this.storage.containsKey(type))
+                throw new UnsupportedOperationException();
+            this.storage.get(type).add(data);
+        }
+
+        private List<EventDataRow> get(EventType type) {
+            if (!this.storage.containsKey(type))
+                throw new UnsupportedOperationException();
+
+            return this.storage.get(type);
+        }
     }
 
     //Сумма заработанная на рекламе общая и за каждый день
@@ -74,39 +97,5 @@ public class StatisticManager {
         }
 
         return res;
-    }
-
-//    //Список активных роликов и оставшееся кол-во показов по каждому
-//    public void printActiveVideoSet() {
-//
-//    }
-//
-//    //Список неактивных роликов
-//    public void printArchivedVideoSet() {
-//
-//    }
-
-    private class StatisticStorage {
-        private Map<EventType, List<EventDataRow>> storage = new HashMap<>();
-
-        private StatisticStorage() {
-            for (EventType type : EventType.values()) {
-                this.storage.put(type, new ArrayList<EventDataRow>());
-            }
-        }
-
-        private void put(EventDataRow data) {
-            EventType type = data.getType();
-            if (!this.storage.containsKey(type))
-                throw new UnsupportedOperationException();
-            this.storage.get(type).add(data);
-        }
-
-        private List<EventDataRow> get(EventType type) {
-            if (!this.storage.containsKey(type))
-                throw new UnsupportedOperationException();
-
-            return this.storage.get(type);
-        }
     }
 }

@@ -41,7 +41,7 @@ public class DirectorTablet {
         }
     }
 
-    //Отображение активных роликов отсортированныых по имени сначала English, после другие
+    //Отображение активных роликов отсортированных по имени сначала English, после другие
     public void printActiveVideoSet() {
         List<Advertisement> videoSet = StatisticAdvertisementManager.getInstance().getVideoSet(true);
         Collections.sort(videoSet, new Comparator<Advertisement>() {

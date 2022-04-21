@@ -4,6 +4,8 @@ import ua.com.javarush.restaurant.ConsoleHelper;
 import ua.com.javarush.restaurant.Tablet;
 
 import java.io.IOException;
+
+import java.util.ArrayList;
 import java.util.List;
 
 public class Order {
@@ -14,6 +16,7 @@ public class Order {
         this.tablet = tablet;
         this.dishes = ConsoleHelper.getAllDishesForOrder();
         ConsoleHelper.writeMessage(toString());
+        initDishes();
     }
 
     public int getTotalCookingTime() {
@@ -34,6 +37,10 @@ public class Order {
 
     public Tablet getTablet() {
         return tablet;
+    }
+
+    protected void initDishes(){
+        this.dishes = new ArrayList<>();
     }
 
     @Override
