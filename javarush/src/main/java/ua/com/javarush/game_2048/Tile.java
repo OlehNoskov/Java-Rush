@@ -16,7 +16,7 @@ public class Tile {
         return value == 0;
     }
 
-    Color getFontControl() {
+     Color getFontColor() {
         return value < 16 ? new Color(0x776e65) : new Color(0xf9f6f2);
     }
 
