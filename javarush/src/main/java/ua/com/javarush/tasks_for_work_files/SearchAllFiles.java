@@ -1,4 +1,4 @@
-package ua.com.javarush.tasks_for_2048;
+package ua.com.javarush.tasks_for_work_files;
 
 import java.io.IOException;
 
@@ -20,7 +20,7 @@ public class SearchAllFiles {
         return result;
     }
 
-    private static class GetFiles extends SimpleFileVisitor<Path> {
+    static class GetFiles extends SimpleFileVisitor<Path> {
         private List<String> result;
 
         public GetFiles(List<String> result) {

@@ -1,4 +1,4 @@
-package ua.com.javarush.tasks_for_2048;
+package ua.com.javarush.tasks_for_work_files;
 
 import java.io.File;
 import java.io.FileOutputStream;
