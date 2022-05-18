@@ -1,5 +1,8 @@
 package ua.com.javarush.solution_test_task;
 
+/*
+ Validation of the correct incoming data of the service number and service variant
+ */
 public class ValidNumberServiceAndVariation {
 
     static boolean isValidServiceIdAndVariationId(String[] query) {

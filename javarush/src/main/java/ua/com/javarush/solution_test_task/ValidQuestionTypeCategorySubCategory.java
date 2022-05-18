@@ -1,5 +1,7 @@
 package ua.com.javarush.solution_test_task;
-
+/*
+* Validation of the correct incoming data of the QuestionType, Categories and SubCategories
+* */
 public class ValidQuestionTypeCategorySubCategory {
 
     static boolean isValidQuestionType(String[] query) {
