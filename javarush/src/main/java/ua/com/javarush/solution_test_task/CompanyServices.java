@@ -44,4 +44,12 @@ public class CompanyServices {
     static boolean isValidNumberSubCategory(int numberSubCategory) {
         return numberSubCategory >= 1 && numberSubCategory <= getAmountSubCategory();
     }
+
+    static String getTypeFirstAnswer(){
+        return "P";
+    }
+
+    static String getTypeNextAnswer(){
+        return "N";
+    }
 }

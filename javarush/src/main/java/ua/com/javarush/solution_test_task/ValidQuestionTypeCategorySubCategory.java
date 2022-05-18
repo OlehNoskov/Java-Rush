@@ -46,7 +46,7 @@ public class ValidQuestionTypeCategorySubCategory {
     }
 
     private static boolean isCorrectInputData(String[] query) {
-        String regexValidQuestionTypeCategorySubCategory = "\\d\\d?\\.\\d\\d?\\.\\d";
+        String regexValidQuestionTypeCategorySubCategory = "\\d\\d?\\.?\\d?\\d?\\.?\\d?";
         return getSecondArrayCell(query).matches(regexValidQuestionTypeCategorySubCategory);
     }
 }

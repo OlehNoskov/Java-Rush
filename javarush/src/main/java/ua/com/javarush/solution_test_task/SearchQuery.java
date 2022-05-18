@@ -5,39 +5,32 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 
-import java.util.LinkedHashMap;
-import java.util.Map;
+import java.util.*;
 
 public class SearchQuery {
 
-    private static final Map<String, Integer> listValidRequest = new LinkedHashMap<>();
-    private static final Map<String, Integer> listValidWaitTimeline = new LinkedHashMap<>();
+    private static final List<String> listValidRequest = new ArrayList<>();
+    private static final List<String> listValidWaitTimeline = new ArrayList<>();
 
     public void addValidRequestsAndWaitTimeline(String pathFile) {
         try (BufferedReader reader = new BufferedReader(new FileReader(pathFile))) {
             String line = reader.readLine();
-            int index = 1;
 
             while (line != null) {
-                if (Query.isQuery(line) && Query.isQuery(line)) {
-                    listValidRequest.put(line, index);
+                if (Query.isQuery(line)) {
+                    if (Query.isQuery(line)){
+                        listValidRequest.add(line);
+                    }
                 }
-                if (WaitTime.isWaitTimeline(line) && WaitTimelineValid.isValidWaitTimeline(line)) {
-                    listValidWaitTimeline.put(line, index);
+                if (WaitTime.isWaitTimeline(line)) {
+                    listValidWaitTimeline.add(line);
                 }
                 line = reader.readLine();
-                index++;
             }
-            listValidRequest.forEach((key, value) -> {
-                ;
-                System.out.println(key + " = " + value + " ");
-            });
-            System.out.println();
 
-            listValidWaitTimeline.forEach((key, value) -> {
-                ;
-                System.out.println(key + " = " + value + " ");
-            });
+            for (String s: listValidRequest){
+                System.out.println(s);
+            }
         } catch (FileNotFoundException e) {
             System.out.println("Sorry, file not found!");
         } catch (IOException e) {

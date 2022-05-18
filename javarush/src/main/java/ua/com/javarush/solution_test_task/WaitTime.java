@@ -4,14 +4,10 @@ import java.util.List;
 
 public class WaitTime {
 
-    static String[] lineArray(String line) {
-        return line.trim().split(" ");
-    }
-
     static boolean isWaitTimeline(String query) {
         boolean validTypeWaitTimeline = false;
         String typeQuery = "C";
-        if (lineArray(query)[0].equals(typeQuery)) {
+        if (Query.lineArray(query)[0].equals(typeQuery)) {
             validTypeWaitTimeline = true;
         }
         return validTypeWaitTimeline;
