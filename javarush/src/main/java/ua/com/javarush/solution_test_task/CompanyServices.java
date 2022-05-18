@@ -5,23 +5,23 @@ package ua.com.javarush.solution_test_task;
  * */
 public class CompanyServices {
 
-    static int getAmountService() {
+    private static int getAmountService() {
         return 10;
     }
 
-    static int getAmountVariationService() {
+    private static int getAmountVariationService() {
         return 3;
     }
 
-    static int getAmountQuestionType() {
+    private static int getAmountQuestionType() {
         return 10;
     }
 
-    static int getAmountCategory() {
+    private static int getAmountCategory() {
         return 20;
     }
 
-    static int getAmountSubCategory() {
+    private static int getAmountSubCategory() {
         return 5;
     }
 

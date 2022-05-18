@@ -5,9 +5,11 @@ public class Solution {
     public static void main(String[] args) {
         SearchQuery searchQuery = new SearchQuery();
         searchQuery.getString();
-        String array = "D 10 * P 01.01.2012-01.12.2012";
-//        String array = "D 10.1 8 P 01.01.2012-01.12.2012";
+//        String array = "D 1.1 8.15.1 P 15.10.2012 83 ";
+        String array = "D 1.1 10.15.5 P 15.10.2012 83 ";
+        String[] test = array.split(" ");
 
-        System.out.println( ValidNumberServiceAndVariation.isValidServiceIdAndVariationId(ValidQuery.lineArray(array)));
+        System.out.println(ValidQuestionTypeCategorySubCategory.isValidQuestionTypeCategorySubCategory(test));
+
     }
 }
