@@ -2,7 +2,7 @@ package ua.com.javarush.solution_test_task;
 
 import java.util.List;
 
-public class WaitTimeline {
+public class WaitTime {
 
     static int getResultWaitingTime(List<Integer> waitingTime) {
         int result = 0;

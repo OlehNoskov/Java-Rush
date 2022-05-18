@@ -11,17 +11,26 @@ public class SearchQuery {
     //    private static final String fileNameInputData = "input.txt";
     private static final String fileNameInputData = "C:\\Users\\Олег и Ирина\\IdeaProjects\\Java Rush\\javarush\\src\\main\\java\\ua\\com\\javarush\\solution_test_task\\input.txt";
     private static final List<String> listValidRequest = new ArrayList<>();
+    private static final List<String> listValidWaitTimeline = new ArrayList<>();
 
-    public void getString() {
+    public void addValidRequestsAndWaitTimeline() {
         try (BufferedReader reader = new BufferedReader(new FileReader(fileNameInputData))) {
             String line = reader.readLine();
             while (line != null) {
                 if (ValidQuery.isQuery(line)) {
                     listValidRequest.add(line);
                 }
+                if (WaitTimelineValid.isValidWaitTimeline(line)) {
+                    listValidWaitTimeline.add(line);
+                }
                 line = reader.readLine();
             }
             for (String s : listValidRequest) {
+                System.out.println(s);
+            }
+            System.out.println();
+
+            for(String s: listValidWaitTimeline){
                 System.out.println(s);
             }
         } catch (FileNotFoundException e) {
