@@ -7,7 +7,8 @@ public class ValidQuestionTypeCategorySubCategory {
 
     static boolean isValidQuestionType(String query) {
         boolean valid = false;
-        String[] arrayNumbers = getSecondArrayCell(Query.lineArray(query)).split("\\.");
+//        String[] arrayNumbers = getSecondArrayCell(Query.lineArray(query)).split("\\.");
+        String[] arrayNumbers = (Query.lineArray(query))[2].split("\\.");
 
         if (arrayNumbers.length == 1 && CompanyServices.isValidNumberQuestionType(getNumberQuestionType(arrayNumbers[0]))) {
             valid = true;
@@ -17,14 +18,14 @@ public class ValidQuestionTypeCategorySubCategory {
 
     static boolean isValidQuestionTypeCategorySubCategory(String query) {
         boolean valid = false;
-        if (isCorrectInputData(Query.lineArray(query)) && isValidInputData(getSecondArrayCell(Query.lineArray(query)))) {
+        if (isCorrectInputData(Query.lineArray(query)) && isValidInputData(Query.lineArray(query)[2])) {
             valid = true;
         }
         return valid;
     }
 
     private static int getNumberQuestionType(String number) {
-        return Integer.parseInt(number.split("\\.")[0]);
+            return Integer.parseInt(number.split("\\.")[0]);
     }
 
     private static int getNumberCategory(String number) {
@@ -35,9 +36,9 @@ public class ValidQuestionTypeCategorySubCategory {
         return Integer.parseInt(query.split("\\.")[2]);
     }
 
-    private static String getSecondArrayCell(String[] number) {
-        return number[2];
-    }
+//    private static String getSecondArrayCell(String[] number) {
+//        return number[2];
+//    }
 
     private static boolean isValidInputData(String numbers) {
         return CompanyServices.isValidNumberQuestionType(getNumberQuestionType(numbers))
@@ -46,7 +47,8 @@ public class ValidQuestionTypeCategorySubCategory {
     }
 
     private static boolean isCorrectInputData(String[] query) {
-        String regexValidQuestionTypeCategorySubCategory = "\\d\\d?\\.?\\d?\\d?\\.?\\d?";
-        return getSecondArrayCell(query).matches(regexValidQuestionTypeCategorySubCategory);
+        String regexValidQuestionTypeCategorySubCategory = "\\d\\d?(\\.\\d\\d?)?(\\.\\d\\d?)?";
+        return (query)[2].matches(regexValidQuestionTypeCategorySubCategory);
+//        return getSecondArrayCell(query).matches(regexValidQuestionTypeCategorySubCategory);
     }
 }

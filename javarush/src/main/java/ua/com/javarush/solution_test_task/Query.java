@@ -10,7 +10,8 @@ public class Query {
         boolean validTypeQuery = false;
         String typeQuery = "D";
         if (lineArray(query)[0].equals(typeQuery)) {
-            if (ValidNumberServiceAndVariation.isQueryValid(query)) {
+            if (ValidNumberServiceAndVariation.isQueryValid(query)
+                    && ValidQuestionTypeCategorySubCategory.isValidQuestionTypeCategorySubCategory(typeQuery)) {
                 validTypeQuery = true;
             }
         }
