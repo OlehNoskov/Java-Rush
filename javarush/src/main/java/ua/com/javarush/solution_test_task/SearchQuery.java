@@ -16,7 +16,7 @@ public class SearchQuery {
         try (BufferedReader reader = new BufferedReader(new FileReader(fileNameInputData))) {
             String line = reader.readLine();
             while (line != null) {
-                if (isQuery(line)) {
+                if (ValidQuery.isQuery(line)) {
                     listValidRequest.add(line);
                 }
                 line = reader.readLine();
@@ -29,21 +29,5 @@ public class SearchQuery {
         } catch (IOException e) {
             System.out.println("Sorry, some error has occurred!");
         }
-    }
-
-    private static boolean isQuery(String query) {
-        boolean validTypeQuery = false;
-        String typeQuery = "D";
-        String[] wordsOfLine = query.split(" ");
-        if (wordsOfLine[0].equals(typeQuery)) {
-            validTypeQuery = true;
-        }
-        return validTypeQuery;
-    }
-
-    private static boolean isValidQuery(String query) {
-        boolean validQuery = false;
-        String regex = "^.{1}\s\\d\\.\\d\s\\d\\.\\d\\d\\.\\d\s.\s\\d{2}\\.\\d{2}\\d{4}\s\\d\\d$";
-        return validQuery;
     }
 }
