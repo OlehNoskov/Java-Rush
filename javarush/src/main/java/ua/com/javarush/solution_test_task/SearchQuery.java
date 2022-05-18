@@ -10,7 +10,7 @@ import java.util.List;
 public class SearchQuery {
     //    private static final String fileNameInputData = "input.txt";
     private static final String fileNameInputData = "C:\\Users\\Олег и Ирина\\IdeaProjects\\Java Rush\\javarush\\src\\main\\java\\ua\\com\\javarush\\solution_test_task\\input.txt";
-    private static List<String> listValidRequest = new ArrayList<>();
+    private static final List<String> listValidRequest = new ArrayList<>();
 
     public void getString() {
         try (BufferedReader reader = new BufferedReader(new FileReader(fileNameInputData))) {
