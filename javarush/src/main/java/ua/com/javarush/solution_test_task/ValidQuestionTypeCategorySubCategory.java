@@ -5,9 +5,9 @@ Validation of the correct incoming data of the QuestionType, Categories and SubC
  */
 public class ValidQuestionTypeCategorySubCategory {
 
-    static boolean isValidQuestionType(String[] query) {
+    static boolean isValidQuestionType(String query) {
         boolean valid = false;
-        String[] arrayNumbers = getSecondArrayCell(query).split("\\.");
+        String[] arrayNumbers = getSecondArrayCell(Query.lineArray(query)).split("\\.");
 
         if (arrayNumbers.length == 1 && CompanyServices.isValidNumberQuestionType(getNumberQuestionType(arrayNumbers[0]))) {
             valid = true;
@@ -15,9 +15,9 @@ public class ValidQuestionTypeCategorySubCategory {
         return valid;
     }
 
-    static boolean isValidQuestionTypeCategorySubCategory(String[] query) {
+    static boolean isValidQuestionTypeCategorySubCategory(String query) {
         boolean valid = false;
-        if (isCorrectInputData(query) && isValidIValidInputData(getSecondArrayCell(query))) {
+        if (isCorrectInputData(Query.lineArray(query)) && isValidInputData(getSecondArrayCell(Query.lineArray(query)))) {
             valid = true;
         }
         return valid;
@@ -39,13 +39,13 @@ public class ValidQuestionTypeCategorySubCategory {
         return number[2];
     }
 
-    private static boolean isValidIValidInputData(String numbers) {
+    private static boolean isValidInputData(String numbers) {
         return CompanyServices.isValidNumberQuestionType(getNumberQuestionType(numbers))
                 && CompanyServices.isValidNumberCategory(getNumberCategory(numbers))
                 && CompanyServices.isValidNumberSubCategory(getNumberSubCategory(numbers));
     }
 
-    private static boolean isCorrectInputData(String[] query){
+    private static boolean isCorrectInputData(String[] query) {
         String regexValidQuestionTypeCategorySubCategory = "\\d\\d?\\.\\d\\d?\\.\\d";
         return getSecondArrayCell(query).matches(regexValidQuestionTypeCategorySubCategory);
     }

@@ -1,6 +1,6 @@
 package ua.com.javarush.solution_test_task;
 
-public class ValidQuery {
+public class Query {
 
     static String[] lineArray(String query) {
         return query.trim().split(" ");
