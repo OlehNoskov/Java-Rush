@@ -9,12 +9,12 @@ public class WaitTimelineValid {
 
     private static boolean isValidServiceIdAndVariationId(String query) {
         boolean valid = false;
-        String serviceIdVariationId = Query.lineArray(query)[1] + Query.lineArray(query)[2];
+        String serviceIdVariationId = QueryStringData.getLineArray(query)[1] + QueryStringData.getLineArray(query)[2];
         String regexValidServiceAndVariation = "\\d\\d?\\.? \\d\\d?\\.? \\d?\\d?\\.? \\d?\\d?";
 
         if (serviceIdVariationId.matches(regexValidServiceAndVariation)) {
-            if (CompanyServices.isValidNumberService(ValidNumberServiceAndVariation.getNumberServiceId(serviceIdVariationId))
-                    && CompanyServices.isValidNumberVariation(ValidNumberServiceAndVariation.getNumberVariationId(serviceIdVariationId))) {
+            if (CompanyServices.isValidNumberService(QueryStringData.getNumberServiceId(serviceIdVariationId))
+                    && CompanyServices.isValidNumberVariation(QueryStringData.getNumberVariationId(serviceIdVariationId))) {
                 valid = true;
             }
         }

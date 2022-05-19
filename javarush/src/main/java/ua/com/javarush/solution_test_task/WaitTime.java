@@ -7,7 +7,7 @@ public class WaitTime {
     static boolean isWaitTimeline(String query) {
         boolean validTypeWaitTimeline = false;
         String typeQuery = "C";
-        if (Query.lineArray(query)[0].equals(typeQuery)) {
+        if (QueryStringData.getTypeQuery(query).equals(typeQuery)) {
             validTypeWaitTimeline = true;
         }
         return validTypeWaitTimeline;
@@ -22,10 +22,10 @@ public class WaitTime {
     }
 
     static int getWaitingTime(String query) {
-        return Integer.parseInt(Query.lineArray(query)[getLastIndexArray(query)]);
+        return Integer.parseInt(QueryStringData.getLineArray(query)[getLastIndexArray(query)]);
     }
 
     private static int getLastIndexArray(String query) {
-        return Query.lineArray(query).length - 1;
+        return QueryStringData.getLineArray(query).length - 1;
     }
 }

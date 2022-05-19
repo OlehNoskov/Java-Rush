@@ -45,11 +45,11 @@ public class CompanyServices {
         return numberSubCategory >= 1 && numberSubCategory <= getAmountSubCategory();
     }
 
-    static String getTypeFirstAnswer(){
+    static String getTypeFirstAnswer() {
         return "P";
     }
 
-    static String getTypeNextAnswer(){
+    static String getTypeNextAnswer() {
         return "N";
     }
 }

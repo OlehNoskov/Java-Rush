@@ -8,9 +8,9 @@ public class ValidQuestionTypeCategorySubCategory {
     static boolean isValidQuestionType(String query) {
         boolean valid = false;
 //        String[] arrayNumbers = getSecondArrayCell(Query.lineArray(query)).split("\\.");
-        String[] arrayNumbers = (Query.lineArray(query))[2].split("\\.");
+        String[] arrayNumbers = (QueryStringData.getLineArray(query))[2].split("\\.");
 
-        if (arrayNumbers.length == 1 && CompanyServices.isValidNumberQuestionType(getNumberQuestionType(arrayNumbers[0]))) {
+        if (arrayNumbers.length == 1 && CompanyServices.isValidNumberQuestionType(QueryStringData.getNumberQuestionType(arrayNumbers[0]))) {
             valid = true;
         }
         return valid;
@@ -18,32 +18,16 @@ public class ValidQuestionTypeCategorySubCategory {
 
     static boolean isValidQuestionTypeCategorySubCategory(String query) {
         boolean valid = false;
-        if (isCorrectInputData(Query.lineArray(query)) && isValidInputData(Query.lineArray(query)[2])) {
+        if (isCorrectInputData(QueryStringData.getLineArray(query)) && isValidInputData(QueryStringData.getLineArray(query)[2])) {
             valid = true;
         }
         return valid;
     }
 
-    private static int getNumberQuestionType(String number) {
-            return Integer.parseInt(number.split("\\.")[0]);
-    }
-
-    private static int getNumberCategory(String number) {
-        return Integer.parseInt(number.split("\\.")[1]);
-    }
-
-    private static int getNumberSubCategory(String query) {
-        return Integer.parseInt(query.split("\\.")[2]);
-    }
-
-//    private static String getSecondArrayCell(String[] number) {
-//        return number[2];
-//    }
-
     private static boolean isValidInputData(String numbers) {
-        return CompanyServices.isValidNumberQuestionType(getNumberQuestionType(numbers))
-                && CompanyServices.isValidNumberCategory(getNumberCategory(numbers))
-                && CompanyServices.isValidNumberSubCategory(getNumberSubCategory(numbers));
+        return CompanyServices.isValidNumberQuestionType(QueryStringData.getNumberQuestionType(numbers))
+                && CompanyServices.isValidNumberCategory(QueryStringData.getNumberCategory(numbers))
+                && CompanyServices.isValidNumberSubCategory(QueryStringData.getNumberSubCategory(numbers));
     }
 
     private static boolean isCorrectInputData(String[] query) {
