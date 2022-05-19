@@ -9,10 +9,5 @@ public class Solution {
     public static void main(String[] args) throws ParseException {
         SearchQuery searchQuery = new SearchQuery();
         searchQuery.addValidRequestsAndWaitTimeline(fileNameInputData);
-
-        String s    ="D 1.10. 5 N 01.11.2012-10.10.2020 117";
-
-        System.out.println(DateFromLine.getDateStartQuery(s));
-
     }
 }
