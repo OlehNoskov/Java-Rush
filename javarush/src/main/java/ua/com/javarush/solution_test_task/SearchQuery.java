@@ -31,18 +31,10 @@ public class SearchQuery {
             }
             printOutputResult();
 
-            for (String s : listValidRequest) {
-                System.out.println(s);
-            }
-            System.out.println();
-            for (String s : listValidWaitTimeline) {
-                System.out.println(s);
-            }
-            System.out.println();
+//          for (int i: listWaitTime){
+//              System.out.println(i);
+//          }
 
-            for (Integer integer : listWaitTime) {
-                System.out.println(integer);
-            }
         } catch (FileNotFoundException e) {
             System.out.println("Sorry, file not found!");
         } catch (IOException | ParseException e) {
@@ -59,9 +51,30 @@ public class SearchQuery {
                 index++;
                 if (ComparisonServiceIdVariationId.isServiceIdEquals
                         (QueryStringData.getNumberServiceId(s), QueryStringData.getNumberServiceId(s2))) {
-                    minutes.add(WaitTime.getWaitingTime(s2));
+
+                    if (QueryStringData.getNumberVariationId(s) == 0
+                            || ComparisonServiceIdVariationId.isVariationIdEquals(QueryStringData.getNumberVariationId(s),
+                            QueryStringData.getNumberVariationId(s2))) {
+
+                        if(!QueryStringData.getQuestionTypeCategorySubCategory(s).equals(QueryStringData.getAllSearch())) {
+
+                            if (ComparisonQuestionCategorySubCategory.isQuestionType(QueryStringData.getNumberQuestionType(s)
+                                    , QueryStringData.getNumberQuestionType(s2))) {
+
+                                if (QueryStringData.getNumberCategory(s) == 0 ||
+                                        ComparisonQuestionCategorySubCategory.
+                                                isCategoryEquals(QueryStringData.getNumberCategory(s), QueryStringData.getNumberCategory(s2))) {
+
+                                    if (QueryStringData.getNumberSubCategory(s) == 0 ||
+                                            ComparisonQuestionCategorySubCategory.isSubCategoryIdEquals(QueryStringData.getNumberSubCategory(s), QueryStringData.getNumberSubCategory(s2))) {
+                                        minutes.add(WaitTime.getWaitingTime(s2));
+                                    }
+                                }
+                            }
+                        }
+                    }
                 } else {
-                    if (index == listValidWaitTimeline.size()) {
+                    if (index == listValidWaitTimeline.size() && minutes.size()!=0) {
                         listWaitTime.add(WaitTime.getResultWaitingTime(minutes));
                         minutes.clear();
                         index = 0;

@@ -30,6 +30,10 @@ public class QueryStringData {
         return Integer.parseInt(getLineArray(query)[5]);
     }
 
+    static String getAllSearch(){
+        return "*";
+    }
+
     static int getNumberServiceId(String query) {
         return Integer.parseInt(getIdServiceAndVariationId(query).split("\\.")[0]);
     }
@@ -43,7 +47,12 @@ public class QueryStringData {
     }
 
     static int getNumberQuestionType(String numbers) {
-        return Integer.parseInt(getQuestionTypeCategorySubCategory(numbers).split("\\.")[0]);
+        int result = 0;
+        if(!numbers.equals(getAllSearch())){
+            result = Integer.parseInt(getQuestionTypeCategorySubCategory(numbers).split("\\.")[0]);
+        }
+        System.out.println(numbers);
+        return result;
     }
 
     static int getNumberCategory(String numbers) {
