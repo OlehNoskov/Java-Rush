@@ -45,27 +45,27 @@ public class SearchQuery {
             }
         } catch (FileNotFoundException e) {
             System.out.println("Sorry, file not found!");
-        } catch (IOException e) {
+        } catch (IOException | ParseException e) {
             System.out.println("Sorry, some error has occurred!");
-        } catch (ParseException e) {
-            throw new RuntimeException(e);
         }
     }
 
     public void printOutputResult() throws ParseException {
         List<Integer> minutes = new ArrayList<>();
         int index = 0;
+
         for (String s : listValidRequest) {
             for (String s2 : listValidWaitTimeline) {
-                if (DateFromLine.isValidDate(s, s2)) {
+                index++;
+                if (ComparisonServiceIdVariationId.isServiceIdEquals
+                        (QueryStringData.getNumberServiceId(s), QueryStringData.getNumberServiceId(s2))) {
                     minutes.add(WaitTime.getWaitingTime(s2));
-                    index++;
-                } else if (index == listValidWaitTimeline.size()) {
-                    if (minutes.size() > 0) {
+                } else {
+                    if (index == listValidWaitTimeline.size()) {
                         listWaitTime.add(WaitTime.getResultWaitingTime(minutes));
+                        minutes.clear();
+                        index = 0;
                     }
-                    minutes.clear();
-                    break;
                 }
             }
         }
