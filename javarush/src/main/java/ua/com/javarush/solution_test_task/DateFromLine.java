@@ -5,7 +5,7 @@ import java.text.SimpleDateFormat;
 
 import java.util.Date;
 
-public class MyDate {
+public class DateFromLine {
 
     private static final SimpleDateFormat simpleFormatter = new SimpleDateFormat("dd.MM.yyyy");
 
@@ -39,6 +39,8 @@ public class MyDate {
                 String[] arrayDate = dates.split("-");
                 if (arrayDate.length > 1) {
                     date = simpleFormatter.parse(arrayDate[1]);
+                } else {
+                    date = simpleFormatter.parse(arrayDate[0]);
                 }
             }
         } catch (ParseException e) {
