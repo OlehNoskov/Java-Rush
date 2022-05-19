@@ -26,6 +26,10 @@ public class QueryStringData {
         return getLineArray(query)[4];
     }
 
+    static int getWaitTime(String query){
+        return Integer.parseInt(getLineArray(query)[5]);
+    }
+
     static int getNumberServiceId(String query) {
         return Integer.parseInt(getIdServiceAndVariationId(query).split("\\.")[0]);
     }
