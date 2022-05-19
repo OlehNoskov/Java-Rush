@@ -28,13 +28,13 @@ public class SearchQuery {
                 line = reader.readLine();
             }
 
-            for (String s: listValidRequest){
-                System.out.println(s);
-            }
-            System.out.println();
-            for (String s: listValidWaitTimeline){
-                System.out.println(s);
-            }
+//            for (String s: listValidRequest){
+//                System.out.println(s);
+//            }
+//            System.out.println();
+//            for (String s: listValidWaitTimeline){
+//                System.out.println(s);
+//            }
         } catch (FileNotFoundException e) {
             System.out.println("Sorry, file not found!");
         } catch (IOException e) {

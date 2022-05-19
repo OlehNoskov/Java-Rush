@@ -18,6 +18,14 @@ public class QueryStringData {
         return getLineArray(query)[2];
     }
 
+    static String getTypeAnswer(String query) {
+        return getLineArray(query)[3];
+    }
+
+    static String getDateString(String query) {
+        return getLineArray(query)[4];
+    }
+
     static int getNumberServiceId(String query) {
         return Integer.parseInt(getIdServiceAndVariationId(query).split("\\.")[0]);
     }

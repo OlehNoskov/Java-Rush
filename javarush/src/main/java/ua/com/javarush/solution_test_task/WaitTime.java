@@ -4,10 +4,14 @@ import java.util.List;
 
 public class WaitTime {
 
+    static String getSymbolWaitTime(){
+        return "C";
+    }
+
     static boolean isWaitTimeline(String query) {
         boolean validTypeWaitTimeline = false;
-        String typeQuery = "C";
-        if (QueryStringData.getTypeQuery(query).equals(typeQuery)) {
+
+        if (QueryStringData.getTypeQuery(query).equals(getSymbolWaitTime())) {
             validTypeWaitTimeline = true;
         }
         return validTypeWaitTimeline;
