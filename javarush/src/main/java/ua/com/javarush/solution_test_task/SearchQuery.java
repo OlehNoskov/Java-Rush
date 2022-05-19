@@ -57,8 +57,7 @@ public class SearchQuery {
         int index = 0;
         for (String s : listValidRequest) {
             for (String s2 : listValidWaitTimeline) {
-                if (DateFromLine.getDateCreateWaitTimeDate(s2).before(DateFromLine.getDateEndQuery(s))
-                        && DateFromLine.getDateCreateWaitTimeDate(s2).after(DateFromLine.getDateStartQuery(s))) {
+                if (DateFromLine.isValidDate(s, s2)) {
                     minutes.add(WaitTime.getWaitingTime(s2));
                     index++;
                 } else if (index == listValidWaitTimeline.size()) {
