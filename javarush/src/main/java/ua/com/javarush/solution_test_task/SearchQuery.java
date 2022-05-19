@@ -12,11 +12,7 @@ public class SearchQuery {
 
     private static final List<String> listValidRequest = new ArrayList<>();
     private static final List<String> listValidWaitTimeline = new ArrayList<>();
-    private static  List<Integer> listWaitTime = new ArrayList<>();
-
-    public static List<Integer> getListWaitTime() {
-        return listWaitTime;
-    }
+    private static final List<Integer> listWaitTime = new ArrayList<>();
 
     public void addValidRequestsAndWaitTimeline(String pathFile) {
         try (BufferedReader reader = new BufferedReader(new FileReader(pathFile))) {
@@ -35,16 +31,16 @@ public class SearchQuery {
             }
             printOutputResult();
 
-            for (String s: listValidRequest){
+            for (String s : listValidRequest) {
                 System.out.println(s);
             }
             System.out.println();
-            for (String s: listValidWaitTimeline){
+            for (String s : listValidWaitTimeline) {
                 System.out.println(s);
             }
             System.out.println();
 
-            for (Integer integer: getListWaitTime()){
+            for (Integer integer : listWaitTime) {
                 System.out.println(integer);
             }
         } catch (FileNotFoundException e) {
@@ -61,11 +57,14 @@ public class SearchQuery {
         int index = 0;
         for (String s : listValidRequest) {
             for (String s2 : listValidWaitTimeline) {
-                if (DateFromLine.getDateCreateWaitTimeDate(s2).before(DateFromLine.getDateEndQuery(s))) {
+                if (DateFromLine.getDateCreateWaitTimeDate(s2).before(DateFromLine.getDateEndQuery(s))
+                        && DateFromLine.getDateCreateWaitTimeDate(s2).after(DateFromLine.getDateStartQuery(s))) {
                     minutes.add(WaitTime.getWaitingTime(s2));
                     index++;
-                } else if(index == listValidWaitTimeline.size()) {
-                    listWaitTime.add(WaitTime.getResultWaitingTime(minutes));
+                } else if (index == listValidWaitTimeline.size()) {
+                    if (minutes.size() > 0) {
+                        listWaitTime.add(WaitTime.getResultWaitingTime(minutes));
+                    }
                     minutes.clear();
                     break;
                 }
