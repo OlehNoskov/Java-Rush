@@ -13,16 +13,16 @@ public class Query extends BaseQuery {
     private Date searchDateFrom;
     private Date searchDateUpTo;
 
-    public static void parsingString(String query) {
-        Query query1 = new Query();
-        query1.setService(query);
-        query1.setVariation(query);
-        query1.setQuestionType(query);
-        query1.setCategory(query);
-        query1.setSubCategory(query);
-        query1.setTypeAnswer(query);
+    public static void parsingString(String line) {
+        Query query = new Query();
+        query.setService(line);
+        query.setVariation(line);
+        query.setQuestionType(line);
+        query.setCategory(line);
+        query.setSubCategory(line);
+        query.setTypeAnswer(line);
 
-        listValidRequest.add(query1);
+        listValidRequest.add(query);
     }
 
     public void setSearchDateFrom(Date searchDateFrom) {
