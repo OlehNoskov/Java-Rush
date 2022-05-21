@@ -13,5 +13,10 @@ public class Solution {
         for (Query query : Query.listValidRequest){
             System.out.println(query);
         }
+        System.out.println();
+
+        for (TimeLine timeLine: TimeLine.listValidWaitTimeline){
+            System.out.println(timeLine);
+        }
     }
 }

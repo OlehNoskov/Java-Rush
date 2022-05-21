@@ -12,34 +12,36 @@ public class TimeLine extends BaseQuery {
 
     private int waitTime;
 
-    private Date searchTimeFrom;
+    private Date createTimeline;
+
+    public static void parsingString(String line) {
+        TimeLine timeLine = new TimeLine();
+        timeLine.setService(line);
+        timeLine.setVariation(line);
+        timeLine.setQuestionType(line);
+        timeLine.setCategory(line);
+        timeLine.setSubCategory(line);
+        timeLine.setTypeAnswer(line);
+        timeLine.setCreateTimeline(line);
+        timeLine.setWaitTime(line);
+
+        listValidWaitTimeline.add(timeLine);
+    }
+
+    public void setWaitTime(String line) {
+        this.waitTime = Integer.parseInt(BaseQuery.getLineArray(line)[5]);
+    }
 
     public int getWaitTime() {
         return waitTime;
     }
 
-    public Date getSearchTimeFrom() {
-        return searchTimeFrom;
+    public void setCreateTimeline(String line) {
+        this.createTimeline = DateFromLine.getDateStartQuery(line);
     }
 
-//    public static void parsingString(String query) {
-//        String[] parts = query.split(" ");
-//        TimeLine timeLine = new TimeLine();
-//        for (String queryPart : parts) {
-//            String[] subParts = queryPart.split("\\.");
-//            for (String part: subParts) {
-//                timeLine.setService(part);
-////                query1.setVariationId(part);
-////                query1.setQuestionTypeId(part);
-////                query1.setCategoryId(part);
-////                query1.setSubCategoryId(part);
-//                listValidWaitTimeline.add(timeLine);
-//            }
-//        }
-//    }
-
-    public void setSearchTimeFrom(Date searchTimeFrom) {
-        this.searchTimeFrom = searchTimeFrom;
+    public Date getCreateTimeline() {
+        return createTimeline;
     }
 
     static int getResultWaitingTime(List<Integer> waitingTime) {
@@ -60,4 +62,13 @@ public class TimeLine extends BaseQuery {
 //    private static int getLastIndexArray(String query) {
 //        return QueryStringData.getLineArray(query).length - 1;
 //    }
+
+
+    @Override
+    public String toString() {
+        return "TimeLine{" +
+                "waitTime=" + waitTime +
+                ", createTimeline=" + createTimeline +
+                '}';
+    }
 }

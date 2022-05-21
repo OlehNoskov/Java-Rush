@@ -22,7 +22,7 @@ public class SearchQuery {
 
                 }
                 if (TimeLine.SYMBOL_QUERY.equals(isValidString(line))) {
-//                    TimeLine.parsingString(line);
+                    TimeLine.parsingString(line);
                 }
                 line = reader.readLine();
             }
