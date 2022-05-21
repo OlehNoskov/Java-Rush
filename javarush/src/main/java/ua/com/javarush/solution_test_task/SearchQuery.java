@@ -9,7 +9,7 @@ import java.util.*;
 
 public class SearchQuery {
 
-     static final List<String> listValidRequest = new ArrayList<>();
+    static final List<String> listValidRequest = new ArrayList<>();
 //    private static final List<Integer> listWaitTime = new ArrayList<>();
 
     public void addValidRequestsAndWaitTimeline(String pathFile) {
@@ -18,7 +18,7 @@ public class SearchQuery {
 
             while (line != null) {
                 if (Query.SYMBOL_QUERY.equals(isValidString(line))) {
-                        listValidRequest.add(line);
+                    Query.parsingString(line);
 
                 }
                 if (TimeLine.SYMBOL_QUERY.equals(isValidString(line))) {
@@ -43,7 +43,7 @@ public class SearchQuery {
         }
     }
 
-    private static String isValidString(String line){
+    private static String isValidString(String line) {
         return line.split(" ")[0];
     }
 }

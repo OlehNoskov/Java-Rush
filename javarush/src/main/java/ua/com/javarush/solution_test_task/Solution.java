@@ -10,8 +10,8 @@ public class Solution {
         SearchQuery searchQuery = new SearchQuery();
         searchQuery.addValidRequestsAndWaitTimeline(fileNameInputData);
 
-        for(TimeLine timeLine: TimeLine.listValidWaitTimeline){
-            System.out.println(timeLine);
+        for (Query query : Query.listValidRequest){
+            System.out.println(query);
         }
     }
 }

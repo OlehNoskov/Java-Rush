@@ -4,61 +4,38 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-public class Query implements BaseQuery {
+public class Query extends BaseQuery{
 
     static final List<Query> listValidRequest = new ArrayList<>();
+    static List<String> array = new ArrayList<>();
 
     static final String SYMBOL_QUERY = "D";
 
-    private  String serviceId;
-    private  String variationId;
-    private  String questionTypeId;
-    private  String categoryId;
-    private  String subCategoryId;
-
-    private  String typeAnswer;
-
-    private  Date searchDateFrom;
-    private  Date searchDateUpTo;
+    private Date searchDateFrom;
+    private Date searchDateUpTo;
 
     public static void parsingString(String query) {
-        String[] parts = query.split(" ");
-        Query query1 = new Query();
-        for (String queryPart : parts) {
-            String[] subParts = queryPart.split("\\.");
-            for (String part: subParts) {
-                query1.setServiceId(part);
-//                query1.setVariationId(part);
-//                query1.setQuestionTypeId(part);
-//                query1.setCategoryId(part);
-//                query1.setSubCategoryId(part);
-                listValidRequest.add(query1);
+            String[] parts = query.split(" ");
+            for (String queryPart : parts) {
+                String[] subParts = queryPart.split("\\.");
+                for (String part: subParts) {
+                    array.add(part);
+                }
+                listValidRequest.add(test(array));
+//                array.clear();
+
             }
+//        listValidRequest.add(test(array));
         }
-    }
 
-    public void setServiceId(String serviceId) {
-        this.serviceId = serviceId;
-    }
-
-    public void setVariationId(String variationId) {
-        this.variationId = variationId;
-    }
-
-    public void setQuestionTypeId(String questionTypeId) {
-        this.questionTypeId = questionTypeId;
-    }
-
-    public void setCategoryId(String categoryId) {
-        this.categoryId = categoryId;
-    }
-
-    public void setSubCategoryId(String subCategoryId) {
-        this.subCategoryId = subCategoryId;
-    }
-
-    public void setTypeAnswer(String typeAnswer) {
-        this.typeAnswer = typeAnswer;
+    public static Query test(List<String> array) {
+        Query query = new Query();
+        query.setServiceId(array.get(1));
+        query.setVariationId(array.get(2));
+        query.setQuestionTypeId(array.get(3));
+        query.setCategoryId(array.get(4));
+        query.setSubCategoryId(array.get(5));
+        return query;
     }
 
     public void setSearchDateFrom(Date searchDateFrom) {
@@ -67,40 +44,5 @@ public class Query implements BaseQuery {
 
     public void setSearchDateUpTo(Date searchDateUpTo) {
         this.searchDateUpTo = searchDateUpTo;
-    }
-
-    @Override
-    public String getService(String[] query) {
-        return query[0];
-    }
-
-    @Override
-    public String getVariation(String[] query) {
-        return query[0];
-    }
-
-    @Override
-    public String getQuestionType(String[] query) {
-        return query[0];
-    }
-
-    @Override
-    public String getCategory(String[] query) {
-        return query[0];
-    }
-
-    @Override
-    public String getSubCategory(String[] query) {
-        return query[0];
-    }
-
-    @Override
-    public String getDateFrom() {
-        return "";
-    }
-
-    @Override
-    public String getDateUpTo() {
-        return"";
     }
 }
