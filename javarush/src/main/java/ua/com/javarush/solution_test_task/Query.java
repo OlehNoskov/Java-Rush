@@ -24,10 +24,16 @@ public class Query implements BaseQuery {
     public static void parsingString(String query) {
         String[] parts = query.split(" ");
         Query query1 = new Query();
-        for (String part : parts) {
-            String[] subParts = query.split("\\.");
-            query1.setServiceId(subParts[0]);
-            listValidRequest.add(query1);
+        for (String queryPart : parts) {
+            String[] subParts = queryPart.split("\\.");
+            for (String part: subParts) {
+                query1.setServiceId(part);
+//                query1.setVariationId(part);
+//                query1.setQuestionTypeId(part);
+//                query1.setCategoryId(part);
+//                query1.setSubCategoryId(part);
+                listValidRequest.add(query1);
+            }
         }
     }
 
@@ -64,37 +70,37 @@ public class Query implements BaseQuery {
     }
 
     @Override
-    public int getService(String[] query) {
-        return 0;
+    public String getService(String[] query) {
+        return query[0];
     }
 
     @Override
-    public int getVariation(String[] query) {
-        return 0;
+    public String getVariation(String[] query) {
+        return query[0];
     }
 
     @Override
-    public int getQuestionType(String[] query) {
-        return 0;
+    public String getQuestionType(String[] query) {
+        return query[0];
     }
 
     @Override
-    public int getCategory(String[] query) {
-        return 0;
+    public String getCategory(String[] query) {
+        return query[0];
     }
 
     @Override
-    public int getSubCategory(String[] query) {
-        return 0;
+    public String getSubCategory(String[] query) {
+        return query[0];
     }
 
     @Override
-    public int getDateFrom() {
-        return 0;
+    public String getDateFrom() {
+        return "";
     }
 
     @Override
-    public int getDateUpTo() {
-        return 0;
+    public String getDateUpTo() {
+        return"";
     }
 }

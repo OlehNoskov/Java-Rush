@@ -24,10 +24,16 @@ public class TimeLine implements BaseTimeLine {
     public static void parsingString(String query) {
         String[] parts = query.split(" ");
         TimeLine timeLine = new TimeLine();
-        for (String part : parts) {
-            String[] subParts = query.split("\\.");
-            timeLine.setServiceId(subParts[0]);
-            listValidWaitTimeline.add(timeLine);
+        for (String queryPart : parts) {
+            String[] subParts = queryPart.split("\\.");
+            for (String part: subParts) {
+                timeLine.setServiceId(part);
+//                query1.setVariationId(part);
+//                query1.setQuestionTypeId(part);
+//                query1.setCategoryId(part);
+//                query1.setSubCategoryId(part);
+                listValidWaitTimeline.add(timeLine);
+            }
         }
     }
 
@@ -106,10 +112,13 @@ public class TimeLine implements BaseTimeLine {
 
     static int getResultWaitingTime(List<Integer> waitingTime) {
         int result = 0;
-        for (Integer time : waitingTime) {
-            result += time;
+        if (!waitingTime.isEmpty()) {
+            for (Integer time : waitingTime) {
+                result += time;
+            }
+            result = result / waitingTime.size();
         }
-        return result / waitingTime.size();
+        return result;
     }
 
 //    static int getWaitingTime(String query) {
