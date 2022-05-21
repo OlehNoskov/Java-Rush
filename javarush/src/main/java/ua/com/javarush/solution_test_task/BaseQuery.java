@@ -2,59 +2,84 @@ package ua.com.javarush.solution_test_task;
 
 public abstract class BaseQuery {
 
-    private String serviceId;
-    private String variationId;
-    private String questionTypeId;
-    private String categoryId;
-    private String subCategoryId;
+    private String service;
+    private String variation;
+    private String questionType;
+    private String category;
+    private String subCategory;
 
     private String typeAnswer;
 
-    public void setServiceId(String serviceId) {
-        this.serviceId = serviceId;
+    public static String[] getLineArray(String query) {
+        return query.trim().split(" ");
     }
 
-    public void setVariationId(String variationId) {
-        this.variationId = variationId;
+    public void setService(String line) {
+        this.service = getLineArray(line)[1].split("\\.")[0];
     }
 
-    public void setQuestionTypeId(String questionTypeId) {
-        this.questionTypeId = questionTypeId;
+    public void setVariation(String line) {
+        this.variation = "";
+        if (getLineArray(line)[1].split("\\.").length > 1) {
+            this.variation = getLineArray(line)[1].split("\\.")[1];
+        }
     }
 
-    public void setCategoryId(String categoryId) {
-        this.categoryId = categoryId;
+    public void setQuestionType(String line) {
+        this.questionType = getLineArray(line)[2].split("\\.")[0];
     }
 
-    public void setSubCategoryId(String subCategoryId) {
-        this.subCategoryId = subCategoryId;
+    public void setCategory(String line) {
+        this.category = "";
+        if (getLineArray(line)[2].split("\\.").length > 1) {
+            this.category = getLineArray(line)[2].split("\\.")[1];
+        }
     }
 
-    public void setTypeAnswer(String typeAnswer) {
-        this.typeAnswer = typeAnswer;
+    public void setSubCategory(String line) {
+        this.subCategory = "";
+        if (getLineArray(line)[2].split("\\.").length > 2) {
+            this.subCategory = getLineArray(line)[2].split("\\.")[2];
+        }
     }
 
-    public String getServiceId() {
-        return serviceId;
+    public void setTypeAnswer(String line) {
+        this.typeAnswer = getLineArray(line)[3];
     }
 
-    public String getVariationId() {
-        return variationId;
+    public String getService() {
+        return service;
     }
 
-    public String getQuestionTypeId() {
-        return questionTypeId;
+    public String getVariation() {
+        return variation;
     }
 
-    public String getCategoryId() {
-        return categoryId;
+    public String getQuestionType() {
+        return questionType;
     }
 
-    public String getSubCategoryId() {
-        return subCategoryId;
+    public String getCategory() {
+        return category;
+    }
+
+    public String getSubCategory() {
+        return subCategory;
     }
 
     public String getTypeAnswer() {
         return typeAnswer;
+    }
+
+    @Override
+    public String toString() {
+        return "BaseQuery{" +
+                "service='" + service + '\'' +
+                ", variation='" + variation + '\'' +
+                ", questionType='" + questionType + '\'' +
+                ", category='" + category + '\'' +
+                ", subCategory='" + subCategory + '\'' +
+                ", typeAnswer='" + typeAnswer + '\'' +
+                '}';
     }
 }

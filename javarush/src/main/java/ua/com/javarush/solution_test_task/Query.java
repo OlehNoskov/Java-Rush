@@ -4,10 +4,9 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-public class Query extends BaseQuery{
+public class Query extends BaseQuery {
 
     static final List<Query> listValidRequest = new ArrayList<>();
-    static List<String> array = new ArrayList<>();
 
     static final String SYMBOL_QUERY = "D";
 
@@ -15,27 +14,15 @@ public class Query extends BaseQuery{
     private Date searchDateUpTo;
 
     public static void parsingString(String query) {
-            String[] parts = query.split(" ");
-            for (String queryPart : parts) {
-                String[] subParts = queryPart.split("\\.");
-                for (String part: subParts) {
-                    array.add(part);
-                }
-                listValidRequest.add(test(array));
-//                array.clear();
+        Query query1 = new Query();
+        query1.setService(query);
+        query1.setVariation(query);
+        query1.setQuestionType(query);
+        query1.setCategory(query);
+        query1.setSubCategory(query);
+        query1.setTypeAnswer(query);
 
-            }
-//        listValidRequest.add(test(array));
-        }
-
-    public static Query test(List<String> array) {
-        Query query = new Query();
-        query.setServiceId(array.get(1));
-        query.setVariationId(array.get(2));
-        query.setQuestionTypeId(array.get(3));
-        query.setCategoryId(array.get(4));
-        query.setSubCategoryId(array.get(5));
-        return query;
+        listValidRequest.add(query1);
     }
 
     public void setSearchDateFrom(Date searchDateFrom) {
@@ -44,5 +31,13 @@ public class Query extends BaseQuery{
 
     public void setSearchDateUpTo(Date searchDateUpTo) {
         this.searchDateUpTo = searchDateUpTo;
+    }
+
+    public Date getSearchDateFrom() {
+        return searchDateFrom;
+    }
+
+    public Date getSearchDateUpTo() {
+        return searchDateUpTo;
     }
 }

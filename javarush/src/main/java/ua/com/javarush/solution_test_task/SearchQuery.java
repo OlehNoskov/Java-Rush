@@ -22,20 +22,10 @@ public class SearchQuery {
 
                 }
                 if (TimeLine.SYMBOL_QUERY.equals(isValidString(line))) {
-                    TimeLine.parsingString(line);
+//                    TimeLine.parsingString(line);
                 }
                 line = reader.readLine();
             }
-
-//            for (String s: listValidWaitTimeline){
-//                System.out.println(s);
-//            }
-//            System.out.println();
-//
-//            for (String s: listValidRequest){
-//                System.out.println(s);
-//            }
-
         } catch (FileNotFoundException e) {
             System.out.println("Sorry, file not found!");
         } catch (IOException e) {

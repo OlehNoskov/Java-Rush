@@ -13,5 +13,12 @@ public class Solution {
         for (Query query : Query.listValidRequest){
             System.out.println(query);
         }
+
+//        String test = "C 1.1 8.15.1 P 15.10.2012 83";
+//        Query query = new Query();
+//
+//        for (String s:  query.getLineArray(test)){
+//            System.out.println(s);
+//        }
     }
 }

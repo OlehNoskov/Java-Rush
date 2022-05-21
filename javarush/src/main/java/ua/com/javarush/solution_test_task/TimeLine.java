@@ -22,21 +22,21 @@ public class TimeLine extends BaseQuery {
         return searchTimeFrom;
     }
 
-    public static void parsingString(String query) {
-        String[] parts = query.split(" ");
-        TimeLine timeLine = new TimeLine();
-        for (String queryPart : parts) {
-            String[] subParts = queryPart.split("\\.");
-            for (String part: subParts) {
-                timeLine.setServiceId(part);
-//                query1.setVariationId(part);
-//                query1.setQuestionTypeId(part);
-//                query1.setCategoryId(part);
-//                query1.setSubCategoryId(part);
-                listValidWaitTimeline.add(timeLine);
-            }
-        }
-    }
+//    public static void parsingString(String query) {
+//        String[] parts = query.split(" ");
+//        TimeLine timeLine = new TimeLine();
+//        for (String queryPart : parts) {
+//            String[] subParts = queryPart.split("\\.");
+//            for (String part: subParts) {
+//                timeLine.setService(part);
+////                query1.setVariationId(part);
+////                query1.setQuestionTypeId(part);
+////                query1.setCategoryId(part);
+////                query1.setSubCategoryId(part);
+//                listValidWaitTimeline.add(timeLine);
+//            }
+//        }
+//    }
 
     public void setSearchTimeFrom(Date searchTimeFrom) {
         this.searchTimeFrom = searchTimeFrom;
