@@ -21,16 +21,18 @@ public class Query extends BaseQuery {
         query.setCategory(line);
         query.setSubCategory(line);
         query.setTypeAnswer(line);
+        query.setSearchDateFrom(line);
+        query.setSearchDateUpTo(line);
 
         listValidRequest.add(query);
     }
 
-    public void setSearchDateFrom(Date searchDateFrom) {
-        this.searchDateFrom = searchDateFrom;
+    public void setSearchDateFrom(String searchDateFrom) {
+        this.searchDateFrom = DateFromLine.getDateStartQuery(searchDateFrom);
     }
 
-    public void setSearchDateUpTo(Date searchDateUpTo) {
-        this.searchDateUpTo = searchDateUpTo;
+    public void setSearchDateUpTo(String searchDateUpTo) {
+        this.searchDateUpTo = DateFromLine.getDateEndQuery(searchDateUpTo);
     }
 
     public Date getSearchDateFrom() {
@@ -39,5 +41,13 @@ public class Query extends BaseQuery {
 
     public Date getSearchDateUpTo() {
         return searchDateUpTo;
+    }
+
+    @Override
+    public String toString() {
+        return "Query{" +
+                "searchDateFrom=" + searchDateFrom +
+                ", searchDateUpTo=" + searchDateUpTo +
+                '}';
     }
 }

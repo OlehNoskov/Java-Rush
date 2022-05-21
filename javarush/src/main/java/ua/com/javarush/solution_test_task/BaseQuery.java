@@ -7,8 +7,8 @@ public abstract class BaseQuery {
     private String questionType;
     private String category;
     private String subCategory;
-
     private String typeAnswer;
+    private static String date;
 
     public static String[] getLineArray(String query) {
         return query.trim().split(" ");
@@ -45,6 +45,10 @@ public abstract class BaseQuery {
 
     public void setTypeAnswer(String line) {
         this.typeAnswer = getLineArray(line)[3];
+    }
+
+    public static String getDate(String line) {
+        return getLineArray(line)[4];
     }
 
     public String getService() {
