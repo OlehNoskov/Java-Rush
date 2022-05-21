@@ -58,17 +58,8 @@ public class TimeLine extends BaseQuery {
 //    static int getWaitingTime(String query) {
 //        return Integer.parseInt(QueryStringData.getLineArray(query)[getLastIndexArray(query)]);
 //    }
-
+//
 //    private static int getLastIndexArray(String query) {
 //        return QueryStringData.getLineArray(query).length - 1;
 //    }
-
-
-    @Override
-    public String toString() {
-        return "TimeLine{" +
-                "waitTime=" + waitTime +
-                ", createTimeline=" + createTimeline +
-                '}';
-    }
 }

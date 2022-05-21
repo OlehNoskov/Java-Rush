@@ -42,12 +42,4 @@ public class Query extends BaseQuery {
     public Date getSearchDateUpTo() {
         return searchDateUpTo;
     }
-
-    @Override
-    public String toString() {
-        return "Query{" +
-                "searchDateFrom=" + searchDateFrom +
-                ", searchDateUpTo=" + searchDateUpTo +
-                '}';
-    }
 }

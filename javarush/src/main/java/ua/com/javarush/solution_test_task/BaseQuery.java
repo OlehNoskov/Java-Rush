@@ -74,16 +74,4 @@ public abstract class BaseQuery {
     public String getTypeAnswer() {
         return typeAnswer;
     }
-
-    @Override
-    public String toString() {
-        return "BaseQuery{" +
-                "service='" + service + '\'' +
-                ", variation='" + variation + '\'' +
-                ", questionType='" + questionType + '\'' +
-                ", category='" + category + '\'' +
-                ", subCategory='" + subCategory + '\'' +
-                ", typeAnswer='" + typeAnswer + '\'' +
-                '}';
-    }
 }
