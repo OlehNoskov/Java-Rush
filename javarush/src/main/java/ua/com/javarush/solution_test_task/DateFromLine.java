@@ -35,6 +35,12 @@ public class DateFromLine {
     }
 
     static boolean isValidDate(Date startDate, Date endDate, Date createTimeline) {
-        return startDate.before(createTimeline) && endDate.after(createTimeline);
+        boolean result;
+        if (startDate.equals(endDate)) {
+            result = createTimeline.before(startDate);
+        } else {
+            result = startDate.before(createTimeline) && endDate.after(createTimeline);
+        }
+        return result;
     }
 }

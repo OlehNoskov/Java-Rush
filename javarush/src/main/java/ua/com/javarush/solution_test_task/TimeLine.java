@@ -43,18 +43,4 @@ public class TimeLine extends BaseQuery {
     public Date getCreateTimeline() {
         return createTimeline;
     }
-
-    static String getResultWaitingTime(List<Integer> waitingTime) {
-        String result = "";
-        int sum = 0;
-        if (!waitingTime.isEmpty()) {
-            for (Integer time : waitingTime) {
-                sum += time;
-            }
-            sum = sum / waitingTime.size();
-        } else {
-            return "-";
-        }
-        return result + sum;
-    }
 }

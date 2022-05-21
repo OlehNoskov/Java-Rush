@@ -16,14 +16,15 @@ public class SearchQuery {
             String line = reader.readLine();
 
             while (line != null) {
-                if (Query.SYMBOL_QUERY.equals(isValidString(line))) {
+                if (Query.SYMBOL_QUERY.equals(getTypeQuery(line))) {
                     Query.parsingString(line);
                 }
-                if (TimeLine.SYMBOL_QUERY.equals(isValidString(line))) {
+                if (TimeLine.SYMBOL_QUERY.equals(getTypeQuery(line))) {
                     TimeLine.parsingString(line);
                 }
                 line = reader.readLine();
             }
+            equalsQueryAndTimeline();
         } catch (FileNotFoundException e) {
             System.out.println("Sorry, file not found!");
         } catch (IOException e) {
@@ -32,6 +33,7 @@ public class SearchQuery {
     }
 
     public static void equalsQueryAndTimeline() {
+        int index = 0;
         for (Query query : Query.listValidRequest) {
             for (TimeLine timeLine : TimeLine.listValidWaitTimeline) {
                 if (query.getService().equals(timeLine.getService())
@@ -42,12 +44,19 @@ public class SearchQuery {
                         && DateFromLine.isValidDate(query.getSearchDateFrom(), query.getSearchDateUpTo(), timeLine.getCreateTimeline())) {
 
                     listWaitTime.add(timeLine.getWaitTime());
+                    index++;
+
+                    if (TimeLine.listValidWaitTimeline.size() == index) {
+                        Query.resultWaitingTime(listWaitTime);
+                        listWaitTime.clear();
+                        index = 0;
+                    }
                 }
             }
         }
     }
 
-    private static String isValidString(String line) {
+    private static String getTypeQuery(String line) {
         return line.split(" ")[0];
     }
 }

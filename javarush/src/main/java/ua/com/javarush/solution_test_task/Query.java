@@ -7,6 +7,7 @@ import java.util.List;
 public class Query extends BaseQuery {
 
     static final List<Query> listValidRequest = new ArrayList<>();
+    static final List<String> getResult = new ArrayList<>();
 
     static final String SYMBOL_QUERY = "D";
 
@@ -41,5 +42,20 @@ public class Query extends BaseQuery {
 
     public Date getSearchDateUpTo() {
         return searchDateUpTo;
+    }
+
+    static void resultWaitingTime(List<Integer> waitingTime) {
+        String result;
+        int sum = 0;
+        if (!waitingTime.isEmpty()) {
+            for (Integer time : waitingTime) {
+                sum += time;
+            }
+            sum = sum / waitingTime.size();
+            result = "" + sum;
+        } else {
+            result = "-";
+        }
+        getResult.add(result);
     }
 }
