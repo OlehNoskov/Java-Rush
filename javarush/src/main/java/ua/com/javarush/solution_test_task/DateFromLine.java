@@ -34,8 +34,8 @@ public class DateFromLine {
         return date;
     }
 
-//    static boolean isValidDate(String date1, String date2) {
-//        return DateFromLine.getDateCreateWaitTimeDate(date2).before(DateFromLine.getDateEndQuery(date1))
-//                && DateFromLine.getDateCreateWaitTimeDate(date2).after(DateFromLine.getDateStartQuery(date1));
-//    }
+    static boolean isValidDate(String date1, String date2) {
+        return DateFromLine.getDateStartQuery(date2).before(DateFromLine.getDateEndQuery(date1))
+                && DateFromLine.getDateEndQuery(date2).after(DateFromLine.getDateStartQuery(date1));
+    }
 }
