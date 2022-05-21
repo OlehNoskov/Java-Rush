@@ -1,8 +1,10 @@
-package ua.com.javarush.solution_test_task;
+package ua.com.javarush.garbage.first_task_solution.validation;
 
 /*
  Validation of the correct incoming data of the service number and service variant
  */
+
+import ua.com.javarush.garbage.first_task_solution.QueryStringData;
 
 public class ValidNumberServiceAndVariation {
 

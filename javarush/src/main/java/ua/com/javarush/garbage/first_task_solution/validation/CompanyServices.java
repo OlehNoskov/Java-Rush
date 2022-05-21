@@ -1,4 +1,4 @@
-package ua.com.javarush.solution_test_task;
+package ua.com.javarush.garbage.first_task_solution.validation;
 
 /*
  * Number of types of services provided by the company
@@ -25,11 +25,11 @@ public class CompanyServices {
         return 5;
     }
 
-    static boolean isValidNumberService(int numberService) {
+    public static boolean isValidNumberService(int numberService) {
         return numberService >= 1 && numberService <= getAmountService();
     }
 
-    static boolean isValidNumberVariation(int numberVariation) {
+    public static boolean isValidNumberVariation(int numberVariation) {
         return numberVariation >= 1 && numberVariation <= getAmountVariationService();
     }
 

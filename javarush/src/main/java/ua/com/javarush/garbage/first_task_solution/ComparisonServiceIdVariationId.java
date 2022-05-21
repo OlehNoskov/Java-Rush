@@ -1,4 +1,4 @@
-package ua.com.javarush.solution_test_task;
+package ua.com.javarush.garbage.first_task_solution;
 
 public class ComparisonServiceIdVariationId {
 

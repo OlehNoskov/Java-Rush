@@ -1,8 +1,8 @@
-package ua.com.javarush.solution_test_task;
+package ua.com.javarush.garbage.first_task_solution;
 
 public class QueryStringData {
 
-    static String[] getLineArray(String query) {
+    public static String[] getLineArray(String query) {
         return query.trim().split(" ");
     }
 
@@ -34,11 +34,11 @@ public class QueryStringData {
         return "*";
     }
 
-    static int getNumberServiceId(String query) {
+    public static int getNumberServiceId(String query) {
         return Integer.parseInt(getIdServiceAndVariationId(query).split("\\.")[0]);
     }
 
-    static int getNumberVariationId(String query) {
+    public static int getNumberVariationId(String query) {
         int result = 0;
         if (getIdServiceAndVariationId(query).split("\\.").length > 1) {
             result = Integer.parseInt(getIdServiceAndVariationId(query).split("\\.")[1]);
@@ -46,7 +46,7 @@ public class QueryStringData {
         return result;
     }
 
-    static int getNumberQuestionType(String numbers) {
+    public static int getNumberQuestionType(String numbers) {
         int result = 0;
         if(!numbers.equals(getAllSearch())){
             result = Integer.parseInt(getQuestionTypeCategorySubCategory(numbers).split("\\.")[0]);
@@ -55,7 +55,7 @@ public class QueryStringData {
         return result;
     }
 
-    static int getNumberCategory(String numbers) {
+    public static int getNumberCategory(String numbers) {
         int result = 0;
         if (getQuestionTypeCategorySubCategory(numbers).split("\\.").length > 1) {
             result = Integer.parseInt(getQuestionTypeCategorySubCategory(numbers).split("\\.")[1]);
@@ -63,7 +63,7 @@ public class QueryStringData {
         return result;
     }
 
-    static int getNumberSubCategory(String numbers) {
+    public static int getNumberSubCategory(String numbers) {
         int result = 0;
         if (getQuestionTypeCategorySubCategory(numbers).split("\\.").length > 2) {
             result = Integer.parseInt(getQuestionTypeCategorySubCategory(numbers).split("\\.")[2]);

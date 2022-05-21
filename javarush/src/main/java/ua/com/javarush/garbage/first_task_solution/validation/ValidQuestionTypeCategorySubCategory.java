@@ -1,4 +1,6 @@
-package ua.com.javarush.solution_test_task;
+package ua.com.javarush.garbage.first_task_solution.validation;
+
+import ua.com.javarush.garbage.first_task_solution.QueryStringData;
 
 /*
 Validation of the correct incoming data of the QuestionType, Categories and SubCategories
@@ -16,7 +18,7 @@ public class ValidQuestionTypeCategorySubCategory {
         return valid;
     }
 
-    static boolean isValidQuestionTypeCategorySubCategory(String query) {
+    public static boolean isValidQuestionTypeCategorySubCategory(String query) {
         boolean valid = false;
         if (isCorrectInputData(QueryStringData.getLineArray(query))
                 && isValidInputData(QueryStringData.getLineArray(query)[2])) {

@@ -1,8 +1,8 @@
-package ua.com.javarush.solution_test_task;
+package ua.com.javarush.garbage.first_task_solution;
 
 import java.util.List;
 
-public class WaitTime {
+public class TimeLine {
 
     static String getSymbolWaitTime(){
         return "C";
