@@ -44,22 +44,17 @@ public class TimeLine extends BaseQuery {
         return createTimeline;
     }
 
-    static int getResultWaitingTime(List<Integer> waitingTime) {
-        int result = 0;
+    static String getResultWaitingTime(List<Integer> waitingTime) {
+        String result = "";
+        int sum = 0;
         if (!waitingTime.isEmpty()) {
             for (Integer time : waitingTime) {
-                result += time;
+                sum += time;
             }
-            result = result / waitingTime.size();
+            sum = sum / waitingTime.size();
+        } else {
+            return "-";
         }
-        return result;
+        return result + sum;
     }
-
-//    static int getWaitingTime(String query) {
-//        return Integer.parseInt(QueryStringData.getLineArray(query)[getLastIndexArray(query)]);
-//    }
-//
-//    private static int getLastIndexArray(String query) {
-//        return QueryStringData.getLineArray(query).length - 1;
-//    }
 }

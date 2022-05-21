@@ -34,8 +34,7 @@ public class DateFromLine {
         return date;
     }
 
-    static boolean isValidDate(String date1, String date2) {
-        return DateFromLine.getDateStartQuery(date2).before(DateFromLine.getDateEndQuery(date1))
-                && DateFromLine.getDateEndQuery(date2).after(DateFromLine.getDateStartQuery(date1));
+    static boolean isValidDate(Date startDate, Date endDate, Date createTimeline) {
+        return startDate.before(createTimeline) && endDate.after(createTimeline);
     }
 }
