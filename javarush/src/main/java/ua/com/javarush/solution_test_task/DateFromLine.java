@@ -22,7 +22,7 @@ public class DateFromLine {
     public static Date getDateEndQuery(String dateString) {
         Date date = new Date();
         try {
-            String[] arrayDate = dateString.split("-");
+            String[] arrayDate = BaseQuery.getDate(dateString).split("-");
             if (arrayDate.length > 1) {
                 date = simpleFormatter.parse(arrayDate[1]);
             } else {
