@@ -77,6 +77,6 @@ public class SearchQuery {
     }
 
     private static String getTypeQuery(String line) {
-        return line.split(" ")[0];
+        return line.split(" ")[BaseQuery.ZERO_INDEX];
     }
 }
