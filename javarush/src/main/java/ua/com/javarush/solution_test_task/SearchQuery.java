@@ -10,7 +10,8 @@ import java.util.*;
 public class SearchQuery {
 
     static final List<Integer> listWaitTime = new ArrayList<>();
-    private static String regexInputString = "^\\w \\s\\d\\d?(\\.\\d\\d?)?  (\\s\\*)? \\s\\d?\\d?(\\.\\d\\d?)?(\\.\\d\\d?)? \\w " +
+    private static final String regexInputString = "^\\w \\s\\d\\d?(\\.\\d\\d?)?  " +
+            "(\\s\\*)? \\s\\d?\\d?(\\.\\d\\d?)?(\\.\\d\\d?)? \\w " +
             "\\s\\d{2}\\.\\d{2}\\.\\d{4} (\\-\\d{2}\\.\\d{2}\\.\\d{4})? (\\s\\d{1,3})?$";
 
     static void run(String pathFile) {
@@ -43,13 +44,12 @@ public class SearchQuery {
     private static void searchEqualsQueryAndTimeline() {
         int index = 1;
         for (Query query : Query.listValidRequest) {
-            for (TimeLine timeLine : TimeLine.listValidWaitTimeline) {
+            for (TimeLine timeLine : TimeLine.listValidTimeline) {
                 if (isEquals(query, timeLine)) {
-
                     listWaitTime.add(timeLine.getWaitTime());
                 }
-                if (TimeLine.listValidWaitTimeline.size() == index) {
-                    Query.resultWaitingTime();
+                if (TimeLine.listValidTimeline.size() == index) {
+                    Query.getResultWaitingTime();
                     listWaitTime.clear();
                     index = 0;
                 }

@@ -6,7 +6,7 @@ import java.util.List;
 
 public class TimeLine extends BaseQuery {
 
-    static final List<TimeLine> listValidWaitTimeline = new ArrayList<>();
+    static final List<TimeLine> listValidTimeline = new ArrayList<>();
 
     static final String SYMBOL_QUERY = "C";
 
@@ -27,7 +27,7 @@ public class TimeLine extends BaseQuery {
         timeLine.setCreateTimeline(line);
         timeLine.setWaitTime(line);
 
-        listValidWaitTimeline.add(timeLine);
+        listValidTimeline.add(timeLine);
     }
 
     void setWaitTime(String line) {

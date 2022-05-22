@@ -46,9 +46,10 @@ public class Query extends BaseQuery {
         return searchDateUpTo;
     }
 
-    static void resultWaitingTime() {
+    static void getResultWaitingTime() {
         String result;
         int sum = 0;
+
         if (!SearchQuery.listWaitTime.isEmpty()) {
             for (Integer time : SearchQuery.listWaitTime) {
                 sum += time;
