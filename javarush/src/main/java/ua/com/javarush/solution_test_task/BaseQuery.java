@@ -8,7 +8,6 @@ public abstract class BaseQuery {
     private String category;
     private String subCategory;
     private String typeAnswer;
-    private static String date;
 
     private final int zeroIndex = 0;
     private final int firstIndex = 1;

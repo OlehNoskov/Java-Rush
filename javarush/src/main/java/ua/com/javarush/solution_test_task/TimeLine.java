@@ -17,6 +17,7 @@ public class TimeLine extends BaseQuery {
 
     public static void parsingString(String line) {
         TimeLine timeLine = new TimeLine();
+
         timeLine.setService(line);
         timeLine.setVariation(line);
         timeLine.setQuestionType(line);

@@ -17,6 +17,7 @@ public class Query extends BaseQuery {
 
     public static void parsingString(String line) {
         Query query = new Query();
+
         query.setService(line);
         query.setVariation(line);
         query.setQuestionType(line);
