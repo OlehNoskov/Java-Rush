@@ -10,6 +10,7 @@ public class Query extends BaseQuery {
     static final List<String> getResult = new ArrayList<>();
 
     static final String SYMBOL_QUERY = "D";
+    static final String SEARCH_ALL_TIMELINE = "*";
 
     private Date searchDateFrom;
     private Date searchDateUpTo;

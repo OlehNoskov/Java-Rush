@@ -25,6 +25,7 @@ public class SearchQuery {
                 line = reader.readLine();
             }
             equalsQueryAndTimeline();
+
         } catch (FileNotFoundException e) {
             System.out.println("Sorry, file not found!");
         } catch (IOException e) {
@@ -57,6 +58,10 @@ public class SearchQuery {
                 && query.getQuestionType().equals(timeLine.getQuestionType())
                 && (query.getCategory().equals("") || query.getCategory().equals(timeLine.getCategory()))
                 && (query.getSubCategory().equals("") || query.getSubCategory().equals(timeLine.getSubCategory()))
+                && query.getTypeAnswer().equals(timeLine.getTypeAnswer())
+                && DateFromLine.isValidDate(query.getSearchDateFrom(), query.getSearchDateUpTo(), timeLine.getCreateTimeline())) {
+            result = true;
+        } else if (query.getQuestionType().equals(Query.SEARCH_ALL_TIMELINE)
                 && query.getTypeAnswer().equals(timeLine.getTypeAnswer())
                 && DateFromLine.isValidDate(query.getSearchDateFrom(), query.getSearchDateUpTo(), timeLine.getCreateTimeline())) {
             result = true;

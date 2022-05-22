@@ -9,8 +9,8 @@ public class Solution {
     public static void main(String[] args) throws ParseException {
         SearchQuery.addValidRequestsAndWaitTimeline(fileNameInputData);
 
-    for (String s : Query.getResult){
-        System.out.println(s);
-    }
+        for (String s : Query.getResult) {
+            System.out.println(s);
+        }
     }
 }
