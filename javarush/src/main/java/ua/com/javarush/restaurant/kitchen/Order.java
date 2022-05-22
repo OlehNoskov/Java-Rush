@@ -31,9 +31,6 @@ public class Order {
         return dishes.isEmpty();
     }
 
-    public List<Dish> getDishes() {
-        return dishes;
-    }
 
     public Tablet getTablet() {
         return tablet;
@@ -55,5 +52,13 @@ public class Order {
         }
         result += "] of " + tablet + ", cooking time " + getTotalCookingTime() + " min";
         return result;
+    }
+
+    public List<Dish> getDishes() {
+        return dishes;
+    }
+
+    public void setDishes(List<Dish> dishes) {
+        this.dishes = dishes;
     }
 }

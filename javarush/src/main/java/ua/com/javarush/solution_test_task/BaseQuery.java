@@ -8,75 +8,76 @@ public abstract class BaseQuery {
     private String category;
     private String subCategory;
     private String typeAnswer;
+    static String EMPTY_DATA = "";
 
-    private final int zeroIndex = 0;
-    private final int firstIndex = 1;
-    private final int secondIndex = 2;
-    private final int thirdIndex = 3;
-    private static final int fourthIndex = 4;
+    static final int ZERO_INDEX = 0;
+    static final int FIRST_INDEX = 1;
+    static final int SECOND_INDEX = 2;
+    static final int THIRD_INDEX = 3;
+    static final int FOURTH_INDEX = 4;
 
-    public static String[] getLineArray(String query) {
-        return query.trim().split(" ");
+    void setService(String line) {
+        this.service = getLineArray(line)[FIRST_INDEX].split("\\.")[ZERO_INDEX];
     }
 
-    public void setService(String line) {
-        this.service = getLineArray(line)[firstIndex].split("\\.")[zeroIndex];
-    }
-
-    public void setVariation(String line) {
-        this.variation = "";
-        if (getLineArray(line)[firstIndex].split("\\.").length > 1) {
-            this.variation = getLineArray(line)[firstIndex].split("\\.")[firstIndex];
-        }
-    }
-
-    public void setQuestionType(String line) {
-        this.questionType = getLineArray(line)[secondIndex].split("\\.")[zeroIndex];
-    }
-
-    public void setCategory(String line) {
-        this.category = "";
-        if (getLineArray(line)[secondIndex].split("\\.").length > 1) {
-            this.category = getLineArray(line)[secondIndex].split("\\.")[firstIndex];
-        }
-    }
-
-    public void setSubCategory(String line) {
-        this.subCategory = "";
-        if (getLineArray(line)[secondIndex].split("\\.").length > 2) {
-            this.subCategory = getLineArray(line)[secondIndex].split("\\.")[secondIndex];
-        }
-    }
-
-    public void setTypeAnswer(String line) {
-        this.typeAnswer = getLineArray(line)[thirdIndex];
-    }
-
-    public static String getDate(String line) {
-        return getLineArray(line)[fourthIndex];
-    }
-
-    public String getService() {
+    String getService() {
         return service;
     }
 
-    public String getVariation() {
+    void setVariation(String line) {
+        this.variation = EMPTY_DATA;
+        if (getLineArray(line)[FIRST_INDEX].split("\\.").length > 1) {
+            this.variation = getLineArray(line)[FIRST_INDEX].split("\\.")[FIRST_INDEX];
+        }
+    }
+
+    String getVariation() {
         return variation;
     }
 
-    public String getQuestionType() {
+    void setQuestionType(String line) {
+        this.questionType = getLineArray(line)[SECOND_INDEX].split("\\.")[ZERO_INDEX];
+    }
+
+    String getQuestionType() {
         return questionType;
     }
 
-    public String getCategory() {
+    void setCategory(String line) {
+        this.category = EMPTY_DATA;
+        if (getLineArray(line)[SECOND_INDEX].split("\\.").length > 1) {
+            this.category = getLineArray(line)[SECOND_INDEX].split("\\.")[FIRST_INDEX];
+        }
+    }
+
+    String getCategory() {
         return category;
     }
 
-    public String getSubCategory() {
+    public void setSubCategory(String line) {
+        this.subCategory = EMPTY_DATA;
+        if (getLineArray(line)[SECOND_INDEX].split("\\.").length > 2) {
+            this.subCategory = getLineArray(line)[SECOND_INDEX].split("\\.")[SECOND_INDEX];
+        }
+    }
+
+    String getSubCategory() {
         return subCategory;
     }
 
-    public String getTypeAnswer() {
+    void setTypeAnswer(String line) {
+        this.typeAnswer = getLineArray(line)[THIRD_INDEX];
+    }
+
+    String getTypeAnswer() {
         return typeAnswer;
+    }
+
+    static String[] getLineArray(String query) {
+        return query.trim().split(" ");
+    }
+
+    static String getDate(String line) {
+        return getLineArray(line)[FOURTH_INDEX];
     }
 }

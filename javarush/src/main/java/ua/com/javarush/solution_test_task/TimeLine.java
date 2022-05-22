@@ -15,7 +15,7 @@ public class TimeLine extends BaseQuery {
 
     private Date createTimeline;
 
-    public static void parsingString(String line) {
+    static void parsingString(String line) {
         TimeLine timeLine = new TimeLine();
 
         timeLine.setService(line);
@@ -30,19 +30,19 @@ public class TimeLine extends BaseQuery {
         listValidWaitTimeline.add(timeLine);
     }
 
-    public void setWaitTime(String line) {
+    void setWaitTime(String line) {
         this.waitTime = Integer.parseInt(BaseQuery.getLineArray(line)[indexWaitTime]);
     }
 
-    public int getWaitTime() {
+    int getWaitTime() {
         return waitTime;
     }
 
-    public void setCreateTimeline(String line) {
+    void setCreateTimeline(String line) {
         this.createTimeline = DateFromLine.getDateStartQuery(line);
     }
 
-    public Date getCreateTimeline() {
+    Date getCreateTimeline() {
         return createTimeline;
     }
 }
