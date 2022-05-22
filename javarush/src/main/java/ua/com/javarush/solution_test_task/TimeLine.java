@@ -11,6 +11,7 @@ public class TimeLine extends BaseQuery {
     static final String SYMBOL_QUERY = "C";
 
     private int waitTime;
+    private int indexWaitTime = 5;
 
     private Date createTimeline;
 
@@ -29,7 +30,7 @@ public class TimeLine extends BaseQuery {
     }
 
     public void setWaitTime(String line) {
-        this.waitTime = Integer.parseInt(BaseQuery.getLineArray(line)[5]);
+        this.waitTime = Integer.parseInt(BaseQuery.getLineArray(line)[indexWaitTime]);
     }
 
     public int getWaitTime() {

@@ -10,45 +10,51 @@ public abstract class BaseQuery {
     private String typeAnswer;
     private static String date;
 
+    private int zeroIndex = 0;
+    private int firstIndex = 1;
+    private int secondIndex = 2;
+    private int thirdIndex = 3;
+    private static int fourthIndex = 4;
+
     public static String[] getLineArray(String query) {
         return query.trim().split(" ");
     }
 
     public void setService(String line) {
-        this.service = getLineArray(line)[1].split("\\.")[0];
+        this.service = getLineArray(line)[firstIndex].split("\\.")[zeroIndex];
     }
 
     public void setVariation(String line) {
         this.variation = "";
-        if (getLineArray(line)[1].split("\\.").length > 1) {
-            this.variation = getLineArray(line)[1].split("\\.")[1];
+        if (getLineArray(line)[firstIndex].split("\\.").length > 1) {
+            this.variation = getLineArray(line)[firstIndex].split("\\.")[firstIndex];
         }
     }
 
     public void setQuestionType(String line) {
-        this.questionType = getLineArray(line)[2].split("\\.")[0];
+        this.questionType = getLineArray(line)[secondIndex].split("\\.")[zeroIndex];
     }
 
     public void setCategory(String line) {
         this.category = "";
-        if (getLineArray(line)[2].split("\\.").length > 1) {
-            this.category = getLineArray(line)[2].split("\\.")[1];
+        if (getLineArray(line)[secondIndex].split("\\.").length > 1) {
+            this.category = getLineArray(line)[secondIndex].split("\\.")[firstIndex];
         }
     }
 
     public void setSubCategory(String line) {
         this.subCategory = "";
-        if (getLineArray(line)[2].split("\\.").length > 2) {
-            this.subCategory = getLineArray(line)[2].split("\\.")[2];
+        if (getLineArray(line)[secondIndex].split("\\.").length > 2) {
+            this.subCategory = getLineArray(line)[secondIndex].split("\\.")[secondIndex];
         }
     }
 
     public void setTypeAnswer(String line) {
-        this.typeAnswer = getLineArray(line)[3];
+        this.typeAnswer = getLineArray(line)[thirdIndex];
     }
 
     public static String getDate(String line) {
-        return getLineArray(line)[4];
+        return getLineArray(line)[fourthIndex];
     }
 
     public String getService() {
@@ -73,5 +79,17 @@ public abstract class BaseQuery {
 
     public String getTypeAnswer() {
         return typeAnswer;
+    }
+
+    @Override
+    public String toString() {
+        return "BaseQuery{" +
+                "service='" + service + '\'' +
+                ", variation='" + variation + '\'' +
+                ", questionType='" + questionType + '\'' +
+                ", category='" + category + '\'' +
+                ", subCategory='" + subCategory + '\'' +
+                ", typeAnswer='" + typeAnswer + '\'' +
+                '}';
     }
 }
