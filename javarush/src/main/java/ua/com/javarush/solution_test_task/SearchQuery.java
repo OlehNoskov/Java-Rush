@@ -26,6 +26,10 @@ public class SearchQuery {
             }
             equalsQueryAndTimeline();
 
+            for (String averageWaitingTime : Query.listAverageWaitingTime) {
+                System.out.println(averageWaitingTime);
+            }
+
         } catch (FileNotFoundException e) {
             System.out.println("Sorry, file not found!");
         } catch (IOException e) {
@@ -60,10 +64,13 @@ public class SearchQuery {
                 && (query.getSubCategory().equals("") || query.getSubCategory().equals(timeLine.getSubCategory()))
                 && query.getTypeAnswer().equals(timeLine.getTypeAnswer())
                 && DateFromLine.isValidDate(query.getSearchDateFrom(), query.getSearchDateUpTo(), timeLine.getCreateTimeline())) {
+
             result = true;
+
         } else if (query.getQuestionType().equals(Query.SEARCH_ALL_TIMELINE)
                 && query.getTypeAnswer().equals(timeLine.getTypeAnswer())
                 && DateFromLine.isValidDate(query.getSearchDateFrom(), query.getSearchDateUpTo(), timeLine.getCreateTimeline())) {
+
             result = true;
         }
         return result;

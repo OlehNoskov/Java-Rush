@@ -7,7 +7,7 @@ import java.util.List;
 public class Query extends BaseQuery {
 
     static final List<Query> listValidRequest = new ArrayList<>();
-    static final List<String> getResult = new ArrayList<>();
+    static final List<String> listAverageWaitingTime = new ArrayList<>();
 
     static final String SYMBOL_QUERY = "D";
     static final String SEARCH_ALL_TIMELINE = "*";
@@ -57,6 +57,6 @@ public class Query extends BaseQuery {
         } else {
             result = "-";
         }
-        getResult.add(result);
+        listAverageWaitingTime.add(result);
     }
 }
