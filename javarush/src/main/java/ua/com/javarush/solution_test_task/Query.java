@@ -15,7 +15,7 @@ public class Query extends BaseQuery {
     private Date searchDateFrom;
     private Date searchDateUpTo;
 
-    public static void parsingString(String line) {
+    static void parsingString(String line) {
         Query query = new Query();
 
         query.setService(line);
@@ -30,19 +30,19 @@ public class Query extends BaseQuery {
         listValidRequest.add(query);
     }
 
-    public void setSearchDateFrom(String searchDateFrom) {
+    void setSearchDateFrom(String searchDateFrom) {
         this.searchDateFrom = DateFromLine.getDateStartQuery(searchDateFrom);
     }
 
-    public void setSearchDateUpTo(String searchDateUpTo) {
+    void setSearchDateUpTo(String searchDateUpTo) {
         this.searchDateUpTo = DateFromLine.getDateEndQuery(searchDateUpTo);
     }
 
-    public Date getSearchDateFrom() {
+    Date getSearchDateFrom() {
         return searchDateFrom;
     }
 
-    public Date getSearchDateUpTo() {
+    Date getSearchDateUpTo() {
         return searchDateUpTo;
     }
 
