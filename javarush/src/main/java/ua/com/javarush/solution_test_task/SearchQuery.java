@@ -33,30 +33,38 @@ public class SearchQuery {
     }
 
     public static void equalsQueryAndTimeline() {
-        int index = 0;
+        int index = 1;
         for (Query query : Query.listValidRequest) {
             for (TimeLine timeLine : TimeLine.listValidWaitTimeline) {
-                if (query.getService().equals(timeLine.getService())
-                        && query.getVariation().equals(timeLine.getVariation())
-                        && query.getQuestionType().equals(timeLine.getQuestionType())
-                        && query.getCategory().equals(timeLine.getCategory())
-                        && query.getSubCategory().equals(timeLine.getSubCategory())
-                        && DateFromLine.isValidDate(query.getSearchDateFrom(), query.getSearchDateUpTo(), timeLine.getCreateTimeline())) {
+                if (isEquals(query, timeLine)) {
 
                     listWaitTime.add(timeLine.getWaitTime());
-                    index++;
-
-                    if (TimeLine.listValidWaitTimeline.size() == index) {
-                        Query.resultWaitingTime(listWaitTime);
-                        listWaitTime.clear();
-                        index = 0;
-                    }
                 }
+                if (TimeLine.listValidWaitTimeline.size() == index) {
+                    Query.resultWaitingTime();
+                    listWaitTime.clear();
+                    index = 0;
+                }
+                index++;
             }
         }
     }
 
-    private static String getTypeQuery(String line) {
-        return line.split(" ")[0];
+    private static boolean isEquals(Query query, TimeLine timeLine) {
+        boolean result = false;
+        if (query.getService().equals(timeLine.getService())
+                && (query.getVariation().equals("") || query.getVariation().equals(timeLine.getVariation()))
+                && query.getQuestionType().equals(timeLine.getQuestionType())
+                && query.getCategory().equals("") || query.getCategory().equals(timeLine.getCategory())
+                && query.getSubCategory().equals("") || query.getSubCategory().equals(timeLine.getSubCategory())
+                && query.getTypeAnswer().equals(timeLine.getTypeAnswer())
+                && DateFromLine.isValidDate(query.getSearchDateFrom(), query.getSearchDateUpTo(), timeLine.getCreateTimeline())) {
+                result = true;
+            }
+            return result;
+        }
+
+        private static String getTypeQuery (String line){
+            return line.split(" ")[0];
+        }
     }
-}

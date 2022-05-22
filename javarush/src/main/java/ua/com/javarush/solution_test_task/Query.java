@@ -44,14 +44,14 @@ public class Query extends BaseQuery {
         return searchDateUpTo;
     }
 
-    static void resultWaitingTime(List<Integer> waitingTime) {
+    static void resultWaitingTime() {
         String result;
         int sum = 0;
-        if (!waitingTime.isEmpty()) {
-            for (Integer time : waitingTime) {
+        if (!SearchQuery.listWaitTime.isEmpty()) {
+            for (Integer time : SearchQuery.listWaitTime) {
                 sum += time;
             }
-            sum = sum / waitingTime.size();
+            sum = sum / SearchQuery.listWaitTime.size();
             result = "" + sum;
         } else {
             result = "-";
