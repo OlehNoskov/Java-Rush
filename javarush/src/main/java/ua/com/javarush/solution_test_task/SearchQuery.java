@@ -55,16 +55,16 @@ public class SearchQuery {
         if (query.getService().equals(timeLine.getService())
                 && (query.getVariation().equals("") || query.getVariation().equals(timeLine.getVariation()))
                 && query.getQuestionType().equals(timeLine.getQuestionType())
-                && query.getCategory().equals("") || query.getCategory().equals(timeLine.getCategory())
-                && query.getSubCategory().equals("") || query.getSubCategory().equals(timeLine.getSubCategory())
+                && (query.getCategory().equals("") || query.getCategory().equals(timeLine.getCategory()))
+                && (query.getSubCategory().equals("") || query.getSubCategory().equals(timeLine.getSubCategory()))
                 && query.getTypeAnswer().equals(timeLine.getTypeAnswer())
                 && DateFromLine.isValidDate(query.getSearchDateFrom(), query.getSearchDateUpTo(), timeLine.getCreateTimeline())) {
-                result = true;
-            }
-            return result;
+            result = true;
         }
-
-        private static String getTypeQuery (String line){
-            return line.split(" ")[0];
-        }
+        return result;
     }
+
+    private static String getTypeQuery(String line) {
+        return line.split(" ")[0];
+    }
+}
