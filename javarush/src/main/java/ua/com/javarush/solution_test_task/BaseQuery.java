@@ -54,7 +54,7 @@ public abstract class BaseQuery {
         return category;
     }
 
-    public void setSubCategory(String line) {
+    void setSubCategory(String line) {
         this.subCategory = EMPTY_DATA;
         if (getLineArray(line)[SECOND_INDEX].split("\\.").length > 2) {
             this.subCategory = getLineArray(line)[SECOND_INDEX].split("\\.")[SECOND_INDEX];
