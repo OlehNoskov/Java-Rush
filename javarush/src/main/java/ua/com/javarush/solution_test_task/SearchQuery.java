@@ -68,6 +68,7 @@ public class SearchQuery {
             result = true;
 
         } else if (query.getQuestionType().equals(Query.SEARCH_ALL_TIMELINE)
+                && query.getService().equals(timeLine.getService())
                 && query.getTypeAnswer().equals(timeLine.getTypeAnswer())
                 && DateFromLine.isValidDate(query.getSearchDateFrom(), query.getSearchDateUpTo(), timeLine.getCreateTimeline())) {
 

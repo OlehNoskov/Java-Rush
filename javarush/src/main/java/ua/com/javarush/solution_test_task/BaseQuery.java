@@ -10,11 +10,11 @@ public abstract class BaseQuery {
     private String typeAnswer;
     private static String date;
 
-    private int zeroIndex = 0;
-    private int firstIndex = 1;
-    private int secondIndex = 2;
-    private int thirdIndex = 3;
-    private static int fourthIndex = 4;
+    private final int zeroIndex = 0;
+    private final int firstIndex = 1;
+    private final int secondIndex = 2;
+    private final int thirdIndex = 3;
+    private static final int fourthIndex = 4;
 
     public static String[] getLineArray(String query) {
         return query.trim().split(" ");
