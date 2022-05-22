@@ -10,9 +10,9 @@ import java.util.*;
 public class SearchQuery {
 
     static final List<Integer> listWaitTime = new ArrayList<>();
-    private static final String regexInputString = "^\\w \\s\\d\\d?(\\.\\d\\d?)?  " +
-            "(\\s\\*)? \\s\\d?\\d?(\\.\\d\\d?)?(\\.\\d\\d?)? \\w " +
-            "\\s\\d{2}\\.\\d{2}\\.\\d{4} (\\-\\d{2}\\.\\d{2}\\.\\d{4})? (\\s\\d{1,3})?$";
+    private static final String regexInputString = "^\\w\\s\\d\\d?(\\.\\d\\d?)?\\s" +
+            "\\*?\\s?(\\d\\d?)?(\\.\\d\\d?)?(\\.\\d\\d?)?\\w " +
+            "\\s\\d{2}\\.\\d{2}\\.\\d{4}(\\-\\d{2}\\.\\d{2}\\.\\d{4})?(\\s\\d{1,3})?$";
 
     static void run(String pathFile) {
         try (BufferedReader reader = new BufferedReader(new FileReader(pathFile))) {
@@ -20,7 +20,6 @@ public class SearchQuery {
 
             while (line != null) {
                 if (Query.SYMBOL_QUERY.equals(getTypeQuery(line))) {
-//                && line.matches(regexInputString)) {
                     Query.parsingString(line);
                 }
                 if (TimeLine.SYMBOL_QUERY.equals(getTypeQuery(line))) {
