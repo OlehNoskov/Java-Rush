@@ -3,7 +3,6 @@ package ua.com.javarush.other.randomaccessfile;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.RandomAccessFile;
-import java.util.Arrays;
 
 public class SecondSolution {
     public static void main(String[] args) {
