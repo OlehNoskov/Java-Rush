@@ -11,9 +11,8 @@ public class WriteStackTrace {
 
     public static String getStackTrace(Throwable throwable) {
         StringWriter stringWriter = new StringWriter();
-        PrintWriter printWriter = new PrintWriter(stringWriter);
-        throwable.printStackTrace(printWriter);
+        throwable.printStackTrace(new PrintWriter(stringWriter));
 
-        return null;
+        return  stringWriter.toString();
     }
 }
