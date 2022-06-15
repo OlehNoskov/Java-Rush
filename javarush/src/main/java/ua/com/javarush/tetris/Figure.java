@@ -24,39 +24,83 @@ public class Figure {
         return matrix;
     }
 
-    void left(){
-
+    void left() {
+        x--;
+        if (!isCurrentPositionAvailable()) {
+            x++;
+        }
     }
 
-    void right(){
-
+    void right() {
+        x++;
+        if (!isCurrentPositionAvailable()) {
+            x--;
+        }
     }
 
-    void down(){
-
+    void down() {
+        y++;
+        if (!isCurrentPositionAvailable()) {
+            y--;
+        }
     }
 
-    void up(){
-
+    void up() {
+        y--;
+        if (!isCurrentPositionAvailable()) {
+            y++;
+        }
     }
 
     //поворот фигуры
-    void rotate(){
+    void rotate() {
+        int[][] matrix2 = new int[3][3];
 
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 3; j++) {
+                matrix2[i][j] = matrix[j][i];
+            }
+        }
+
+        matrix = matrix2;
     }
 
     //падение фигуры вниз до дна
-    void downMaximum(){
-
+    void downMaximum() {
+        while (isCurrentPositionAvailable()) {
+            y++;
+        }
+        y--;
     }
 
     //проверка, может ли фигура помещена в текущую позицию
-    boolean isCurrentPositionAvailable(){
+    boolean isCurrentPositionAvailable() {
+        Field field = Tetris.game.getField();
+
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 3; j++) {
+                if (matrix[i][j] == 1) {
+                    if (y + i >= field.getHeight())
+                        return false;
+
+                    Integer value = field.getValue(x + j, y + i);
+                    if (value == null || value == 1)
+                        return false;
+                }
+            }
+        }
         return true;
     }
 
     //вызывается, когда фигура достигла дна и уперлась
-    void landed(){
+    void landed() {
+        Field field = Tetris.game.getField();
 
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 3; j++) {
+                if (matrix[i][j] == 1)
+                    field.setValue(x + j, y + i, 1);
+            }
+        }
     }
 }
