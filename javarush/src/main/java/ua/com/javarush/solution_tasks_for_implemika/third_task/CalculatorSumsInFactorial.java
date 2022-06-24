@@ -1,4 +1,4 @@
-package ua.com.javarush.solution_for_implemika.third_task;
+package ua.com.javarush.solution_tasks_for_implemika.third_task;
 
 import java.math.BigInteger;
 

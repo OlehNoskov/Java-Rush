@@ -1,4 +1,4 @@
-package ua.com.javarush.solution_for_implemika.second_task;
+package ua.com.javarush.solution_tasks_for_implemika.second_task;
 
 public class Town {
     private String name;
