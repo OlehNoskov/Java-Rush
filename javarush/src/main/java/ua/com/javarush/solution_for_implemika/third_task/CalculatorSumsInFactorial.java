@@ -24,10 +24,10 @@ public class CalculatorSumsInFactorial {
         return result.toString();
     }
 
-    // search sum digits in numbers
-    public static int getSumNumbers(String string) {
+    // search sum digits in number
+    public static int getSumNumbers(String number) {
         int result = 0;
-        String[] array = string.split("");
+        String[] array = number.split("");
 
         for (String s : array) {
             result += Integer.parseInt(s);
