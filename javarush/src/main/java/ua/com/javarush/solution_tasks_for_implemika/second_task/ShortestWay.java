@@ -160,7 +160,6 @@ public class ShortestWay {
         return indexMin;
     }
 
-
     private void addTown(String nameTown, int index) {
         citiesArray[countOfVertices++] = new Town(nameTown, index);
     }
