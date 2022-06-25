@@ -8,7 +8,6 @@ import java.util.List;
 
 public class ShortestWay {
     private final String INPUT_FILE = "inputCities.txt";
-    private final String OUTPUT_FILE = "outputMinCostWays.txt";
 
     private int countCities = 10000;
     private final int INFINITY = 10000000;
@@ -23,8 +22,7 @@ public class ShortestWay {
     private int startToCurrent;
 
     public void run() {
-        try (BufferedReader reader = new BufferedReader(new FileReader(INPUT_FILE));
-             BufferedWriter writer = new BufferedWriter(new FileWriter(OUTPUT_FILE))) {
+        try (BufferedReader reader = new BufferedReader(new FileReader(INPUT_FILE))) {
 
             while (reader.ready()) {
                 countCities = Integer.parseInt(reader.readLine());
@@ -63,29 +61,12 @@ public class ShortestWay {
                             .filter(city -> city.getName().equals(substrings[1]))
                             .findFirst()
                             .orElseThrow(() -> new RuntimeException("Input data is incorrect!"));
-                    shortestWays(currentCity.getIndex(), finalCity.getIndex(), writer);
+                    shortestWays(currentCity.getIndex(), finalCity.getIndex());
                     cleanData();
                 }
-                writer.flush();
             }
         } catch (IOException e) {
             throw new RuntimeException("Input data is incorrect!");
-        }
-    }
-
-    private void writeToFileCostWays(int startTree, int finalIndex, BufferedWriter writer) {
-        String shortestWay = "";
-        if (shortestPaths.get(finalIndex).getDistance() == INFINITY) {
-            shortestWay = "This way is long!";
-        } else {
-            String result = shortestPaths.get(finalIndex).getDistance() + "";
-            shortestWay += result;
-        }
-        try {
-            writer.write(shortestWay);
-            writer.write(System.lineSeparator());
-        } catch (IOException e) {
-            System.out.println("Error write in file!");
         }
     }
 
@@ -98,7 +79,7 @@ public class ShortestWay {
         }
     }
 
-    private void shortestWays(int start, int end, BufferedWriter bufferedWriter) {
+    private void shortestWays(int start, int end) {
         citiesArray[start].setInTree(true);
         countOfVertexInTree = 1;
 
@@ -123,7 +104,6 @@ public class ShortestWay {
             updateCostWays();
         }
         showingCostWaysToConsole(start, end);
-        writeToFileCostWays(start, end, bufferedWriter);
     }
 
     private void updateCostWays() {

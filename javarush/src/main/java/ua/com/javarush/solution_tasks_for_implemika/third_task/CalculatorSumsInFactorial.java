@@ -27,10 +27,10 @@ public class CalculatorSumsInFactorial {
     // search sum digits in number
     public static int getSumNumbers(String number) {
         int result = 0;
-        String[] array = number.split("");
+        String[] numbersArray = number.split("");
 
-        for (String s : array) {
-            result += Integer.parseInt(s);
+        for (String n : numbersArray) {
+            result += Integer.parseInt(n);
         }
         return result;
     }
