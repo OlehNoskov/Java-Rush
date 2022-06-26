@@ -80,7 +80,6 @@ public class ShortestWay {
         }
     }
 
-    //show result in console
     private void showingCostWaysToConsole(int startTree, int finalIndex) {
         if (shortestPaths.get(finalIndex).getDistance() == MAX_COST_WAY) {
             System.out.println("This way is long!");
@@ -90,7 +89,6 @@ public class ShortestWay {
         }
     }
 
-    // search shortest way
     private void shortestWays(int start, int end) {
         citiesArray[start].setInTree(true);
         countOfVertexInTree = 1;
