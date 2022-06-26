@@ -5,10 +5,6 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by Oleh Noskov.
- */
-
 public class ExpressionsCounter {
     private static final String OPEN_BRACKET = "(";
     private static final String CLOSED_BRACKET = ")";
@@ -33,16 +29,17 @@ public class ExpressionsCounter {
             int number = Integer.parseInt(bufferedReader.readLine());
 
             for (Integer integer : listCountValidExpressions) {
-                if (integer == number) {
+                if (number == integer) {
                     result++;
                 }
             }
+            System.out.println("Answer:" + result);
+
         } catch (NumberFormatException e) {
-            System.out.println("Input data is not number!");
+            System.out.println("Input data is not number! Restart this program!");
         } catch (IOException e) {
             System.out.println("Something wrong!");
         }
-        System.out.println("Answer: " + result);
     }
 
     // validation input string

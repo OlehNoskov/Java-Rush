@@ -14,17 +14,17 @@ public class CalculatorSumsInFactorial {
         System.out.println(getSumNumbers(getFactorial(INPUT_NUMBER)));
     }
 
-    // search factorial and return String
+    // searching factorial and return result
     public static String getFactorial(int factorial) {
         BigInteger result = BigInteger.ONE;
 
         for (int i = 1; i <= factorial; i++) {
             result = result.multiply(BigInteger.valueOf(i));
         }
-        return result.toString();
+        return String.valueOf(result);
     }
 
-    // search sum digits in number
+    // searching sum of all number's digits
     public static int getSumNumbers(String number) {
         int result = 0;
         String[] numbersArray = number.split("");
