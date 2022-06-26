@@ -7,8 +7,7 @@ import java.math.BigInteger;
  */
 
 public class CalculatorSumsInFactorial {
-    //default number
-    private static final int INPUT_NUMBER = 100;
+    private static final int INPUT_NUMBER = 100;     //default number
 
     public static void main(String[] args) {
         System.out.println(getSumNumbers(getFactorial(INPUT_NUMBER)));

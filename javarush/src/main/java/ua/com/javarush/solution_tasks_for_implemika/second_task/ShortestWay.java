@@ -21,6 +21,7 @@ public class ShortestWay {
     private int currentVertex;
     private int startToCurrent;
 
+    // start program and read data from file
     public void run() {
         try (BufferedReader reader = new BufferedReader(new FileReader(INPUT_FILE))) {
 
@@ -46,6 +47,8 @@ public class ShortestWay {
                         setCostWay(i, Integer.parseInt(substrings[0]) - 1, Integer.parseInt(substrings[1]));
                     }
                 }
+
+                // how many search count ways between cities
                 int countOfWays = Integer.parseInt(reader.readLine());
 
                 for (int j = 0; j < countOfWays; j++) {
@@ -56,13 +59,13 @@ public class ShortestWay {
                         throw new RuntimeException("Input data is incorrect!");
                     }
 
-                    //read name Town source from string and comparison it with elements array cities
+                    // read name Town source from string and comparison it with elements array cities
                     Town currentCity = Arrays.stream(citiesArray)
                             .filter(city -> city.getName().equals(substrings[0]))
                             .findFirst()
                             .orElseThrow(() -> new RuntimeException("Town source not found!"));
 
-                    //read name Town destination from string and comparison it with elements array cities
+                    // read name Town destination from string and comparison it with elements array cities
                     Town finalCity = Arrays.stream(citiesArray)
                             .filter(city -> city.getName().equals(substrings[1]))
                             .findFirst()
@@ -87,7 +90,7 @@ public class ShortestWay {
         }
     }
 
-    //search shortest way
+    // search shortest way
     private void shortestWays(int start, int end) {
         citiesArray[start].setInTree(true);
         countOfVertexInTree = 1;
@@ -136,7 +139,6 @@ public class ShortestWay {
         }
     }
 
-    // get path with minimal cost
     private int getMinCostWay() {
         int min = MAX_COST_WAY;
         int indexMin = 0;
@@ -150,17 +152,14 @@ public class ShortestWay {
         return indexMin;
     }
 
-    //add new Town in array
     private void addTown(String nameTown, int index) {
         citiesArray[countOfVertices++] = new Town(nameTown, index);
     }
 
-    //set cost way
     private void setCostWay(int start, int end, int cost) {
         relationMatrix[start][end] = cost;
     }
 
-    //adding all Town
     private void addAllTown() {
         citiesArray = new Town[countCities];
         relationMatrix = new int[countCities][countCities];
@@ -175,7 +174,6 @@ public class ShortestWay {
         }
     }
 
-    // clear all data
     private void cleanData() {
         countOfVertexInTree = 0;
         for (int i = 0; i < countOfVertices; i++) {
