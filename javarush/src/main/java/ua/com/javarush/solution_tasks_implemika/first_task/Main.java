@@ -1,4 +1,4 @@
-package ua.com.javarush.solution_tasks_for_implemika.first_task;
+package ua.com.javarush.solution_tasks_implemika.first_task;
 
 /**
  * Created by Oleh Noskov.
