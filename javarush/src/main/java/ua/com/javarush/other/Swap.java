@@ -1,6 +1,6 @@
 package ua.com.javarush.other;
 
-public class Solution {
+public class Swap {
     public static void main(String[] args) {
         /* expected output
         x=4, y=5
