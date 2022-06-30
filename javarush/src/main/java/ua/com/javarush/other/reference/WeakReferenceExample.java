@@ -1,11 +1,12 @@
 package ua.com.javarush.other.reference;
 
 import java.lang.ref.WeakReference;
+
 import java.util.ArrayList;
 import java.util.List;
 
 // Слабые ссылки
-public class Solution {
+public class WeakReferenceExample {
 
     public static Helper helper = new Helper();
 
@@ -63,9 +64,9 @@ public class Solution {
 
         void consumeHeap() {
             try {
-                List<Solution> heap = new ArrayList<>(100000);
+                List<WeakReferenceExample> heap = new ArrayList<>(100000);
                 while (!isFinalized) {
-                    heap.add(new Solution());
+                    heap.add(new WeakReferenceExample());
                 }
             } catch (OutOfMemoryError e) {
                 System.out.println("An out-of-memory exception has occurred");
