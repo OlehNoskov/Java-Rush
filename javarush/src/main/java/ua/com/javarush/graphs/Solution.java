@@ -1,6 +1,8 @@
 package ua.com.javarush.graphs;
 
+import java.util.HashSet;
 import java.util.Set;
+import java.util.TreeSet;
 
 public class Solution {
     private boolean[][] humanRelationships;
@@ -16,8 +18,26 @@ public class Solution {
     }
 
     public Set<Integer> getAllFriendsAndPotentialFriends(int index, int deep) {
-        //напишите тут ваш код
-        return null;
+        Set<Integer> result = new HashSet<>();
+        if (deep == 0) {
+            return result;
+        } else {
+            // Поиск друзей человека по index
+            for (int i = 0; i < humanRelationships.length; i++) {
+                if ((i < index) && (index < humanRelationships.length) && humanRelationships[index][i]) {
+                    result.add(i);
+                } else if ((i > index) && humanRelationships[i][index]) {
+                    result.add(i);
+                }
+            }
+            // Поиск потенциальных знакомых с помощью рекурсии
+            Object[] arrayToProcess = result.toArray();
+            for (Object value : arrayToProcess) {
+                result.addAll(getAllFriendsAndPotentialFriends((Integer) value, deep - 1));
+            }
+            result.remove(index);
+        }
+        return result;
     }
 
     // Remove from the set the people with whom you already have a relationship
