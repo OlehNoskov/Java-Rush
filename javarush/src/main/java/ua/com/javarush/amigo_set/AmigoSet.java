@@ -81,7 +81,6 @@ public class AmigoSet<E> extends AbstractSet<E> implements Set<E>, Serializable,
             s.writeObject(e);
     }
 
-
     private void readObject(ObjectInputStream s) throws java.io.IOException, ClassNotFoundException {
         // Read in any hidden serialization magic
         s.defaultReadObject();
