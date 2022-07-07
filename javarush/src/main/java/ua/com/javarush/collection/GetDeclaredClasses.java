@@ -1,6 +1,13 @@
 package ua.com.javarush.collection;
 
-import java.util.Collections;
+import java.util.concurrent.DelayQueue;
+
+/* DelayQueue - Реализует Queue, используется при работе с тредами!
+   У него есть очень полезная характеристика —
+   когда потребитель хочет взять элемент из очереди,
+   он может взять его только тогда, когда истечет
+   задержка для этого конкретного элемента.
+ */
 
 public class GetDeclaredClasses {
     public static void main(String[] args) {
@@ -8,11 +15,6 @@ public class GetDeclaredClasses {
     }
 
     public static Class getExpectedClass() {
-        for (Class clazz : Collections.class.getDeclaredClasses()) {
-            if (clazz.getSimpleName().equals("EmptyList")) {
-                return clazz;
-            }
-        }
-        return null;
+       return DelayQueue.class;
     }
 }
