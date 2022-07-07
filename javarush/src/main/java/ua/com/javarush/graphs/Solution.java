@@ -2,7 +2,6 @@ package ua.com.javarush.graphs;
 
 import java.util.HashSet;
 import java.util.Set;
-import java.util.TreeSet;
 
 public class Solution {
     private boolean[][] humanRelationships;
