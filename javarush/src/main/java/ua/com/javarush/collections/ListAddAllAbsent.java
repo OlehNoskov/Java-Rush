@@ -1,4 +1,4 @@
-package ua.com.javarush.collection;
+package ua.com.javarush.collections;
 
 import java.util.Arrays;
 import java.util.List;

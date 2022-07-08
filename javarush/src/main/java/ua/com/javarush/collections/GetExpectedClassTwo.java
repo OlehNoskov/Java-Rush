@@ -1,4 +1,4 @@
-package ua.com.javarush.collection;
+package ua.com.javarush.collections;
 
 /* Найти класс - пакет - java.util.concurrent
    Реализует интерфейс BlockingQueue
