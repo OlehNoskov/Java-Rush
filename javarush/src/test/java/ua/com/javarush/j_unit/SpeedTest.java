@@ -23,7 +23,6 @@ public class SpeedTest {
         return finish.getTime() - start.getTime();
     }
 
-
     public long getTimeToGetStrings(Shortener shortener, Set<Long> ids, Set<String> strings) {
         Date start = new Date();
         for (Long id : ids) {
