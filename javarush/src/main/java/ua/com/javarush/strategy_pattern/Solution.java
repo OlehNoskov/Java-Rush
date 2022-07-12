@@ -1,7 +1,6 @@
 package ua.com.javarush.strategy_pattern;
 
-import ua.com.javarush.strategy_pattern.strategy.HashMapStorageStrategy;
-import ua.com.javarush.strategy_pattern.strategy.StorageStrategy;
+import ua.com.javarush.strategy_pattern.strategy.*;
 
 import java.util.Date;
 import java.util.HashSet;
@@ -12,6 +11,9 @@ public class Solution {
     public static void main(String[] args) {
         long elementsNumber = 10_000L;
         testStrategy(new HashMapStorageStrategy(), elementsNumber);
+        testStrategy(new OurHashBiMapStorageStrategy(), elementsNumber);
+        testStrategy(new HasBiMapStorageStrategy(), elementsNumber);
+        testStrategy(new DualHashBidiMapStorageStrategy(), elementsNumber);
     }
 
     public static void testStrategy(StorageStrategy storageStrategy, long elementsNumber) {
@@ -39,9 +41,9 @@ public class Solution {
         Helper.printMessage("Time work getStrings: " + time + " milliseconds.");
 
         if (randomValues.equals(values))
-            Helper.printMessage("Тест пройден.");
+            Helper.printMessage("Тест пройден." + "\n");
         else
-            Helper.printMessage("Тест не пройден.");
+            Helper.printMessage("Тест не пройден."+ "\n");
     }
 
     public static Set<Long> getIds(Shortener shortener, Set<String> strings) {

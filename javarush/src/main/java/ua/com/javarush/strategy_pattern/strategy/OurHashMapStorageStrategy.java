@@ -67,11 +67,10 @@ public class OurHashMapStorageStrategy implements StorageStrategy {
         return hash & (length - 1);
     }
 
-    Entry getEntry(Long key) {
+    final Entry getEntry(Long key) {
         if (size == 0) {
             return null;
         }
-
         int hash = hash(key);
         int index = indexFor(hash, table.length);
         for (Entry entry = table[index]; entry != null; entry = entry.next) {
