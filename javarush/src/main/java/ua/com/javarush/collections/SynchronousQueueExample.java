@@ -1,6 +1,6 @@
 package ua.com.javarush.collections;
 
-/* Найти класс - пакет - java.util.concurrent
+/** Найти класс - пакет - java.util.concurrent
    Реализует интерфейс BlockingQueue
    Используется при работе с тредами
    Является блокирующей очередью
@@ -9,7 +9,7 @@ package ua.com.javarush.collections;
 
 import java.util.concurrent.SynchronousQueue;
 
-public class GetExpectedClassTwo {
+public class SynchronousQueueExample {
     public static void main(String[] args) {
         System.out.println(getExpectedClass());
     }
