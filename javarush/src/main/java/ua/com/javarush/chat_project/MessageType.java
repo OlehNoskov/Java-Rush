@@ -1,4 +1,4 @@
-package ua.com.javarush.chatproject;
+package ua.com.javarush.chat_project;
 
 public enum MessageType {
     NAME_REQUEST,

@@ -1,4 +1,4 @@
-package ua.com.javarush.chatproject.client;
+package ua.com.javarush.chat_project.client;
 
 import javax.swing.*;
 import java.awt.*;

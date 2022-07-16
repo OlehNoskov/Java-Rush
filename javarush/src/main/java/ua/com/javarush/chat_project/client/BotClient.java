@@ -1,6 +1,6 @@
-package ua.com.javarush.chatproject.client;
+package ua.com.javarush.chat_project.client;
 
-import ua.com.javarush.chatproject.ConsoleHelper;
+import ua.com.javarush.chat_project.ConsoleHelper;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;

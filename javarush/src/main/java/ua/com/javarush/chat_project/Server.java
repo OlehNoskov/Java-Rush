@@ -1,4 +1,4 @@
-package ua.com.javarush.chatproject;
+package ua.com.javarush.chat_project;
 
 import java.io.IOException;
 import java.net.ServerSocket;
