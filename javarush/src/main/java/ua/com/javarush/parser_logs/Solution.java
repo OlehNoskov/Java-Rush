@@ -2,30 +2,33 @@ package ua.com.javarush.parser_logs;
 
 import java.nio.file.Paths;
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.logging.SimpleFormatter;
 
 public class Solution {
     public static void main(String[] args) throws ParseException {
         LogParser logParser = new LogParser(Paths.get("example.log"));
-        System.out.println(logParser.getNumberOfUniqueIPs(new Date(),new Date()));
+        SimpleDateFormat simpleFormatter = new SimpleDateFormat("dd.MM.yyyy");
+        System.out.println(logParser.getNumberOfUniqueIPs(simpleFormatter.parse("01.01.2010"), simpleFormatter.parse("01.01.2030")));
         System.out.println("=======================================");
 
-        for (String string : logParser.getUniqueIPs(new Date(), new Date())){
+        for (String string : logParser.getUniqueIPs(simpleFormatter.parse("01.01.2010"), simpleFormatter.parse("01.01.2030"))){
             System.out.println(string);
         }
         System.out.println("=======================================");
 
-        for (String string : logParser.getIPsForUser("Amigo", new Date(), new Date())){
+        for (String string : logParser.getIPsForUser("Amigo", simpleFormatter.parse("01.01.2010"), simpleFormatter.parse("01.01.2030"))){
             System.out.println(string);
         }
         System.out.println("=======================================");
 
-        for (String string : logParser.getIPsForEvent(Event.DONE_TASK ,new Date(), new Date())){
+        for (String string : logParser.getIPsForEvent(Event.SOLVE_TASK, simpleFormatter.parse("01.01.2010"), simpleFormatter.parse("01.01.2030"))){
             System.out.println(string);
         }
         System.out.println("=======================================");
 
-        for (String string : logParser.getIPsForStatus(Status.OK,new Date(), new Date())){
+        for (String string : logParser.getIPsForStatus(Status.OK,simpleFormatter.parse("01.01.2010"), simpleFormatter.parse("01.01.2030"))){
             System.out.println(string);
         }
     }

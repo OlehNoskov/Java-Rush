@@ -1,7 +1,6 @@
 package ua.com.javarush.parser_logs;
 
 import ua.com.javarush.parser_logs.query.IPQuery;
-import ua.com.javarush.parser_logs_my_solution.Logger;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -29,51 +28,59 @@ public class LogParser implements IPQuery {
     }
 
     @Override
-    public int getNumberOfUniqueIPs(Date after, Date before) {
+    public int getNumberOfUniqueIPs(Date after, Date before) throws ParseException {
         return getUniqueIPs(after, before).size();
     }
 
     @Override
-    public Set<String> getUniqueIPs(Date after, Date before) {
+    public Set<String> getUniqueIPs(Date after, Date before) throws ParseException {
         Set<String> setUniqueIPs = new TreeSet<>();
         for (String string : getAllStringsLogs()) {
             String[] array = string.split("   ");
-            setUniqueIPs.add(getIP(array));
+            if (getDate(array).after(after) && getDate(array).before(before)) {
+                setUniqueIPs.add(getIP(array));
+            }
         }
         return setUniqueIPs;
     }
 
     @Override
-    public Set<String> getIPsForUser(String user, Date after, Date before) {
+    public Set<String> getIPsForUser(String user, Date after, Date before) throws ParseException {
         Set<String> setIPsForUser = new TreeSet<>();
         for (String string : getAllStringsLogs()) {
             String[] array = string.split("   ");
             if (getName(array).equals(user)) {
-                setIPsForUser.add(getIP(array));
+                if (getDate(array).after(after) && getDate(array).before(before)) {
+                    setIPsForUser.add(getIP(array));
+                }
             }
         }
         return setIPsForUser;
     }
 
     @Override
-    public Set<String> getIPsForEvent(Event event, Date after, Date before) {
+    public Set<String> getIPsForEvent(Event event, Date after, Date before) throws ParseException {
         Set<String> setIPsForEvent = new TreeSet<>();
         for (String string : getAllStringsLogs()) {
             String[] array = string.split("   ");
             if (Objects.equals(getEvent(array), event)) {
-                setIPsForEvent.add(getIP(array));
+                if (getDate(array).after(after) && getDate(array).before(before)) {
+                    setIPsForEvent.add(getIP(array));
+                }
             }
         }
         return setIPsForEvent;
     }
 
     @Override
-    public Set<String> getIPsForStatus(Status status, Date after, Date before) {
+    public Set<String> getIPsForStatus(Status status, Date after, Date before) throws ParseException {
         Set<String> setIPsForStatus = new TreeSet<>();
         for (String string : getAllStringsLogs()) {
             String[] array = string.split("   ");
             if (Objects.equals(getStatus(array), status)) {
-                setIPsForStatus.add(getIP(array));
+                if (getDate(array).after(after) && getDate(array).before(before)) {
+                    setIPsForStatus.add(getIP(array));
+                }
             }
         }
         return setIPsForStatus;
@@ -99,22 +106,29 @@ public class LogParser implements IPQuery {
         return arrayString[NAME_INDEX];
     }
 
-    private Date getDate(String string) throws ParseException {
-        return simpleFormatter.parse(string);
+    private Date getDate(String[] string) throws ParseException {
+            return simpleFormatter.parse(string[DATE_INDEX]);
+
     }
 
     private Event getEvent(String[] arrayString) {
-        for (Event event : Event.values()){
-            if (event.toString().equals(arrayString[EVENT_INDEX])){
-                return event;
+        for (Event event : Event.values()) {
+            if (arrayString[EVENT_INDEX].split(" ").length == 2) {
+                if (event.toString().equals(arrayString[EVENT_INDEX].split(" ")[0])) {
+                    return event;
+                }
+            } else {
+                if (event.toString().equals(arrayString[EVENT_INDEX])) {
+                    return event;
+                }
             }
         }
         return null;
     }
 
     private Status getStatus(String[] arrayString) {
-        for (Status status : Status.values()){
-            if (status.toString().equals(arrayString[STATUS_INDEX])){
+        for (Status status : Status.values()) {
+            if (status.toString().equals(arrayString[STATUS_INDEX])) {
                 return status;
             }
         }
