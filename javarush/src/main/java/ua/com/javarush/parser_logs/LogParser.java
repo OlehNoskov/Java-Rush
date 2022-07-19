@@ -12,10 +12,7 @@ import java.nio.file.Path;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 public class LogParser implements IPQuery {
     private final Path logDir;
@@ -33,38 +30,56 @@ public class LogParser implements IPQuery {
 
     @Override
     public int getNumberOfUniqueIPs(Date after, Date before) {
-        return 0;
+        return getUniqueIPs(after, before).size();
     }
 
     @Override
-    public Set<String> getUniqueIPs(Date after, Date before) throws ParseException {
-        String string = getAllStringsLogs().get(3);
-        String[] array = string.split("   ");
-        String ip = array[IP_INDEX];
-        String name = array[NAME_INDEX];
-        Date date = getDate(array[DATE_INDEX]);
-        String event = array[EVENT_INDEX];
-        String status = array[STATUS_INDEX];
-        System.out.println(ip + " " + name + " " + date + " "+ event + " " + status);
-        return null;
+    public Set<String> getUniqueIPs(Date after, Date before) {
+        Set<String> setUniqueIPs = new TreeSet<>();
+        for (String string : getAllStringsLogs()) {
+            String[] array = string.split("   ");
+            setUniqueIPs.add(getIP(array));
+        }
+        return setUniqueIPs;
     }
 
     @Override
     public Set<String> getIPsForUser(String user, Date after, Date before) {
-        return null;
+        Set<String> setIPsForUser = new TreeSet<>();
+        for (String string : getAllStringsLogs()) {
+            String[] array = string.split("   ");
+            if (getName(array).equals(user)) {
+                setIPsForUser.add(getIP(array));
+            }
+        }
+        return setIPsForUser;
     }
 
     @Override
     public Set<String> getIPsForEvent(Event event, Date after, Date before) {
-        return null;
+        Set<String> setIPsForEvent = new TreeSet<>();
+        for (String string : getAllStringsLogs()) {
+            String[] array = string.split("   ");
+            if (Objects.equals(getEvent(array), event)) {
+                setIPsForEvent.add(getIP(array));
+            }
+        }
+        return setIPsForEvent;
     }
 
     @Override
     public Set<String> getIPsForStatus(Status status, Date after, Date before) {
-        return null;
+        Set<String> setIPsForStatus = new TreeSet<>();
+        for (String string : getAllStringsLogs()) {
+            String[] array = string.split("   ");
+            if (Objects.equals(getStatus(array), status)) {
+                setIPsForStatus.add(getIP(array));
+            }
+        }
+        return setIPsForStatus;
     }
 
-    public List<String> getAllStringsLogs() {
+    private List<String> getAllStringsLogs() {
         List<String> listAllStringLogs = new ArrayList<>();
         try (BufferedReader reader = new BufferedReader(new FileReader(String.valueOf(logDir)))) {
             while (reader.ready()) {
@@ -76,7 +91,33 @@ public class LogParser implements IPQuery {
         return listAllStringLogs;
     }
 
-    public Date getDate(String string) throws ParseException {
+    private String getIP(String[] arrayString) {
+        return arrayString[IP_INDEX];
+    }
+
+    private String getName(String[] arrayString) {
+        return arrayString[NAME_INDEX];
+    }
+
+    private Date getDate(String string) throws ParseException {
         return simpleFormatter.parse(string);
+    }
+
+    private Event getEvent(String[] arrayString) {
+        for (Event event : Event.values()){
+            if (event.toString().equals(arrayString[EVENT_INDEX])){
+                return event;
+            }
+        }
+        return null;
+    }
+
+    private Status getStatus(String[] arrayString) {
+        for (Status status : Status.values()){
+            if (status.toString().equals(arrayString[STATUS_INDEX])){
+                return status;
+            }
+        }
+        return null;
     }
 }
