@@ -1,4 +1,4 @@
-package ua.com.javarush.parser_logs_my_solution;
+package ua.com.javarush.parser_logs;
 
 public enum Event {
     LOGIN,

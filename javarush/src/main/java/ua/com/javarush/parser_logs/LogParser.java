@@ -1,6 +1,7 @@
-package ua.com.javarush.parser_logs_my_solution;
+package ua.com.javarush.parser_logs;
 
-import ua.com.javarush.parser_logs_my_solution.query.IPQuery;
+import ua.com.javarush.parser_logs.query.IPQuery;
+import ua.com.javarush.parser_logs_my_solution.Logger;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -21,10 +22,8 @@ public class LogParser implements IPQuery {
     private final int IP_INDEX = 0;
     private final int NAME_INDEX = 1;
     private final int DATE_INDEX = 2;
-    private final int TIME_INDEX = 3;
-    private final int EVENT_INDEX = 4;
-    private final int NUMBER_TASK_INDEX = 5;
-    private final int STATUS_INDEX = 6;
+    private final int EVENT_INDEX = 3;
+    private final int STATUS_INDEX = 4;
 
     private static final SimpleDateFormat simpleFormatter = new SimpleDateFormat("dd.MM.yyyy HH:mm:ss");
 
@@ -38,7 +37,15 @@ public class LogParser implements IPQuery {
     }
 
     @Override
-    public Set<String> getUniqueIPs(Date after, Date before) {
+    public Set<String> getUniqueIPs(Date after, Date before) throws ParseException {
+        String string = getAllStringsLogs().get(3);
+        String[] array = string.split("   ");
+        String ip = array[IP_INDEX];
+        String name = array[NAME_INDEX];
+        Date date = getDate(array[DATE_INDEX]);
+        String event = array[EVENT_INDEX];
+        String status = array[STATUS_INDEX];
+        System.out.println(ip + " " + name + " " + date + " "+ event + " " + status);
         return null;
     }
 
@@ -67,23 +74,6 @@ public class LogParser implements IPQuery {
             System.out.println("Something wrong!");
         }
         return listAllStringLogs;
-    }
-
-    public List<Logger> getAllLogger(List<String> allStringLogs) throws ParseException {
-        List<Logger> allLoggers = new ArrayList<>();
-        for (String string : allStringLogs) {
-            String[] arrayString = string.split("   ");
-//            String date = arrayString[DATE_INDEX] + " " + arrayString[TIME_INDEX];
-            String date = arrayString[DATE_INDEX] + " " + arrayString[TIME_INDEX];
-            int numberTask = 0;
-            if (arrayString.length == 6) {
-                numberTask = Integer.parseInt(arrayString[NUMBER_TASK_INDEX]);
-            }
-
-            allLoggers.add(new Logger(arrayString[0], arrayString[1],
-                    getDate(date),arrayString[4], numberTask, arrayString[5].split("    ")[1]));
-        }
-        return allLoggers;
     }
 
     public Date getDate(String string) throws ParseException {
