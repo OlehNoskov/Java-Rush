@@ -6,132 +6,227 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 
+import java.nio.file.DirectoryStream;
+import java.nio.file.Files;
 import java.nio.file.Path;
 
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 
 import java.util.*;
 
 public class LogParser implements IPQuery {
-    private final Path logDir;
-    private final int IP_INDEX = 0;
-    private final int NAME_INDEX = 1;
-    private final int DATE_INDEX = 2;
-    private final int EVENT_INDEX = 3;
-    private final int STATUS_INDEX = 4;
-
-    private static final SimpleDateFormat simpleFormatter = new SimpleDateFormat("dd.MM.yyyy HH:mm:ss");
+    private Path logDir;
+    private List<LogEntity> logEntities = new ArrayList<>();
+    private DateFormat simpleDateFormat = new SimpleDateFormat("d.M.yyyy H:m:s");
 
     public LogParser(Path logDir) {
         this.logDir = logDir;
+        readLogs();
     }
 
     @Override
-    public int getNumberOfUniqueIPs(Date after, Date before) throws ParseException {
+    public int getNumberOfUniqueIPs(Date after, Date before) {
         return getUniqueIPs(after, before).size();
     }
 
     @Override
-    public Set<String> getUniqueIPs(Date after, Date before) throws ParseException {
-        Set<String> setUniqueIPs = new TreeSet<>();
-        for (String string : getAllStringsLogs()) {
-            String[] array = string.split("   ");
-            if (getDate(array).after(after) && getDate(array).before(before)) {
-                setUniqueIPs.add(getIP(array));
+    public Set<String> getUniqueIPs(Date after, Date before) {
+        Set<String> result = new HashSet<>();
+        for (int i = 0; i < logEntities.size(); i++) {
+            if (dateBetweenDates(logEntities.get(i).getDate(), after, before)) {
+                result.add(logEntities.get(i).getIp());
             }
         }
-        return setUniqueIPs;
+        return result;
     }
 
     @Override
-    public Set<String> getIPsForUser(String user, Date after, Date before) throws ParseException {
-        Set<String> setIPsForUser = new TreeSet<>();
-        for (String string : getAllStringsLogs()) {
-            String[] array = string.split("   ");
-            if (getName(array).equals(user)) {
-                if (getDate(array).after(after) && getDate(array).before(before)) {
-                    setIPsForUser.add(getIP(array));
+    public Set<String> getIPsForUser(String user, Date after, Date before) {
+        Set<String> result = new HashSet<>();
+        for (int i = 0; i < logEntities.size(); i++) {
+            if (dateBetweenDates(logEntities.get(i).getDate(), after, before)) {
+                if (logEntities.get(i).getUser().equals(user)) {
+                    result.add(logEntities.get(i).getIp());
                 }
             }
         }
-        return setIPsForUser;
+        return result;
     }
 
     @Override
-    public Set<String> getIPsForEvent(Event event, Date after, Date before) throws ParseException {
-        Set<String> setIPsForEvent = new TreeSet<>();
-        for (String string : getAllStringsLogs()) {
-            String[] array = string.split("   ");
-            if (Objects.equals(getEvent(array), event)) {
-                if (getDate(array).after(after) && getDate(array).before(before)) {
-                    setIPsForEvent.add(getIP(array));
+    public Set<String> getIPsForEvent(Event event, Date after, Date before) {
+        Set<String> result = new HashSet<>();
+        for (int i = 0; i < logEntities.size(); i++) {
+            if (dateBetweenDates(logEntities.get(i).getDate(), after, before)) {
+                if (logEntities.get(i).getEvent().equals(event)) {
+                    result.add(logEntities.get(i).getIp());
                 }
             }
         }
-        return setIPsForEvent;
+        return result;
     }
 
     @Override
-    public Set<String> getIPsForStatus(Status status, Date after, Date before) throws ParseException {
-        Set<String> setIPsForStatus = new TreeSet<>();
-        for (String string : getAllStringsLogs()) {
-            String[] array = string.split("   ");
-            if (Objects.equals(getStatus(array), status)) {
-                if (getDate(array).after(after) && getDate(array).before(before)) {
-                    setIPsForStatus.add(getIP(array));
+    public Set<String> getIPsForStatus(Status status, Date after, Date before) {
+        Set<String> result = new HashSet<>();
+        for (int i = 0; i < logEntities.size(); i++) {
+            if (dateBetweenDates(logEntities.get(i).getDate(), after, before)) {
+                if (logEntities.get(i).getStatus().equals(status)) {
+                    result.add(logEntities.get(i).getIp());
                 }
             }
         }
-        return setIPsForStatus;
+        return result;
     }
 
-    private List<String> getAllStringsLogs() {
-        List<String> listAllStringLogs = new ArrayList<>();
-        try (BufferedReader reader = new BufferedReader(new FileReader(String.valueOf(logDir)))) {
-            while (reader.ready()) {
-                listAllStringLogs.add(reader.readLine());
+    private void readLogs() {
+        try (DirectoryStream<Path> directoryStream = Files.newDirectoryStream(logDir)) {
+            for (Path file : directoryStream) {
+                if (file.toString().toLowerCase().endsWith(".log")) {
+                    try (BufferedReader reader = new BufferedReader(new FileReader(file.toFile()))) {
+                        String line = null;
+                        while ((line = reader.readLine()) != null) {
+                            String[] params = line.split("\t");
+
+                            if (params.length != 5) {
+                                continue;
+                            }
+
+                            String ip = params[0];
+                            String user = params[1];
+                            Date date = readDate(params[2]);
+                            Event event = readEvent(params[3]);
+                            int eventAdditionalParameter = -1;
+                            if (event.equals(Event.SOLVE_TASK) || event.equals(Event.DONE_TASK)) {
+                                eventAdditionalParameter = readAdditionalParameter(params[3]);
+                            }
+                            Status status = readStatus(params[4]);
+
+                            LogEntity logEntity = new LogEntity(ip, user, date, event, eventAdditionalParameter, status);
+                            logEntities.add(logEntity);
+                        }
+                    }
+                }
             }
         } catch (IOException e) {
-            System.out.println("Something wrong!");
+            e.printStackTrace();
         }
-        return listAllStringLogs;
     }
 
-    private String getIP(String[] arrayString) {
-        return arrayString[IP_INDEX];
+    private Date readDate(String lineToParse) {
+        Date date = null;
+        try {
+            date = simpleDateFormat.parse(lineToParse);
+        } catch (ParseException e) {
+        }
+        return date;
     }
 
-    private String getName(String[] arrayString) {
-        return arrayString[NAME_INDEX];
-    }
-
-    private Date getDate(String[] string) throws ParseException {
-            return simpleFormatter.parse(string[DATE_INDEX]);
-
-    }
-
-    private Event getEvent(String[] arrayString) {
-        for (Event event : Event.values()) {
-            if (arrayString[EVENT_INDEX].split(" ").length == 2) {
-                if (event.toString().equals(arrayString[EVENT_INDEX].split(" ")[0])) {
-                    return event;
+    private Event readEvent(String lineToParse) {
+        Event event = null;
+        if (lineToParse.contains("SOLVE_TASK")) {
+            event = Event.SOLVE_TASK;
+        } else if (lineToParse.contains("DONE_TASK")) {
+            event = Event.DONE_TASK;
+        } else {
+            switch (lineToParse) {
+                case "LOGIN": {
+                    event = Event.LOGIN;
+                    break;
                 }
-            } else {
-                if (event.toString().equals(arrayString[EVENT_INDEX])) {
-                    return event;
+                case "DOWNLOAD_PLUGIN": {
+                    event = Event.DOWNLOAD_PLUGIN;
+                    break;
+                }
+                case "WRITE_MESSAGE": {
+                    event = Event.WRITE_MESSAGE;
+                    break;
                 }
             }
         }
-        return null;
+        return event;
     }
 
-    private Status getStatus(String[] arrayString) {
-        for (Status status : Status.values()) {
-            if (status.toString().equals(arrayString[STATUS_INDEX])) {
-                return status;
+    private int readAdditionalParameter(String lineToParse) {
+        if (lineToParse.contains("SOLVE_TASK")) {
+            lineToParse = lineToParse.replace("SOLVE_TASK", "").replaceAll(" ", "");
+            return Integer.parseInt(lineToParse);
+        } else {
+            lineToParse = lineToParse.replace("DONE_TASK", "").replaceAll(" ", "");
+            return Integer.parseInt(lineToParse);
+        }
+    }
+
+    private Status readStatus(String lineToParse) {
+        Status status = null;
+        switch (lineToParse) {
+            case "OK": {
+                status = Status.OK;
+                break;
+            }
+            case "FAILED": {
+                status = Status.FAILED;
+                break;
+            }
+            case "ERROR": {
+                status = Status.ERROR;
+                break;
             }
         }
-        return null;
+        return status;
+    }
+
+    private boolean dateBetweenDates(Date current, Date after, Date before) {
+        if (after == null) {
+            after = new Date(0);
+        }
+        if (before == null) {
+            before = new Date(Long.MAX_VALUE);
+        }
+        return current.after(after) && current.before(before);
+    }
+
+    private class LogEntity {
+        private String ip;
+        private String user;
+        private Date date;
+        private Event event;
+        private int eventAdditionalParameter;
+        private Status status;
+
+        public LogEntity(String ip, String user, Date date, Event event, int eventAdditionalParameter, Status status) {
+            this.ip = ip;
+            this.user = user;
+            this.date = date;
+            this.event = event;
+            this.eventAdditionalParameter = eventAdditionalParameter;
+            this.status = status;
+        }
+
+        public String getIp() {
+            return ip;
+        }
+
+        public String getUser() {
+            return user;
+        }
+
+        public Date getDate() {
+            return date;
+        }
+
+        public Event getEvent() {
+            return event;
+        }
+
+        public int getEventAdditionalParameter() {
+            return eventAdditionalParameter;
+        }
+
+        public Status getStatus() {
+            return status;
+        }
     }
 }
