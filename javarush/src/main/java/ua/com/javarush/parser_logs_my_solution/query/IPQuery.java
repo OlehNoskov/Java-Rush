@@ -1,7 +1,7 @@
 package ua.com.javarush.parser_logs_my_solution.query;
 
-import ua.com.javarush.parser_logs.Event;
-import ua.com.javarush.parser_logs.Status;
+import ua.com.javarush.parser_logs_my_solution.Event;
+import ua.com.javarush.parser_logs_my_solution.Status;
 
 import java.text.ParseException;
 import java.util.Date;

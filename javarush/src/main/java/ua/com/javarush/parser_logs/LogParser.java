@@ -6,8 +6,6 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 
-import java.nio.file.DirectoryStream;
-import java.nio.file.Files;
 import java.nio.file.Path;
 
 import java.text.DateFormat;
@@ -82,36 +80,30 @@ public class LogParser implements IPQuery {
     }
 
     private void readLogs() {
-        try (DirectoryStream<Path> directoryStream = Files.newDirectoryStream(logDir)) {
-            for (Path file : directoryStream) {
-                if (file.toString().toLowerCase().endsWith(".log")) {
-                    try (BufferedReader reader = new BufferedReader(new FileReader(file.toFile()))) {
-                        String line = null;
-                        while ((line = reader.readLine()) != null) {
-                            String[] params = line.split("\t");
+        try (BufferedReader reader = new BufferedReader(new FileReader(String.valueOf(logDir)))) {
+            String line = null;
+            while ((line = reader.readLine()) != null) {
+                String[] params = line.split("\t");
 
-                            if (params.length != 5) {
-                                continue;
-                            }
-
-                            String ip = params[0];
-                            String user = params[1];
-                            Date date = readDate(params[2]);
-                            Event event = readEvent(params[3]);
-                            int eventAdditionalParameter = -1;
-                            if (event.equals(Event.SOLVE_TASK) || event.equals(Event.DONE_TASK)) {
-                                eventAdditionalParameter = readAdditionalParameter(params[3]);
-                            }
-                            Status status = readStatus(params[4]);
-
-                            LogEntity logEntity = new LogEntity(ip, user, date, event, eventAdditionalParameter, status);
-                            logEntities.add(logEntity);
-                        }
-                    }
+                if (params.length != 5) {
+                    continue;
                 }
+
+                String ip = params[0];
+                String user = params[1];
+                Date date = readDate(params[2]);
+                Event event = readEvent(params[3]);
+                int eventAdditionalParameter = -1;
+                if (event.equals(Event.SOLVE_TASK) || event.equals(Event.DONE_TASK)) {
+                    eventAdditionalParameter = readAdditionalParameter(params[3]);
+                }
+                Status status = readStatus(params[4]);
+
+                LogEntity logEntity = new LogEntity(ip, user, date, event, eventAdditionalParameter, status);
+                logEntities.add(logEntity);
             }
-        } catch (IOException e) {
-            e.printStackTrace();
+        } catch (IOException ex) {
+            throw new RuntimeException(ex);
         }
     }
 
