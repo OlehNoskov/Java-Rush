@@ -1,6 +1,7 @@
 package ua.com.javarush.parser_logs_my_solution;
 
 import ua.com.javarush.parser_logs_my_solution.query.IPQuery;
+import ua.com.javarush.parser_logs_my_solution.query.UserQuery;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -13,7 +14,7 @@ import java.text.SimpleDateFormat;
 
 import java.util.*;
 
-public class LogParser implements IPQuery {
+public class LogParser implements IPQuery, UserQuery {
     private final Path logDir;
 
     private final int IP_INDEX = 0;
@@ -144,20 +145,153 @@ public class LogParser implements IPQuery {
         return current.after(after) && current.before(before);
     }
 
+    @Override
+    public Set<String> getAllUsers() {
+        Set<String> setAllUsers = new HashSet<>();
+        for (Logger logger : getAllStringsLogs()) {
+            setAllUsers.add(logger.getName());
+        }
+        return setAllUsers;
+    }
+
+    @Override
+    public int getNumberOfUsers(Date after, Date before) {
+        Set<String> setAllUsers = new HashSet<>();
+        for (Logger logger : getAllStringsLogs()) {
+            if (dateBetweenDates(logger.getDate(), after, before)) {
+                setAllUsers.add(logger.getName());
+            }
+        }
+        return setAllUsers.size();
+    }
+
+    @Override
+    public int getNumberOfUserEvents(String user, Date after, Date before) {
+        Set<Event> setUserEvents = new HashSet<>();
+
+        for (Logger logger : getAllStringsLogs()) {
+            if (logger.getName().equals(user) && dateBetweenDates(logger.getDate(), after, before)) {
+                   setUserEvents.add(logger.getEvent());
+            }
+        }
+        return setUserEvents.size();
+    }
+
+    @Override
+    public Set<String> getUsersForIP(String ip, Date after, Date before) {
+        Set<String> setUsers = new HashSet<>();
+
+        for (Logger logger : getAllStringsLogs()) {
+            if (logger.getIp().equals(ip) && dateBetweenDates(logger.getDate(), after, before)) {
+                setUsers.add(logger.getName());
+            }
+        }
+        return setUsers;
+    }
+
+    @Override
+    public Set<String> getLoggedUsers(Date after, Date before) {
+        Set<String> setUsers = new HashSet<>();
+
+        for (Logger logger : getAllStringsLogs()) {
+            if (logger.getEvent().equals(Event.LOGIN) && dateBetweenDates(logger.getDate(), after, before)) {
+                setUsers.add(logger.getName());
+            }
+        }
+        return setUsers;
+    }
+
+    @Override
+    public Set<String> getDownloadedPluginUsers(Date after, Date before) {
+        Set<String> setUsers = new HashSet<>();
+
+        for (Logger logger : getAllStringsLogs()) {
+            if (logger.getEvent().equals(Event.DOWNLOAD_PLUGIN) && dateBetweenDates(logger.getDate(), after, before)) {
+                setUsers.add(logger.getName());
+            }
+        }
+        return setUsers;
+    }
+
+    @Override
+    public Set<String> getWroteMessageUsers(Date after, Date before) {
+        Set<String> setUsers = new HashSet<>();
+
+        for (Logger logger : getAllStringsLogs()) {
+            if (logger.getEvent().equals(Event.WRITE_MESSAGE) && dateBetweenDates(logger.getDate(), after, before)) {
+                setUsers.add(logger.getName());
+            }
+        }
+        return setUsers;
+    }
+
+    @Override
+    public Set<String> getSolvedTaskUsers(Date after, Date before) {
+        Set<String> setUsers = new HashSet<>();
+
+        for (Logger logger : getAllStringsLogs()) {
+            if (logger.getEvent().equals(Event.SOLVE_TASK) && dateBetweenDates(logger.getDate(), after, before)) {
+                setUsers.add(logger.getName());
+            }
+        }
+        return setUsers;
+    }
+
+    @Override
+    public Set<String> getSolvedTaskUsers(Date after, Date before, int task) {
+        Set<String> setUsers = new HashSet<>();
+
+        for (Logger logger : getAllStringsLogs()) {
+            if (logger.getEvent().equals(Event.SOLVE_TASK)
+                    && dateBetweenDates(logger.getDate(), after, before)
+                    && logger.getGetEventAdditionalParameter() == task) {
+                setUsers.add(logger.getName());
+            }
+        }
+        return setUsers;
+    }
+
+    @Override
+    public Set<String> getDoneTaskUsers(Date after, Date before) {
+        Set<String> setUsers = new HashSet<>();
+
+        for (Logger logger : getAllStringsLogs()) {
+            if (logger.getEvent().equals(Event.DONE_TASK)
+                    && dateBetweenDates(logger.getDate(), after, before)) {
+                setUsers.add(logger.getName());
+            }
+        }
+        return setUsers;
+    }
+
+    @Override
+    public Set<String> getDoneTaskUsers(Date after, Date before, int task) {
+        Set<String> setUsers = new HashSet<>();
+
+        for (Logger logger : getAllStringsLogs()) {
+            if (logger.getEvent().equals(Event.DONE_TASK)
+                    && dateBetweenDates(logger.getDate(), after, before)
+                    && logger.getGetEventAdditionalParameter() == task) {
+                setUsers.add(logger.getName());
+            }
+        }
+        return setUsers;
+    }
+
     private static class Logger {
         private String ip;
         private String name;
         private Date date;
         private Event event;
-        private int numberTask;
+        private int getEventAdditionalParameter;
         private Status status;
 
-        public Logger(String ip, String name, Date date, Event event, int numberTask, Status status) {
+        public Logger(String ip, String name, Date date, Event event, int getEventAdditionalParameter, Status status) {
             this.ip = ip;
             this.name = name;
             this.date = date;
             this.event = event;
-            this.numberTask = numberTask;
+            this.getEventAdditionalParameter = getEventAdditionalParameter;
             this.status = status;
         }
 
@@ -183,6 +317,10 @@ public class LogParser implements IPQuery {
 
         public Status getStatus() {
             return status;
+        }
+
+        public int getGetEventAdditionalParameter() {
+            return getEventAdditionalParameter;
         }
     }
 }

@@ -10,26 +10,56 @@ public class Solution {
         LogParser logParser = new LogParser(Paths.get("example.log"));
 
         SimpleDateFormat simpleFormatter = new SimpleDateFormat("dd.MM.yyyy");
-        System.out.println(logParser.getNumberOfUniqueIPs(simpleFormatter.parse("01.01.2010"), simpleFormatter.parse("01.01.2020")));
-        System.out.println("=======================================");
 
-        for (String string : logParser.getUniqueIPs(simpleFormatter.parse("01.01.2010"), simpleFormatter.parse("01.01.2020"))) {
-            System.out.println(string);
+        for (String name : logParser.getAllUsers()) {
+            System.out.println(name);
         }
-        System.out.println("=======================================");
+        System.out.println("========================");
 
-        for (String string : logParser.getIPsForUser("Amigo", simpleFormatter.parse("01.01.2010"), simpleFormatter.parse("01.01.2030"))) {
-            System.out.println(string);
-        }
-        System.out.println("=======================================");
+        System.out.println(logParser.getNumberOfUsers(simpleFormatter.parse("06.01.2010"), simpleFormatter.parse("01.01.2030")));
+        System.out.println("========================");
 
-        for (String string : logParser.getIPsForEvent(Event.SOLVE_TASK, simpleFormatter.parse("01.01.2010"), simpleFormatter.parse("01.01.2030"))) {
-            System.out.println(string);
-        }
-        System.out.println("=======================================");
+        System.out.println(logParser.getNumberOfUserEvents("Vasya Pupkin",simpleFormatter.parse("06.01.2010"), simpleFormatter.parse("01.01.2030")));
+        System.out.println("========================");
 
-        for (String string : logParser.getIPsForStatus(Status.OK, simpleFormatter.parse("01.01.2010"), simpleFormatter.parse("01.01.2030"))) {
-            System.out.println(string);
+        for (String name : logParser.getUsersForIP("192.168.100.2", simpleFormatter.parse("06.01.2010"), simpleFormatter.parse("01.01.2030"))) {
+            System.out.println(name);
         }
+        System.out.println("========================");
+
+        for (String name : logParser.getLoggedUsers(simpleFormatter.parse("06.01.2010"), simpleFormatter.parse("01.01.2030"))) {
+            System.out.println(name);
+        }
+        System.out.println("========================");
+
+        for (String name : logParser.getDownloadedPluginUsers(simpleFormatter.parse("06.01.2010"), simpleFormatter.parse("01.01.2030"))) {
+            System.out.println(name);
+        }
+        System.out.println("========================");
+
+        for (String name : logParser.getWroteMessageUsers(simpleFormatter.parse("06.01.2010"), simpleFormatter.parse("01.01.2030"))) {
+            System.out.println(name);
+        }
+        System.out.println("========================");
+
+        for (String name : logParser.getSolvedTaskUsers(simpleFormatter.parse("06.01.2010"), simpleFormatter.parse("01.01.2030"))) {
+            System.out.println(name);
+        }
+        System.out.println("========================");
+
+        for (String name : logParser.getSolvedTaskUsers(simpleFormatter.parse("06.01.2010"), simpleFormatter.parse("01.01.2030"), 18)) {
+            System.out.println(name);
+        }
+        System.out.println("========================");
+
+        for (String name : logParser.getDoneTaskUsers(simpleFormatter.parse("06.01.2010"), simpleFormatter.parse("01.01.2030"))) {
+            System.out.println(name);
+        }
+        System.out.println("========================");
+
+        for (String name : logParser.getDoneTaskUsers(simpleFormatter.parse("06.01.2010"), simpleFormatter.parse("01.01.2030"), 15)) {
+            System.out.println(name);
+        }
+        System.out.println("========================");
     }
 }

@@ -1,11 +1,14 @@
 package ua.com.javarush.parser_logs;
 
 import ua.com.javarush.parser_logs.query.IPQuery;
+import ua.com.javarush.parser_logs.query.UserQuery;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 
+import java.nio.file.DirectoryStream;
+import java.nio.file.Files;
 import java.nio.file.Path;
 
 import java.text.DateFormat;
@@ -14,7 +17,7 @@ import java.text.SimpleDateFormat;
 
 import java.util.*;
 
-public class LogParser implements IPQuery {
+public class LogParser implements IPQuery, UserQuery {
     private Path logDir;
     private List<LogEntity> logEntities = new ArrayList<>();
     private DateFormat simpleDateFormat = new SimpleDateFormat("d.M.yyyy H:m:s");
@@ -79,31 +82,176 @@ public class LogParser implements IPQuery {
         return result;
     }
 
-    private void readLogs() {
-        try (BufferedReader reader = new BufferedReader(new FileReader(String.valueOf(logDir)))) {
-            String line = null;
-            while ((line = reader.readLine()) != null) {
-                String[] params = line.split("\t");
+    @Override
+    public Set<String> getAllUsers() {
+        Set<String> result = new HashSet<>();
+        for (int i = 0; i < logEntities.size(); i++) {
+            result.add(logEntities.get(i).getUser());
+        }
+        return result;
+    }
 
-                if (params.length != 5) {
-                    continue;
-                }
-
-                String ip = params[0];
-                String user = params[1];
-                Date date = readDate(params[2]);
-                Event event = readEvent(params[3]);
-                int eventAdditionalParameter = -1;
-                if (event.equals(Event.SOLVE_TASK) || event.equals(Event.DONE_TASK)) {
-                    eventAdditionalParameter = readAdditionalParameter(params[3]);
-                }
-                Status status = readStatus(params[4]);
-
-                LogEntity logEntity = new LogEntity(ip, user, date, event, eventAdditionalParameter, status);
-                logEntities.add(logEntity);
+    @Override
+    public int getNumberOfUsers(Date after, Date before) {
+        Set<String> result = new HashSet<>();
+        for (int i = 0; i < logEntities.size(); i++) {
+            if (dateBetweenDates(logEntities.get(i).getDate(), after, before)) {
+                result.add(logEntities.get(i).getUser());
             }
-        } catch (IOException ex) {
-            throw new RuntimeException(ex);
+        }
+        return result.size();
+    }
+
+    @Override
+    public int getNumberOfUserEvents(String user, Date after, Date before) {
+        Set<Event> result = new HashSet<>();
+        for (int i = 0; i < logEntities.size(); i++) {
+            if (dateBetweenDates(logEntities.get(i).getDate(), after, before)) {
+                if (logEntities.get(i).getUser().equals(user)) {
+                    result.add(logEntities.get(i).getEvent());
+                }
+            }
+        }
+        return result.size();
+    }
+
+    @Override
+    public Set<String> getUsersForIP(String ip, Date after, Date before) {
+        Set<String> result = new HashSet<>();
+        for (int i = 0; i < logEntities.size(); i++) {
+            if (dateBetweenDates(logEntities.get(i).getDate(), after, before)) {
+                if (logEntities.get(i).getIp().equals(ip)) {
+                    result.add(logEntities.get(i).getUser());
+                }
+            }
+        }
+        return result;
+    }
+
+    @Override
+    public Set<String> getLoggedUsers(Date after, Date before) {
+        Set<String> result = new HashSet<>();
+        for (int i = 0; i < logEntities.size(); i++) {
+            if (dateBetweenDates(logEntities.get(i).getDate(), after, before)) {
+                if (logEntities.get(i).getEvent().equals(Event.LOGIN)) {
+                    result.add(logEntities.get(i).getUser());
+                }
+            }
+        }
+        return result;
+    }
+
+    @Override
+    public Set<String> getDownloadedPluginUsers(Date after, Date before) {
+        Set<String> result = new HashSet<>();
+        for (int i = 0; i < logEntities.size(); i++) {
+            if (dateBetweenDates(logEntities.get(i).getDate(), after, before)) {
+                if (logEntities.get(i).getEvent().equals(Event.DOWNLOAD_PLUGIN)) {
+                    result.add(logEntities.get(i).getUser());
+                }
+            }
+        }
+        return result;
+    }
+
+    @Override
+    public Set<String> getWroteMessageUsers(Date after, Date before) {
+        Set<String> result = new HashSet<>();
+        for (int i = 0; i < logEntities.size(); i++) {
+            if (dateBetweenDates(logEntities.get(i).getDate(), after, before)) {
+                if (logEntities.get(i).getEvent().equals(Event.WRITE_MESSAGE)) {
+                    result.add(logEntities.get(i).getUser());
+                }
+            }
+        }
+        return result;
+    }
+
+    @Override
+    public Set<String> getSolvedTaskUsers(Date after, Date before) {
+        Set<String> result = new HashSet<>();
+        for (int i = 0; i < logEntities.size(); i++) {
+            if (dateBetweenDates(logEntities.get(i).getDate(), after, before)) {
+                if (logEntities.get(i).getEvent().equals(Event.SOLVE_TASK)) {
+                    result.add(logEntities.get(i).getUser());
+                }
+            }
+        }
+        return result;
+    }
+
+    @Override
+    public Set<String> getSolvedTaskUsers(Date after, Date before, int task) {
+        Set<String> result = new HashSet<>();
+        for (int i = 0; i < logEntities.size(); i++) {
+            if (dateBetweenDates(logEntities.get(i).getDate(), after, before)) {
+                if (logEntities.get(i).getEvent().equals(Event.SOLVE_TASK)
+                        && logEntities.get(i).getEventAdditionalParameter() == task) {
+                    result.add(logEntities.get(i).getUser());
+                }
+            }
+        }
+        return result;
+    }
+
+    @Override
+    public Set<String> getDoneTaskUsers(Date after, Date before) {
+        Set<String> result = new HashSet<>();
+        for (int i = 0; i < logEntities.size(); i++) {
+            if (dateBetweenDates(logEntities.get(i).getDate(), after, before)) {
+                if (logEntities.get(i).getEvent().equals(Event.DONE_TASK)) {
+                    result.add(logEntities.get(i).getUser());
+                }
+            }
+        }
+        return result;
+    }
+
+    @Override
+    public Set<String> getDoneTaskUsers(Date after, Date before, int task) {
+        Set<String> result = new HashSet<>();
+        for (int i = 0; i < logEntities.size(); i++) {
+            if (dateBetweenDates(logEntities.get(i).getDate(), after, before)) {
+                if (logEntities.get(i).getEvent().equals(Event.DONE_TASK)
+                        && logEntities.get(i).getEventAdditionalParameter() == task) {
+                    result.add(logEntities.get(i).getUser());
+                }
+            }
+        }
+        return result;
+    }
+
+
+    private void readLogs() {
+        try (DirectoryStream<Path> directoryStream = Files.newDirectoryStream(logDir)) {
+            for (Path file : directoryStream) {
+                if (file.toString().toLowerCase().endsWith(".log")) {
+                    try (BufferedReader reader = new BufferedReader(new FileReader(String.valueOf(logDir)))) {
+                        while ((reader.readLine()) != null) {
+                            String[] params = reader.readLine().split("   ");
+
+                            if (params.length != 5) {
+                                continue;
+                            }
+
+                            String ip = params[0];
+                            String user = params[1];
+                            Date date = readDate(params[2]);
+                            Event event = readEvent(params[3]);
+                            int eventAdditionalParameter = -1;
+                            if (event.equals(Event.SOLVE_TASK) || event.equals(Event.DONE_TASK)) {
+                                eventAdditionalParameter = readAdditionalParameter(params[3]);
+                            }
+                            Status status = readStatus(params[4]);
+
+                            LogEntity logEntity = new LogEntity(ip, user, date, event, eventAdditionalParameter, status);
+                            logEntities.add(logEntity);
+                        }
+                    }
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 
