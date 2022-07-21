@@ -1,7 +1,7 @@
 package ua.com.javarush.parser_logs_my_solution;
 
-import ua.com.javarush.parser_logs_my_solution.query.IPQuery;
-import ua.com.javarush.parser_logs_my_solution.query.UserQuery;
+import org.apache.commons.logging.Log;
+import ua.com.javarush.parser_logs_my_solution.query.*;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -13,8 +13,10 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 
 import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
-public class LogParser implements IPQuery, UserQuery {
+public class LogParser implements IPQuery, UserQuery, DateQuery, EventQuery, QLQuery {
     private final Path logDir;
 
     private final int IP_INDEX = 0;
@@ -28,6 +30,10 @@ public class LogParser implements IPQuery, UserQuery {
     public LogParser(Path logDir) {
         this.logDir = logDir;
     }
+
+    /**
+     * implements methods interface IPQuery
+     */
 
     @Override
     public int getNumberOfUniqueIPs(Date after, Date before) {
@@ -145,6 +151,10 @@ public class LogParser implements IPQuery, UserQuery {
         return current.after(after) && current.before(before);
     }
 
+    /**
+     * implements methods interface UserQuery
+     */
+
     @Override
     public Set<String> getAllUsers() {
         Set<String> setAllUsers = new HashSet<>();
@@ -171,7 +181,7 @@ public class LogParser implements IPQuery, UserQuery {
 
         for (Logger logger : getAllStringsLogs()) {
             if (logger.getName().equals(user) && dateBetweenDates(logger.getDate(), after, before)) {
-                   setUserEvents.add(logger.getEvent());
+                setUserEvents.add(logger.getEvent());
             }
         }
         return setUserEvents.size();
@@ -277,6 +287,372 @@ public class LogParser implements IPQuery, UserQuery {
         }
         return setUsers;
     }
+
+    /**
+     * implements methods interface DateQuery
+     */
+
+    @Override
+    public Set<Date> getDatesForUserAndEvent(String user, Event event, Date after, Date before) {
+        Set<Date> dates = new HashSet<>();
+        for (Logger logger : getAllStringsLogs()) {
+            if (logger.getName().equals(user)
+                    && logger.getEvent().equals(event)
+                    && dateBetweenDates(logger.getDate(), after, before)) {
+                dates.add(logger.getDate());
+            }
+        }
+        return dates;
+    }
+
+    @Override
+    public Set<Date> getDatesWhenSomethingFailed(Date after, Date before) {
+        Set<Date> dates = new HashSet<>();
+        for (Logger logger : getAllStringsLogs()) {
+            if (logger.getStatus().equals(Status.FAILED) && dateBetweenDates(logger.getDate(), after, before)) {
+                dates.add(logger.getDate());
+            }
+        }
+        return dates;
+    }
+
+    @Override
+    public Set<Date> getDatesWhenErrorHappened(Date after, Date before) {
+        Set<Date> dates = new HashSet<>();
+        for (Logger logger : getAllStringsLogs()) {
+            if (logger.getStatus().equals(Status.ERROR) && dateBetweenDates(logger.getDate(), after, before)) {
+                dates.add(logger.getDate());
+            }
+        }
+        return dates;
+    }
+
+    @Override
+    public Date getDateWhenUserLoggedFirstTime(String user, Date after, Date before) {
+        Set<Date> dates = new HashSet<>();
+        for (Logger logger : getAllStringsLogs()) {
+            if (logger.getName().equals(user)
+                    && logger.getEvent().equals(Event.LOGIN)
+                    && dateBetweenDates(logger.getDate(), after, before)) {
+                dates.add(logger.getDate());
+            }
+        }
+        return getMinDate(dates);
+    }
+
+    @Override
+    public Date getDateWhenUserSolvedTask(String user, int task, Date after, Date before) {
+        Set<Date> dates = new HashSet<>();
+        for (Logger logger : getAllStringsLogs()) {
+            if (logger.getName().equals(user)
+                    && logger.getEvent().equals(Event.SOLVE_TASK)
+                    && logger.getEventAdditionalParameter == task
+                    && dateBetweenDates(logger.getDate(), after, before)) {
+                dates.add(logger.getDate());
+            }
+        }
+        return getMinDate(dates);
+    }
+
+    @Override
+    public Date getDateWhenUserDoneTask(String user, int task, Date after, Date before) {
+        Set<Date> dates = new HashSet<>();
+        for (Logger logger : getAllStringsLogs()) {
+            if (logger.getName().equals(user)
+                    && logger.getEvent().equals(Event.DONE_TASK)
+                    && logger.getEventAdditionalParameter == task
+                    && dateBetweenDates(logger.getDate(), after, before)) {
+                dates.add(logger.getDate());
+            }
+        }
+        return getMinDate(dates);
+    }
+
+    @Override
+    public Set<Date> getDatesWhenUserWroteMessage(String user, Date after, Date before) {
+        Set<Date> dates = new HashSet<>();
+        for (Logger logger : getAllStringsLogs()) {
+            if (logger.getName().equals(user)
+                    && logger.getEvent().equals(Event.WRITE_MESSAGE)
+                    && dateBetweenDates(logger.getDate(), after, before)) {
+                dates.add(logger.getDate());
+            }
+        }
+        return dates;
+    }
+
+    @Override
+    public Set<Date> getDatesWhenUserDownloadedPlugin(String user, Date after, Date before) {
+        Set<Date> dates = new HashSet<>();
+        for (Logger logger : getAllStringsLogs()) {
+            if (logger.getName().equals(user)
+                    && logger.getEvent().equals(Event.DOWNLOAD_PLUGIN)
+                    && dateBetweenDates(logger.getDate(), after, before)) {
+                dates.add(logger.getDate());
+            }
+        }
+        return dates;
+    }
+
+    private Date getMinDate(Set<Date> dates) {
+        Date minDate = dates.iterator().next(); // Возвращает первый элемент из Set
+        if (dates.size() == 0) {
+            return null;
+        } else {
+            for (Date date : dates) {
+                if (date.getTime() < minDate.getTime()) {
+                    minDate = date;
+                }
+            }
+        }
+        return minDate;
+    }
+
+    /**
+     * implements methods interface EventQuery
+     */
+
+    @Override
+    public int getNumberOfAllEvents(Date after, Date before) {
+        return getAllEvents(after, before).size();
+    }
+
+    @Override
+    public Set<Event> getAllEvents(Date after, Date before) {
+        Set<Event> events = new HashSet<>();
+        for (Logger logger : getAllStringsLogs()) {
+            if (dateBetweenDates(logger.getDate(), after, before)) {
+                events.add(logger.getEvent());
+            }
+        }
+        return events;
+    }
+
+    @Override
+    public Set<Event> getEventsForIP(String ip, Date after, Date before) {
+        Set<Event> events = new HashSet<>();
+        for (Logger logger : getAllStringsLogs()) {
+            if (logger.getIp().equals(ip) && dateBetweenDates(logger.getDate(), after, before)) {
+                events.add(logger.getEvent());
+            }
+        }
+        return events;
+    }
+
+    @Override
+    public Set<Event> getEventsForUser(String user, Date after, Date before) {
+        Set<Event> events = new HashSet<>();
+        for (Logger logger : getAllStringsLogs()) {
+            if (logger.getName().equals(user) && dateBetweenDates(logger.getDate(), after, before)) {
+                events.add(logger.getEvent());
+            }
+        }
+        return events;
+    }
+
+    @Override
+    public Set<Event> getFailedEvents(Date after, Date before) {
+        Set<Event> events = new HashSet<>();
+        for (Logger logger : getAllStringsLogs()) {
+            if (logger.getStatus().equals(Status.FAILED) && dateBetweenDates(logger.getDate(), after, before)) {
+                events.add(logger.getEvent());
+            }
+        }
+        return events;
+    }
+
+    @Override
+    public Set<Event> getErrorEvents(Date after, Date before) {
+        Set<Event> events = new HashSet<>();
+        for (Logger logger : getAllStringsLogs()) {
+            if (logger.getStatus().equals(Status.ERROR) && dateBetweenDates(logger.getDate(), after, before)) {
+                events.add(logger.getEvent());
+            }
+        }
+        return events;
+    }
+
+    @Override
+    public int getNumberOfAttemptToSolveTask(int task, Date after, Date before) {
+        int quantity = 0;
+        for (Logger logger : getAllStringsLogs()) {
+            if (logger.getEvent().equals(Event.SOLVE_TASK)
+                    && logger.getGetEventAdditionalParameter() == task
+                    && dateBetweenDates(logger.getDate(), after, before)) {
+                quantity++;
+            }
+        }
+        return quantity;
+    }
+
+    @Override
+    public int getNumberOfSuccessfulAttemptToSolveTask(int task, Date after, Date before) {
+        int quantity = 0;
+        for (Logger logger : getAllStringsLogs()) {
+            if (logger.getEvent().equals(Event.DONE_TASK)
+                    && logger.getGetEventAdditionalParameter() == task
+                    && dateBetweenDates(logger.getDate(), after, before)) {
+                quantity++;
+            }
+        }
+        return quantity;
+    }
+
+    @Override
+    public Map<Integer, Integer> getAllSolvedTasksAndTheirNumber(Date after, Date before) {
+        Map<Integer, Integer> map = new HashMap<>();
+        int count = 1;
+        for (Logger logger1 : getAllStringsLogs()) {
+            for (Logger logger2 : getAllStringsLogs()) {
+                if (logger1.getEvent().equals(Event.SOLVE_TASK)
+                        && logger1.getGetEventAdditionalParameter() == logger2.getGetEventAdditionalParameter()
+                        && dateBetweenDates(logger1.getDate(), after, before)) {
+                    map.put(logger1.getEventAdditionalParameter, count);
+                    count++;
+                }
+            }
+            count = 1;
+        }
+        return map;
+    }
+
+    @Override
+    public Map<Integer, Integer> getAllDoneTasksAndTheirNumber(Date after, Date before) {
+        Map<Integer, Integer> map = new HashMap<>();
+        int count = 1;
+        for (Logger logger1 : getAllStringsLogs()) {
+            for (Logger logger2 : getAllStringsLogs()) {
+                if (logger1.getEvent().equals(Event.DONE_TASK)
+                        && logger1.getGetEventAdditionalParameter() == logger2.getGetEventAdditionalParameter()
+                        && dateBetweenDates(logger1.getDate(), after, before)) {
+                    map.put(logger1.getEventAdditionalParameter, count);
+                    count++;
+                }
+            }
+            count = 1;
+        }
+        return map;
+    }
+
+    /**
+     * implements methods interface QLQuery
+     */
+
+    @Override
+    public Set<Object> execute(String query) {
+        Set<Object> result = new HashSet<>();
+        String field;
+        Pattern pattern = Pattern.compile("get (ip|user|date|event|status)"); // проверка на валидность запроса
+        Matcher matcher = pattern.matcher(query);
+        matcher.find();
+        field = matcher.group(1);
+
+        for (Logger logger : getAllStringsLogs()) {
+            result.add(getCurrentValue(logger, field));
+        }
+        return result;
+    }
+
+    private Object getCurrentValue(Logger logEntity, String field) {
+        Object value = null;
+        switch (field) {
+            case "ip": {
+                Command method = new GetIpCommand(logEntity);
+                value = method.execute();
+                break;
+            }
+            case "user": {
+                Command method = new GetUserCommand(logEntity);
+                value = method.execute();
+                break;
+            }
+            case "date": {
+                Command method = new GetDateCommand(logEntity);
+                value = method.execute();
+                break;
+            }
+            case "event": {
+                Command method = new GetEventCommand(logEntity);
+                value = method.execute();
+                break;
+            }
+            case "status": {
+                Command method = new GetStatusCommand(logEntity);
+                value = method.execute();
+                break;
+            }
+        }
+        return value;
+    }
+
+    /**
+     * inner class Command
+     */
+
+    private abstract class Command {
+        protected Logger logger;
+
+        abstract Object execute();
+    }
+
+    private class GetIpCommand extends Command {
+        public GetIpCommand(Logger logger) {
+            this.logger = logger;
+        }
+
+        @Override
+        Object execute() {
+            return logger.getIp();
+        }
+    }
+
+    private class GetUserCommand extends Command {
+        public GetUserCommand(Logger logger) {
+            this.logger = logger;
+        }
+
+        @Override
+        Object execute() {
+            return logger.getName();
+        }
+    }
+
+    private class GetDateCommand extends Command {
+        public GetDateCommand(Logger logger) {
+            this.logger = logger;
+        }
+
+        @Override
+        Object execute() {
+            return logger.getDate();
+        }
+    }
+
+    private class GetEventCommand extends Command {
+        public GetEventCommand(Logger logger) {
+            this.logger = logger;
+        }
+
+        @Override
+        Object execute() {
+            return logger.getEvent();
+        }
+    }
+
+    private class GetStatusCommand extends Command {
+        public GetStatusCommand(Logger logger) {
+            this.logger = logger;
+        }
+
+        @Override
+        Object execute() {
+            return logger.getStatus();
+        }
+    }
+
+    /**
+     * inner class Logger
+     */
 
     private static class Logger {
         private String ip;
