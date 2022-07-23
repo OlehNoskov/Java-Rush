@@ -1,6 +1,5 @@
 package ua.com.javarush.parser_logs_my_solution;
 
-import org.apache.commons.logging.Log;
 import ua.com.javarush.parser_logs_my_solution.query.*;
 
 import java.io.BufferedReader;
@@ -540,46 +539,66 @@ public class LogParser implements IPQuery, UserQuery, DateQuery, EventQuery, QLQ
 
     @Override
     public Set<Object> execute(String query) {
-        Set<Object> result = new HashSet<>();
-        String field;
-        Pattern pattern = Pattern.compile("get (ip|user|date|event|status)"); // проверка на валидность запроса
-        Matcher matcher = pattern.matcher(query);
+        Set<Object> searchAll = new HashSet<>();
+        Set<Object> searchWithParameters = new HashSet<>();
+        String[] arrayQuery = query.split(" ");
+        String firstPartQuery = arrayQuery[0] + " " + arrayQuery[1];
+        Pattern pattern = Pattern.compile("get (ip|user|date|event|status)" +
+                "( for (ip|user|date|event|status) = \"(.*?)\")?"); // проверка на валидность запроса
+        Matcher matcher = pattern.matcher(firstPartQuery);
         matcher.find();
-        field = matcher.group(1);
+        String field = matcher.group(1); //Берем значение ip|user|date|event|status
 
-        for (Logger logger : getAllStringsLogs()) {
-            result.add(getCurrentValue(logger, field));
+        if (arrayQuery.length == 2) {
+            for (Logger logger : getAllStringsLogs()) {
+                searchAll.add(getCurrentValue(logger, field));
+            }
+            return searchAll;
+        } else {
+            String field1 = arrayQuery[1];
+            String field2 = arrayQuery[3];
+            String value = query.split("=")[1].trim();
+
+            for (Logger logger : getAllStringsLogs()) {
+                if (getCurrentValue(logger, field2).toString().equals(value)) {
+                    searchWithParameters.add(getCurrentValue(logger, field1));
+                } else if (field2.equals("date")) {
+                    try {
+                        Date date = simpleFormatter.parse(value);
+                        if (getCurrentValue(logger, field2).equals(date)) {
+                            searchWithParameters.add(getCurrentValue(logger, field1));
+                        }
+                    } catch (ParseException e) {
+                        e.getMessage();
+                    }
+                }
+            }
+            return searchWithParameters;
         }
-        return result;
     }
 
     private Object getCurrentValue(Logger logEntity, String field) {
         Object value = null;
         switch (field) {
-            case "ip": {
+            case "ip" -> {
                 Command method = new GetIpCommand(logEntity);
                 value = method.execute();
-                break;
             }
-            case "user": {
+            case "user" -> {
                 Command method = new GetUserCommand(logEntity);
                 value = method.execute();
-                break;
             }
-            case "date": {
+            case "date" -> {
                 Command method = new GetDateCommand(logEntity);
                 value = method.execute();
-                break;
             }
-            case "event": {
+            case "event" -> {
                 Command method = new GetEventCommand(logEntity);
                 value = method.execute();
-                break;
             }
-            case "status": {
+            case "status" -> {
                 Command method = new GetStatusCommand(logEntity);
                 value = method.execute();
-                break;
             }
         }
         return value;
