@@ -8,7 +8,7 @@ public class Solution {
     public static void main(String[] args) throws ParseException {
         LogParser logParser = new LogParser(Paths.get("example.log"));
 
-        for (Object object : logParser.execute("get ip for user = Amigo")){
+        for (Object object : logParser.execute("get event for user = Amigo")) {
             System.out.println(object);
         }
     }

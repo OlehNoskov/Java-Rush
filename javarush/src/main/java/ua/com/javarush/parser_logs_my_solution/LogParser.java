@@ -544,7 +544,7 @@ public class LogParser implements IPQuery, UserQuery, DateQuery, EventQuery, QLQ
         String[] arrayQuery = query.split(" ");
         String firstPartQuery = arrayQuery[0] + " " + arrayQuery[1];
         Pattern pattern = Pattern.compile("get (ip|user|date|event|status)" +
-                "( for (ip|user|date|event|status) = \"(.*?)\")?"); // проверка на валидность запроса
+                "(for (ip|user|date|event|status) = \"(.*?)\")?");
         Matcher matcher = pattern.matcher(firstPartQuery);
         matcher.find();
         String field = matcher.group(1); //Берем значение ip|user|date|event|status
