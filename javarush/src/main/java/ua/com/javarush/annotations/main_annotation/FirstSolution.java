@@ -1,4 +1,4 @@
-package ua.com.javarush.annotations;
+package ua.com.javarush.annotations.main_annotation;
 
 public class FirstSolution {
     @Deprecated

@@ -1,4 +1,4 @@
-package ua.com.javarush.annotations.my_annotation;
+package ua.com.javarush.annotations.realize_annotations;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -10,11 +10,9 @@ import java.lang.annotation.Target;
 // Показывает где будет видна наша аннотация: в данном случае аннотация доступна во время выполнения программы
 @Retention(value = RetentionPolicy.RUNTIME)
 // Создание своей аннотации
-@interface Person {
- String name () default "";
- int live();
- int strength();
- int magic() default 0;
- int attack() default 0;
- int defence();
+public @interface Revision {
+    int revision();
+    Date date();
+    String comment() default "";
+    Author[] authors() default {};
 }

@@ -1,4 +1,4 @@
-package ua.com.javarush.annotations;
+package ua.com.javarush.annotations.main_annotation;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -3,6 +3,7 @@ package ua.com.javarush.annotations.my_annotation;
 public class Solution {
     public static void main(String[] args) {
         System.out.println(fight(EvilMaster.class, Elf.class));
+        Object object = new Object();
     }
 
     public static boolean fight(Class first, Class second){
