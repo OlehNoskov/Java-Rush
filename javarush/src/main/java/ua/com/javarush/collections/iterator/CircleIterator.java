@@ -1,4 +1,4 @@
-package ua.com.javarush.collections.iteator;
+package ua.com.javarush.collections.iterator;
 
 import java.lang.reflect.Field;
 

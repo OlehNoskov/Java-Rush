@@ -1,5 +1,6 @@
 package ua.com.javarush.parser_logs_my_solution;
 
+import org.checkerframework.common.value.qual.EnumVal;
 import ua.com.javarush.parser_logs_my_solution.query.*;
 
 import java.io.BufferedReader;
@@ -12,8 +13,10 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 
 import java.util.*;
+import java.util.function.Function;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 public class LogParser implements IPQuery, UserQuery, DateQuery, EventQuery, QLQuery {
     private final Path logDir;
@@ -41,46 +44,67 @@ public class LogParser implements IPQuery, UserQuery, DateQuery, EventQuery, QLQ
 
     @Override
     public Set<String> getUniqueIPs(Date after, Date before) {
-        Set<String> setUniqueIPs = new TreeSet<>();
-        for (Logger logger : getAllStringsLogs()) {
-            if (dateBetweenDates(logger.getDate(), after, before)) {
-                setUniqueIPs.add(logger.getIp());
-            }
-        }
-        return setUniqueIPs;
+        //Old method
+//        Set<String> setUniqueIPs = new TreeSet<>();
+//        for (Logger logger : getAllStringsLogs()) {
+//            if (dateBetweenDates(logger.getDate(), after, before)) {
+//                setUniqueIPs.add(logger.getIp());
+//            }
+//        }
+//        return setUniqueIPs;
+
+        //Stream API
+        return getAllStringsLogs().stream().filter(logger -> logger.getDate().after(after) && logger.getDate().before(before))
+                .map(Logger::getIp).collect(Collectors.toSet());
+
     }
 
     @Override
     public Set<String> getIPsForUser(String user, Date after, Date before) {
-        Set<String> setIPsForUser = new TreeSet<>();
-        for (Logger logger : getAllStringsLogs()) {
-            if (logger.getName().equals(user) && dateBetweenDates(logger.getDate(), after, before)) {
-                setIPsForUser.add(logger.getIp());
-            }
-        }
-        return setIPsForUser;
+        //Old method
+//        Set<String> setIPsForUser = new TreeSet<>();
+//        for (Logger logger : getAllStringsLogs()) {
+//            if (logger.getName().equals(user) && dateBetweenDates(logger.getDate(), after, before)) {
+//                setIPsForUser.add(logger.getIp());
+//            }
+//        }
+//        return setIPsForUser;
+
+        //Stream API
+        return getAllStringsLogs().stream().filter(logger -> logger.getDate().after(after) && logger.getDate().before(before)
+                && logger.getName().equals(user)).map(Logger::getIp).collect(Collectors.toSet());
     }
 
     @Override
     public Set<String> getIPsForEvent(Event event, Date after, Date before) {
-        Set<String> setIPsForEvent = new TreeSet<>();
-        for (Logger logger : getAllStringsLogs()) {
-            if (logger.getEvent().equals(event) && dateBetweenDates(logger.getDate(), after, before)) {
-                setIPsForEvent.add(logger.getIp());
-            }
-        }
-        return setIPsForEvent;
+        //Old method
+//        Set<String> setIPsForEvent = new TreeSet<>();
+//        for (Logger logger : getAllStringsLogs()) {
+//            if (logger.getEvent().equals(event) && dateBetweenDates(logger.getDate(), after, before)) {
+//                setIPsForEvent.add(logger.getIp());
+//            }
+//        }
+//        return setIPsForEvent;
+
+        //Stream API
+        return getAllStringsLogs().stream().filter(logger -> logger.getDate().after(after) && logger.getDate().before(before)
+                && logger.getEvent().equals(event)).map(Logger::getIp).collect(Collectors.toSet());
     }
 
     @Override
     public Set<String> getIPsForStatus(Status status, Date after, Date before) {
-        Set<String> setIPsForStatus = new TreeSet<>();
-        for (Logger logger : getAllStringsLogs()) {
-            if (logger.getStatus().equals(status) && dateBetweenDates(logger.getDate(), after, before)) {
-                setIPsForStatus.add(logger.getIp());
-            }
-        }
-        return setIPsForStatus;
+        //Old method
+//        Set<String> setIPsForStatus = new TreeSet<>();
+//        for (Logger logger : getAllStringsLogs()) {
+//            if (logger.getStatus().equals(status) && dateBetweenDates(logger.getDate(), after, before)) {
+//                setIPsForStatus.add(logger.getIp());
+//            }
+//        }
+//        return setIPsForStatus;
+
+        //Stream API
+        return getAllStringsLogs().stream().filter(logger -> logger.getDate().after(after) && logger.getDate().before(before)
+                && logger.getStatus().equals(status)).map(Logger::getIp).collect(Collectors.toSet());
     }
 
     private List<Logger> getAllStringsLogs() {
@@ -156,135 +180,199 @@ public class LogParser implements IPQuery, UserQuery, DateQuery, EventQuery, QLQ
 
     @Override
     public Set<String> getAllUsers() {
-        Set<String> setAllUsers = new HashSet<>();
-        for (Logger logger : getAllStringsLogs()) {
-            setAllUsers.add(logger.getName());
-        }
-        return setAllUsers;
+        //Old method
+//        Set<String> setAllUsers = new HashSet<>();
+//        for (Logger logger : getAllStringsLogs()) {
+//            setAllUsers.add(logger.getName());
+//        }
+//        return setAllUsers;
+
+        //Stream API
+        return getAllStringsLogs().stream().map(Logger::getName).collect(Collectors.toSet());
     }
 
     @Override
     public int getNumberOfUsers(Date after, Date before) {
-        Set<String> setAllUsers = new HashSet<>();
-        for (Logger logger : getAllStringsLogs()) {
-            if (dateBetweenDates(logger.getDate(), after, before)) {
-                setAllUsers.add(logger.getName());
-            }
-        }
-        return setAllUsers.size();
+        //Old method
+//        Set<String> setAllUsers = new HashSet<>();
+//        for (Logger logger : getAllStringsLogs()) {
+//            if (dateBetweenDates(logger.getDate(), after, before)) {
+//                setAllUsers.add(logger.getName());
+//            }
+//        }
+//        return setAllUsers.size();
+
+        //Stream API
+        return getAllStringsLogs().stream().filter(logger -> logger.getDate().after(after)
+                && logger.getDate().before(before)).map(Logger::getName).collect(Collectors.toSet()).size();
     }
 
     @Override
     public int getNumberOfUserEvents(String user, Date after, Date before) {
-        Set<Event> setUserEvents = new HashSet<>();
+        //Old method
+//        Set<Event> setUserEvents = new HashSet<>();
+//
+//        for (Logger logger : getAllStringsLogs()) {
+//            if (logger.getName().equals(user) && dateBetweenDates(logger.getDate(), after, before)) {
+//                setUserEvents.add(logger.getEvent());
+//            }
+//        }
+//        return setUserEvents.size();
 
-        for (Logger logger : getAllStringsLogs()) {
-            if (logger.getName().equals(user) && dateBetweenDates(logger.getDate(), after, before)) {
-                setUserEvents.add(logger.getEvent());
-            }
-        }
-        return setUserEvents.size();
+        //Stream API
+        return getAllStringsLogs().stream().filter(logger -> logger.getDate().after(after)
+                        && logger.getDate().before(before) && logger.getName().equals(user)).map(Logger::getEvent)
+                .collect(Collectors.toSet()).size();
     }
 
     @Override
     public Set<String> getUsersForIP(String ip, Date after, Date before) {
-        Set<String> setUsers = new HashSet<>();
+        //Old method
+//        Set<String> setUsers = new HashSet<>();
+//
+//        for (Logger logger : getAllStringsLogs()) {
+//            if (logger.getIp().equals(ip) && dateBetweenDates(logger.getDate(), after, before)) {
+//                setUsers.add(logger.getName());
+//            }
+//        }
+//        return setUsers;
 
-        for (Logger logger : getAllStringsLogs()) {
-            if (logger.getIp().equals(ip) && dateBetweenDates(logger.getDate(), after, before)) {
-                setUsers.add(logger.getName());
-            }
-        }
-        return setUsers;
+        //Stream API
+        return getAllStringsLogs().stream().filter(logger -> logger.getDate().after(after)
+                        && logger.getDate().before(before) && logger.getIp().equals(ip)).map(Logger::getName)
+                .collect(Collectors.toSet());
     }
 
     @Override
     public Set<String> getLoggedUsers(Date after, Date before) {
-        Set<String> setUsers = new HashSet<>();
+        //Old method
+//        Set<String> setUsers = new HashSet<>();
+//
+//        for (Logger logger : getAllStringsLogs()) {
+//            if (logger.getEvent().equals(Event.LOGIN) && dateBetweenDates(logger.getDate(), after, before)) {
+//                setUsers.add(logger.getName());
+//            }
+//        }
+//        return setUsers;
 
-        for (Logger logger : getAllStringsLogs()) {
-            if (logger.getEvent().equals(Event.LOGIN) && dateBetweenDates(logger.getDate(), after, before)) {
-                setUsers.add(logger.getName());
-            }
-        }
-        return setUsers;
+        //Stream API
+        return getAllStringsLogs().stream().filter(logger -> logger.getDate().after(after)
+                        && logger.getDate().before(before) && logger.getEvent().equals(Event.LOGIN))
+                .map(Logger::getName).collect(Collectors.toSet());
     }
 
     @Override
     public Set<String> getDownloadedPluginUsers(Date after, Date before) {
-        Set<String> setUsers = new HashSet<>();
+        //Old method
+//        Set<String> setUsers = new HashSet<>();
+//
+//        for (Logger logger : getAllStringsLogs()) {
+//            if (logger.getEvent().equals(Event.DOWNLOAD_PLUGIN) && dateBetweenDates(logger.getDate(), after, before)) {
+//                setUsers.add(logger.getName());
+//            }
+//        }
+//        return setUsers;
 
-        for (Logger logger : getAllStringsLogs()) {
-            if (logger.getEvent().equals(Event.DOWNLOAD_PLUGIN) && dateBetweenDates(logger.getDate(), after, before)) {
-                setUsers.add(logger.getName());
-            }
-        }
-        return setUsers;
+        //Stream API
+        return getAllStringsLogs().stream().filter(logger -> logger.getDate().after(after)
+                        && logger.getDate().before(before) && logger.getEvent().equals(Event.DOWNLOAD_PLUGIN))
+                .map(Logger::getName).collect(Collectors.toSet());
     }
 
     @Override
     public Set<String> getWroteMessageUsers(Date after, Date before) {
-        Set<String> setUsers = new HashSet<>();
+        //Old method
+//        Set<String> setUsers = new HashSet<>();
+//
+//        for (Logger logger : getAllStringsLogs()) {
+//            if (logger.getEvent().equals(Event.WRITE_MESSAGE) && dateBetweenDates(logger.getDate(), after, before)) {
+//                setUsers.add(logger.getName());
+//            }
+//        }
+//        return setUsers;
 
-        for (Logger logger : getAllStringsLogs()) {
-            if (logger.getEvent().equals(Event.WRITE_MESSAGE) && dateBetweenDates(logger.getDate(), after, before)) {
-                setUsers.add(logger.getName());
-            }
-        }
-        return setUsers;
+        //Stream API
+        return getAllStringsLogs().stream().filter(logger -> logger.getDate().after(after)
+                        && logger.getDate().before(before) && logger.getEvent().equals(Event.WRITE_MESSAGE))
+                .map(Logger::getName).collect(Collectors.toSet());
     }
 
     @Override
     public Set<String> getSolvedTaskUsers(Date after, Date before) {
-        Set<String> setUsers = new HashSet<>();
+        //Old method
+//        Set<String> setUsers = new HashSet<>();
+//
+//        for (Logger logger : getAllStringsLogs()) {
+//            if (logger.getEvent().equals(Event.SOLVE_TASK) && dateBetweenDates(logger.getDate(), after, before)) {
+//                setUsers.add(logger.getName());
+//            }
+//        }
+//        return setUsers;
 
-        for (Logger logger : getAllStringsLogs()) {
-            if (logger.getEvent().equals(Event.SOLVE_TASK) && dateBetweenDates(logger.getDate(), after, before)) {
-                setUsers.add(logger.getName());
-            }
-        }
-        return setUsers;
+        //Stream API
+        return getAllStringsLogs().stream().filter(logger -> logger.getDate().after(after)
+                        && logger.getDate().before(before) && logger.getEvent().equals(Event.SOLVE_TASK))
+                .map(Logger::getName).collect(Collectors.toSet());
     }
 
     @Override
     public Set<String> getSolvedTaskUsers(Date after, Date before, int task) {
-        Set<String> setUsers = new HashSet<>();
+        //Old method
+//        Set<String> setUsers = new HashSet<>();
+//
+//        for (Logger logger : getAllStringsLogs()) {
+//            if (logger.getEvent().equals(Event.SOLVE_TASK)
+//                    && dateBetweenDates(logger.getDate(), after, before)
+//                    && logger.getGetEventAdditionalParameter() == task) {
+//                setUsers.add(logger.getName());
+//            }
+//        }
+//        return setUsers;
 
-        for (Logger logger : getAllStringsLogs()) {
-            if (logger.getEvent().equals(Event.SOLVE_TASK)
-                    && dateBetweenDates(logger.getDate(), after, before)
-                    && logger.getGetEventAdditionalParameter() == task) {
-                setUsers.add(logger.getName());
-            }
-        }
-        return setUsers;
+        //Stream API
+        return getAllStringsLogs().stream().filter(logger -> logger.getDate().after(after)
+                && logger.getDate().before(before)
+                && logger.getEventAdditionalParameter == task
+                && logger.getEvent().equals(Event.SOLVE_TASK)).map(Logger::getName).collect(Collectors.toSet());
     }
 
     @Override
     public Set<String> getDoneTaskUsers(Date after, Date before) {
-        Set<String> setUsers = new HashSet<>();
+        //Old method
+//        Set<String> setUsers = new HashSet<>();
+//
+//        for (Logger logger : getAllStringsLogs()) {
+//            if (logger.getEvent().equals(Event.DONE_TASK)
+//                    && dateBetweenDates(logger.getDate(), after, before)) {
+//                setUsers.add(logger.getName());
+//            }
+//        }
+//        return setUsers;
 
-        for (Logger logger : getAllStringsLogs()) {
-            if (logger.getEvent().equals(Event.DONE_TASK)
-                    && dateBetweenDates(logger.getDate(), after, before)) {
-                setUsers.add(logger.getName());
-            }
-        }
-        return setUsers;
+        //Stream API
+        return getAllStringsLogs().stream().filter(logger -> logger.getDate().after(after)
+                        && logger.getDate().before(before) && logger.getEvent().equals(Event.DONE_TASK))
+                .map(Logger::getName).collect(Collectors.toSet());
     }
 
     @Override
     public Set<String> getDoneTaskUsers(Date after, Date before, int task) {
-        Set<String> setUsers = new HashSet<>();
+        //Old method
+//        Set<String> setUsers = new HashSet<>();
+//
+//        for (Logger logger : getAllStringsLogs()) {
+//            if (logger.getEvent().equals(Event.DONE_TASK)
+//                    && dateBetweenDates(logger.getDate(), after, before)
+//                    && logger.getGetEventAdditionalParameter() == task) {
+//                setUsers.add(logger.getName());
+//            }
+//        }
+//        return setUsers;
 
-        for (Logger logger : getAllStringsLogs()) {
-            if (logger.getEvent().equals(Event.DONE_TASK)
-                    && dateBetweenDates(logger.getDate(), after, before)
-                    && logger.getGetEventAdditionalParameter() == task) {
-                setUsers.add(logger.getName());
-            }
-        }
-        return setUsers;
+        //Stream API
+        return getAllStringsLogs().stream().filter(logger -> logger.getDate().after(after)
+                        && logger.getDate().before(before) && logger.getEventAdditionalParameter == task)
+                .map(Logger::getName).collect(Collectors.toSet());
     }
 
     /**
@@ -293,104 +381,161 @@ public class LogParser implements IPQuery, UserQuery, DateQuery, EventQuery, QLQ
 
     @Override
     public Set<Date> getDatesForUserAndEvent(String user, Event event, Date after, Date before) {
-        Set<Date> dates = new HashSet<>();
-        for (Logger logger : getAllStringsLogs()) {
-            if (logger.getName().equals(user)
-                    && logger.getEvent().equals(event)
-                    && dateBetweenDates(logger.getDate(), after, before)) {
-                dates.add(logger.getDate());
-            }
-        }
-        return dates;
+        //Old method
+//        Set<Date> dates = new HashSet<>();
+//        for (Logger logger : getAllStringsLogs()) {
+//            if (logger.getName().equals(user)
+//                    && logger.getEvent().equals(event)
+//                    && dateBetweenDates(logger.getDate(), after, before)) {
+//                dates.add(logger.getDate());
+//            }
+//        }
+//        return dates;
+
+//        //Stream API
+        return getAllStringsLogs().stream().filter(logger -> logger.getDate().after(after)
+                        && logger.getDate().before(before) && logger.getName().equals(user)
+                        && logger.getEvent().equals(event))
+                .map(Logger::getDate).collect(Collectors.toSet());
     }
 
     @Override
     public Set<Date> getDatesWhenSomethingFailed(Date after, Date before) {
-        Set<Date> dates = new HashSet<>();
-        for (Logger logger : getAllStringsLogs()) {
-            if (logger.getStatus().equals(Status.FAILED) && dateBetweenDates(logger.getDate(), after, before)) {
-                dates.add(logger.getDate());
-            }
-        }
-        return dates;
+        //Old method
+//        Set<Date> dates = new HashSet<>();
+//        for (Logger logger : getAllStringsLogs()) {
+//            if (logger.getStatus().equals(Status.FAILED) && dateBetweenDates(logger.getDate(), after, before)) {
+//                dates.add(logger.getDate());
+//            }
+//        }
+//        return dates;
+
+        //        //Stream API
+        return getAllStringsLogs().stream().filter(logger -> logger.getDate().after(after)
+                        && logger.getDate().before(before)
+                        && logger.getStatus().equals(Status.FAILED))
+                .map(Logger::getDate).collect(Collectors.toSet());
     }
 
     @Override
     public Set<Date> getDatesWhenErrorHappened(Date after, Date before) {
-        Set<Date> dates = new HashSet<>();
-        for (Logger logger : getAllStringsLogs()) {
-            if (logger.getStatus().equals(Status.ERROR) && dateBetweenDates(logger.getDate(), after, before)) {
-                dates.add(logger.getDate());
-            }
-        }
-        return dates;
+        //Old method
+//        Set<Date> dates = new HashSet<>();
+//        for (Logger logger : getAllStringsLogs()) {
+//            if (logger.getStatus().equals(Status.ERROR) && dateBetweenDates(logger.getDate(), after, before)) {
+//                dates.add(logger.getDate());
+//            }
+//        }
+//        return dates;
+
+        //        //Stream API
+        return getAllStringsLogs().stream().filter(logger -> logger.getDate().after(after)
+                        && logger.getDate().before(before)
+                        && logger.getStatus().equals(Status.ERROR))
+                .map(Logger::getDate).collect(Collectors.toSet());
     }
 
     @Override
     public Date getDateWhenUserLoggedFirstTime(String user, Date after, Date before) {
-        Set<Date> dates = new HashSet<>();
-        for (Logger logger : getAllStringsLogs()) {
-            if (logger.getName().equals(user)
-                    && logger.getEvent().equals(Event.LOGIN)
-                    && dateBetweenDates(logger.getDate(), after, before)) {
-                dates.add(logger.getDate());
-            }
-        }
-        return getMinDate(dates);
+        //Old method
+//        Set<Date> dates = new HashSet<>();
+//        for (Logger logger : getAllStringsLogs()) {
+//            if (logger.getName().equals(user)
+//                    && logger.getEvent().equals(Event.LOGIN)
+//                    && dateBetweenDates(logger.getDate(), after, before)) {
+//                dates.add(logger.getDate());
+//            }
+//        }
+//        return getMinDate(dates);
+
+        //        //Stream API
+        return getAllStringsLogs().stream().filter(logger -> logger.getDate().after(after)
+                && logger.getDate().before(before)
+                && logger.getEvent().equals(Event.LOGIN)).min(Comparator.comparing(Logger::getDate)).orElseThrow().getDate();
     }
 
     @Override
     public Date getDateWhenUserSolvedTask(String user, int task, Date after, Date before) {
-        Set<Date> dates = new HashSet<>();
-        for (Logger logger : getAllStringsLogs()) {
-            if (logger.getName().equals(user)
-                    && logger.getEvent().equals(Event.SOLVE_TASK)
-                    && logger.getEventAdditionalParameter == task
-                    && dateBetweenDates(logger.getDate(), after, before)) {
-                dates.add(logger.getDate());
-            }
-        }
-        return getMinDate(dates);
+        //Old method
+//        Set<Date> dates = new HashSet<>();
+//        for (Logger logger : getAllStringsLogs()) {
+//            if (logger.getName().equals(user)
+//                    && logger.getEvent().equals(Event.SOLVE_TASK)
+//                    && logger.getEventAdditionalParameter == task
+//                    && dateBetweenDates(logger.getDate(), after, before)) {
+//                dates.add(logger.getDate());
+//            }
+//        }
+//        return getMinDate(dates);
+
+        //        //Stream API
+        return getAllStringsLogs().stream().filter(logger -> logger.getDate().after(after)
+                && logger.getDate().before(before)
+                && logger.getName().equals(user)
+                && logger.getEventAdditionalParameter == task
+                && logger.getEvent().equals(Event.SOLVE_TASK)).min(Comparator.comparing(Logger::getDate)).orElseThrow().getDate();
     }
 
     @Override
     public Date getDateWhenUserDoneTask(String user, int task, Date after, Date before) {
-        Set<Date> dates = new HashSet<>();
-        for (Logger logger : getAllStringsLogs()) {
-            if (logger.getName().equals(user)
-                    && logger.getEvent().equals(Event.DONE_TASK)
-                    && logger.getEventAdditionalParameter == task
-                    && dateBetweenDates(logger.getDate(), after, before)) {
-                dates.add(logger.getDate());
-            }
-        }
-        return getMinDate(dates);
+        //Old method
+//        Set<Date> dates = new HashSet<>();
+//        for (Logger logger : getAllStringsLogs()) {
+//            if (logger.getName().equals(user)
+//                    && logger.getEvent().equals(Event.DONE_TASK)
+//                    && logger.getEventAdditionalParameter == task
+//                    && dateBetweenDates(logger.getDate(), after, before)) {
+//                dates.add(logger.getDate());
+//            }
+//        }
+//        return getMinDate(dates);
+
+        //        //Stream API
+        return getAllStringsLogs().stream().filter(logger -> logger.getDate().after(after)
+                && logger.getDate().before(before)
+                && logger.getName().equals(user)
+                && logger.getEventAdditionalParameter == task
+                && logger.getEvent().equals(Event.DONE_TASK)).min(Comparator.comparing(Logger::getDate)).orElseThrow().getDate();
     }
 
     @Override
     public Set<Date> getDatesWhenUserWroteMessage(String user, Date after, Date before) {
-        Set<Date> dates = new HashSet<>();
-        for (Logger logger : getAllStringsLogs()) {
-            if (logger.getName().equals(user)
-                    && logger.getEvent().equals(Event.WRITE_MESSAGE)
-                    && dateBetweenDates(logger.getDate(), after, before)) {
-                dates.add(logger.getDate());
-            }
-        }
-        return dates;
+        //Old method
+//        Set<Date> dates = new HashSet<>();
+//        for (Logger logger : getAllStringsLogs()) {
+//            if (logger.getName().equals(user)
+//                    && logger.getEvent().equals(Event.WRITE_MESSAGE)
+//                    && dateBetweenDates(logger.getDate(), after, before)) {
+//                dates.add(logger.getDate());
+//            }
+//        }
+//        return dates;
+
+//Stream API
+        return getAllStringsLogs().stream().filter(logger -> logger.getDate().after(after)
+                && logger.getDate().before(before)
+                && logger.getEvent().equals(Event.WRITE_MESSAGE)
+                && logger.getName().equals(user)).map(Logger::getDate).collect(Collectors.toSet());
     }
 
     @Override
     public Set<Date> getDatesWhenUserDownloadedPlugin(String user, Date after, Date before) {
-        Set<Date> dates = new HashSet<>();
-        for (Logger logger : getAllStringsLogs()) {
-            if (logger.getName().equals(user)
-                    && logger.getEvent().equals(Event.DOWNLOAD_PLUGIN)
-                    && dateBetweenDates(logger.getDate(), after, before)) {
-                dates.add(logger.getDate());
-            }
-        }
-        return dates;
+        //Old method
+//        Set<Date> dates = new HashSet<>();
+//        for (Logger logger : getAllStringsLogs()) {
+//            if (logger.getName().equals(user)
+//                    && logger.getEvent().equals(Event.DOWNLOAD_PLUGIN)
+//                    && dateBetweenDates(logger.getDate(), after, before)) {
+//                dates.add(logger.getDate());
+//            }
+//        }
+//        return dates;
+
+        //Stream API
+        return getAllStringsLogs().stream().filter(logger -> logger.getDate().after(after)
+                && logger.getDate().before(before)
+                && logger.getEvent().equals(Event.DOWNLOAD_PLUGIN)
+                && logger.getName().equals(user)).map(Logger::getDate).collect(Collectors.toSet());
     }
 
     private Date getMinDate(Set<Date> dates) {
@@ -418,87 +563,138 @@ public class LogParser implements IPQuery, UserQuery, DateQuery, EventQuery, QLQ
 
     @Override
     public Set<Event> getAllEvents(Date after, Date before) {
-        Set<Event> events = new HashSet<>();
-        for (Logger logger : getAllStringsLogs()) {
-            if (dateBetweenDates(logger.getDate(), after, before)) {
-                events.add(logger.getEvent());
-            }
-        }
-        return events;
+        //Old method
+//        Set<Event> events = new HashSet<>();
+//        for (Logger logger : getAllStringsLogs()) {
+//            if (dateBetweenDates(logger.getDate(), after, before)) {
+//                events.add(logger.getEvent());
+//            }
+//        }
+//        return events;
+
+        //Stream API
+        return getAllStringsLogs().stream().filter(logger -> logger.getDate().after(after)
+                        && logger.getDate().before(before)).
+                map(Logger::getEvent).collect(Collectors.toSet());
     }
 
     @Override
     public Set<Event> getEventsForIP(String ip, Date after, Date before) {
-        Set<Event> events = new HashSet<>();
-        for (Logger logger : getAllStringsLogs()) {
-            if (logger.getIp().equals(ip) && dateBetweenDates(logger.getDate(), after, before)) {
-                events.add(logger.getEvent());
-            }
-        }
-        return events;
+        //Old method
+//        Set<Event> events = new HashSet<>();
+//        for (Logger logger : getAllStringsLogs()) {
+//            if (logger.getIp().equals(ip) && dateBetweenDates(logger.getDate(), after, before)) {
+//                events.add(logger.getEvent());
+//            }
+//        }
+//        return events;
+
+        //Stream API
+        return getAllStringsLogs().stream().filter(logger -> logger.getDate().after(after)
+                        && logger.getDate().before(before)
+                        && logger.getIp().equals(ip)).
+                map(Logger::getEvent).collect(Collectors.toSet());
     }
 
     @Override
     public Set<Event> getEventsForUser(String user, Date after, Date before) {
-        Set<Event> events = new HashSet<>();
-        for (Logger logger : getAllStringsLogs()) {
-            if (logger.getName().equals(user) && dateBetweenDates(logger.getDate(), after, before)) {
-                events.add(logger.getEvent());
-            }
-        }
-        return events;
+        //Old method
+//        Set<Event> events = new HashSet<>();
+//        for (Logger logger : getAllStringsLogs()) {
+//            if (logger.getName().equals(user) && dateBetweenDates(logger.getDate(), after, before)) {
+//                events.add(logger.getEvent());
+//            }
+//        }
+//        return events;
+
+        //Stream API
+        return getAllStringsLogs().stream().filter(logger -> logger.getDate().after(after)
+                        && logger.getDate().before(before)
+                        && logger.getName().equals(user)).
+                map(Logger::getEvent).collect(Collectors.toSet());
     }
 
     @Override
     public Set<Event> getFailedEvents(Date after, Date before) {
-        Set<Event> events = new HashSet<>();
-        for (Logger logger : getAllStringsLogs()) {
-            if (logger.getStatus().equals(Status.FAILED) && dateBetweenDates(logger.getDate(), after, before)) {
-                events.add(logger.getEvent());
-            }
-        }
-        return events;
+        //Old method
+//        Set<Event> events = new HashSet<>();
+//        for (Logger logger : getAllStringsLogs()) {
+//            if (logger.getStatus().equals(Status.FAILED) && dateBetweenDates(logger.getDate(), after, before)) {
+//                events.add(logger.getEvent());
+//            }
+//        }
+//        return events;
+
+        //Stream API
+        return getAllStringsLogs().stream().filter(logger -> logger.getDate().after(after)
+                        && logger.getDate().before(before)
+                        && logger.getStatus().equals(Status.FAILED)).
+                map(Logger::getEvent).collect(Collectors.toSet());
     }
 
     @Override
     public Set<Event> getErrorEvents(Date after, Date before) {
-        Set<Event> events = new HashSet<>();
-        for (Logger logger : getAllStringsLogs()) {
-            if (logger.getStatus().equals(Status.ERROR) && dateBetweenDates(logger.getDate(), after, before)) {
-                events.add(logger.getEvent());
-            }
-        }
-        return events;
+        //Old method
+//        Set<Event> events = new HashSet<>();
+//        for (Logger logger : getAllStringsLogs()) {
+//            if (logger.getStatus().equals(Status.ERROR) && dateBetweenDates(logger.getDate(), after, before)) {
+//                events.add(logger.getEvent());
+//            }
+//        }
+//        return events;
+
+        //Stream API
+        return getAllStringsLogs().stream().filter(logger -> logger.getDate().after(after)
+                        && logger.getDate().before(before)
+                        && logger.getStatus().equals(Status.ERROR)).
+                map(Logger::getEvent).collect(Collectors.toSet());
     }
 
     @Override
     public int getNumberOfAttemptToSolveTask(int task, Date after, Date before) {
-        int quantity = 0;
-        for (Logger logger : getAllStringsLogs()) {
-            if (logger.getEvent().equals(Event.SOLVE_TASK)
-                    && logger.getGetEventAdditionalParameter() == task
-                    && dateBetweenDates(logger.getDate(), after, before)) {
-                quantity++;
-            }
-        }
-        return quantity;
+        //Old method
+//        int quantity = 0;
+//        for (Logger logger : getAllStringsLogs()) {
+//            if (logger.getEvent().equals(Event.SOLVE_TASK)
+//                    && logger.getGetEventAdditionalParameter() == task
+//                    && dateBetweenDates(logger.getDate(), after, before)) {
+//                quantity++;
+//            }
+//        }
+//        return quantity;
+
+        //Stream API
+        return getAllStringsLogs().stream().filter(logger -> logger.getDate().after(after)
+                        && logger.getDate().before(before)
+                        && logger.getEvent().equals(Event.SOLVE_TASK)
+                        && logger.getEventAdditionalParameter == task).
+                map(Logger::getEvent).toList().size();
     }
 
     @Override
     public int getNumberOfSuccessfulAttemptToSolveTask(int task, Date after, Date before) {
-        int quantity = 0;
-        for (Logger logger : getAllStringsLogs()) {
-            if (logger.getEvent().equals(Event.DONE_TASK)
-                    && logger.getGetEventAdditionalParameter() == task
-                    && dateBetweenDates(logger.getDate(), after, before)) {
-                quantity++;
-            }
-        }
-        return quantity;
+        //Old method
+//        int quantity = 0;
+//        for (Logger logger : getAllStringsLogs()) {
+//            if (logger.getEvent().equals(Event.DONE_TASK)
+//                    && logger.getGetEventAdditionalParameter() == task
+//                    && dateBetweenDates(logger.getDate(), after, before)) {
+//                quantity++;
+//            }
+//        }
+//        return quantity;
+
+        //Stream API
+        return getAllStringsLogs().stream().filter(logger -> logger.getDate().after(after)
+                        && logger.getDate().before(before)
+                        && logger.getEvent().equals(Event.DONE_TASK)
+                        && logger.getEventAdditionalParameter == task).
+                map(Logger::getEvent).toList().size();
     }
 
     @Override
     public Map<Integer, Integer> getAllSolvedTasksAndTheirNumber(Date after, Date before) {
+        //Old method
         Map<Integer, Integer> map = new HashMap<>();
         int count = 1;
         for (Logger logger1 : getAllStringsLogs()) {
