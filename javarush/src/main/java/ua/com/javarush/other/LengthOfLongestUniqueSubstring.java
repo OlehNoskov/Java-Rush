@@ -40,7 +40,6 @@ public class LengthOfLongestUniqueSubstring {
 //                    break;
 //                }
 //            }
-//
 //        }
 //        return integers.stream().max(Integer::compare).get();
 
@@ -66,4 +65,3 @@ public class LengthOfLongestUniqueSubstring {
         return Math.max(chars.size(), maxLength);
     }
 }
-//a123bcbcqwe

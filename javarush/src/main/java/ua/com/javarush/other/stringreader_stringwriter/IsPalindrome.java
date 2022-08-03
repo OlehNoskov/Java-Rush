@@ -1,12 +1,15 @@
 package ua.com.javarush.other.stringreader_stringwriter;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /***
  * Возможенн ли палиндром
  */
 
 public class IsPalindrome {
     public static void main(String[] args) {
-        System.out.println(isPalindromePermutation("oleole"));
+        System.out.println(isPalindromePermutation("oleoleg"));
     }
 
     public static boolean isPalindromePermutation(String s) {
@@ -25,7 +28,6 @@ public class IsPalindrome {
                 foundOdd = true;
             }
         }
-
         return true;
     }
 }
