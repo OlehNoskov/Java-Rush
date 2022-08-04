@@ -1,4 +1,4 @@
-package ua.com.javarush.cash_machine_atm;
+package ua.com.javarush.pattern_command_cash_machine_atm;
 
 import java.util.HashMap;
 import java.util.Map;

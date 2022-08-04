@@ -1,4 +1,4 @@
-package ua.com.javarush.cash_machine_atm;
+package ua.com.javarush.pattern_command_cash_machine_atm;
 
 import java.util.Map;
 import java.util.TreeMap;
@@ -24,6 +24,18 @@ public class CurrencyManipulator {
     }
 
     void addAmount(int denomination, int count) {
-        denominations.put(denomination, count);
+        if (denominations.containsKey(denomination)) {
+            denominations.put(denomination, denominations.get(denomination) + count);
+        } else {
+            denominations.put(denomination, count);
+        }
+    }
+
+    public int getTotalAmount() {
+        int totalAmount = 0;
+        for (Integer denomination : denominations.keySet()) {
+            totalAmount += denomination * denominations.get(denomination);
+        }
+        return totalAmount;
     }
 }
