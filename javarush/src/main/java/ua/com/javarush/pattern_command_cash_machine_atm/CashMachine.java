@@ -1,23 +1,22 @@
 package ua.com.javarush.pattern_command_cash_machine_atm;
 
+import ua.com.javarush.pattern_command_cash_machine_atm.command.CommandExecutor;
+import ua.com.javarush.pattern_command_cash_machine_atm.exception.InterruptOperationException;
+
 import java.util.Locale;
 
 public class CashMachine {
 
     public static void main(String[] args) {
+        try {
         Locale.setDefault(Locale.ENGLISH);
-        String currencyCode = ConsoleHelper.askCurrencyCode();
-
-        System.out.println(currencyCode);
-
-        String[] digits = ConsoleHelper.getValidTwoDigits(currencyCode);
-        int denomination = Integer.parseInt(digits[0]);
-        int count = Integer.parseInt(digits[1]);
-
-        CurrencyManipulator manipulatorByCurrencyCode = CurrencyManipulatorFactory.getManipulatorByCurrencyCode(currencyCode);
-        manipulatorByCurrencyCode.addAmount(denomination, count);
-
-        manipulatorByCurrencyCode.getTotalAmount();
-        System.out.println(ConsoleHelper.askOperation());
+        Operation operation;
+            do {
+                operation = ConsoleHelper.askOperation();
+                CommandExecutor.execute(operation);
+            } while (operation != Operation.EXIT);
+        } catch (InterruptOperationException e) {
+            ConsoleHelper.writeMessage("Bye!");
+        }
     }
 }

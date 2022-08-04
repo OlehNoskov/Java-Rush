@@ -16,14 +16,14 @@ public class CurrencyManipulator {
 
     public CurrencyManipulator(String currencyCode) {
         this.currencyCode = currencyCode;
-        this.denominations = new TreeMap<>();
+        denominations = new TreeMap<>();
     }
 
     public String getCurrencyCode() {
         return currencyCode;
     }
 
-    void addAmount(int denomination, int count) {
+    public void addAmount(int denomination, int count) {
         if (denominations.containsKey(denomination)) {
             denominations.put(denomination, denominations.get(denomination) + count);
         } else {
@@ -37,5 +37,9 @@ public class CurrencyManipulator {
             totalAmount += denomination * denominations.get(denomination);
         }
         return totalAmount;
+    }
+
+    public boolean hasMoney() {
+        return !denominations.isEmpty();
     }
 }

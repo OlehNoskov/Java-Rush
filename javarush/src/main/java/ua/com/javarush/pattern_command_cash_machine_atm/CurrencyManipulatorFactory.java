@@ -1,5 +1,6 @@
 package ua.com.javarush.pattern_command_cash_machine_atm;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -19,5 +20,9 @@ public class CurrencyManipulatorFactory {
             map.put(manipulator.getCurrencyCode(), manipulator);
         }
         return map.get(currencyCode);
+    }
+
+    public static Collection<CurrencyManipulator> getAllCurrencyManipulators() {
+        return map.values();
     }
 }

@@ -1,5 +1,7 @@
 package ua.com.javarush.pattern_command_cash_machine_atm;
 
+import ua.com.javarush.pattern_command_cash_machine_atm.exception.InterruptOperationException;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -11,21 +13,25 @@ import java.io.InputStreamReader;
 public class ConsoleHelper {
     private static final BufferedReader bis = new BufferedReader(new InputStreamReader(System.in));
 
-    static void writeMessage(String message) {
+    public static void writeMessage(String message) {
         System.out.println(message);
     }
 
-    static String readString() {
-        String result = null;
+    public static String readString() throws InterruptOperationException {
         try {
+            String result;
             result = bis.readLine();
+            if ("exit".equals(result.toLowerCase())) {
+                throw new InterruptOperationException();
+            }
+            return result;
         } catch (IOException e) {
             System.out.println("Something wrong!");
         }
-        return result;
+        return null;
     }
 
-    static String askCurrencyCode() {
+    public static String askCurrencyCode() throws InterruptOperationException {
         while (true) {
             ConsoleHelper.writeMessage("Please choose a currency code, for example USD");
             String currencyCode = ConsoleHelper.readString();
@@ -37,7 +43,7 @@ public class ConsoleHelper {
         }
     }
 
-    static String[] getValidTwoDigits(String currencyCode) {
+    public static String[] getValidTwoDigits(String currencyCode) throws InterruptOperationException {
         while (true) {
             ConsoleHelper.writeMessage(String.format("Please specify integer denomination and integer count. For example '10 3' means 30 %s", currencyCode));
             String s = ConsoleHelper.readString();
@@ -57,7 +63,7 @@ public class ConsoleHelper {
         }
     }
 
-    public static Operation askOperation() {
+    public static Operation askOperation() throws InterruptOperationException {
         while (true) {
             ConsoleHelper.writeMessage("Please choose an operation desired or type 'EXIT' for exiting");
             ConsoleHelper.writeMessage("\t 1 - operation.INFO");
