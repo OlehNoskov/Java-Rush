@@ -8,9 +8,10 @@ import java.util.*;
 public class CashMachine {
 
     public static void main(String[] args) {
-        try {
         Locale.setDefault(Locale.ENGLISH);
+        try {
         Operation operation;
+        CommandExecutor.execute(Operation.LOGIN);
             do {
                 operation = ConsoleHelper.askOperation();
                 CommandExecutor.execute(operation);

@@ -1,20 +1,17 @@
 package ua.com.javarush.pattern_command_cash_machine_atm;
 
 public enum Operation {
-    INFO, DEPOSIT, WITHDRAW, EXIT;
+    LOGIN, INFO, DEPOSIT, WITHDRAW, EXIT;
 
     public static Operation getAllowableOperationByOrdinal(Integer i) {
-        switch (i) {
-            case 1:
-                return Operation.INFO;
-            case 2:
-                return Operation.DEPOSIT;
-            case 3:
-                return Operation.WITHDRAW;
-            case 4:
-                return Operation.EXIT;
-            default:
-                throw new IllegalArgumentException();
+        if (i == LOGIN.ordinal()) {
+            throw new IllegalArgumentException();
         }
+        for (Operation operation : values()) {
+            if (operation.ordinal() == i) {
+                return operation;
+            }
+        }
+        throw new IllegalArgumentException();
     }
 }
