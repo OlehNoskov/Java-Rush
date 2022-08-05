@@ -3,7 +3,7 @@ package ua.com.javarush.pattern_command_cash_machine_atm;
 import ua.com.javarush.pattern_command_cash_machine_atm.command.CommandExecutor;
 import ua.com.javarush.pattern_command_cash_machine_atm.exception.InterruptOperationException;
 
-import java.util.Locale;
+import java.util.*;
 
 public class CashMachine {
 

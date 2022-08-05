@@ -21,7 +21,7 @@ public class ConsoleHelper {
         try {
             String result;
             result = bis.readLine();
-            if ("exit".equals(result.toLowerCase())) {
+            if ("exit".equalsIgnoreCase(result)) {
                 throw new InterruptOperationException();
             }
             return result;
