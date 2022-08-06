@@ -1,4 +1,4 @@
-package ua.com.javarush.waitnotify;
+package ua.com.javarush.web.waitnotify;
 
 import java.util.concurrent.CountDownLatch;
 

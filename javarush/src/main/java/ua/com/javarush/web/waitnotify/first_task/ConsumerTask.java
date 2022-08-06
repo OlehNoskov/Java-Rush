@@ -1,4 +1,4 @@
-package ua.com.javarush.waitnotify.first_task;
+package ua.com.javarush.web.waitnotify.first_task;
 
 public class ConsumerTask implements Runnable {
     private TransferObject transferObject;

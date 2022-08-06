@@ -1,4 +1,4 @@
-package ua.com.javarush.waitnotify;
+package ua.com.javarush.web.waitnotify;
 
 public class MailServer implements Runnable {
     private Mail mail;
