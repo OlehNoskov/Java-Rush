@@ -1,4 +1,4 @@
-package ua.com.javarush.web;
+package ua.com.javarush.other;
 
 /**
  * Принадлежность точки многоугольнику
