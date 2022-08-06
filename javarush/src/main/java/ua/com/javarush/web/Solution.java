@@ -1,7 +1,10 @@
 package ua.com.javarush.web;
 
+import javax.activation.DataHandler;
+import javax.activation.FileDataSource;
 import javax.mail.*;
 import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
 
@@ -33,7 +36,7 @@ public class Solution {
             message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(recipients));
 
             setSubject(message, "Тестовое письмо");
-            setAttachment(message, "c:/text.txt");
+            setAttachment(message, "D:\\Документы Олега\\DDOS attacks.txt");
 
             Transport.send(message);
             System.out.println("Письмо было отправлено.");
@@ -48,8 +51,15 @@ public class Solution {
     }
 
     public static void setAttachment(Message message, String filename) throws MessagingException {
-        Multipart multipart = new MimeMultipart();
-        message.setContent(multipart);
+        BodyPart bodyPart = new MimeBodyPart();
 
+        FileDataSource fileDataSource = new FileDataSource(filename);
+        bodyPart.setDataHandler(new DataHandler(fileDataSource));
+        bodyPart.setFileName(fileDataSource.getName());
+
+        Multipart multipart = new MimeMultipart();
+        multipart.addBodyPart(bodyPart);
+
+        message.setContent(multipart);
     }
 }
