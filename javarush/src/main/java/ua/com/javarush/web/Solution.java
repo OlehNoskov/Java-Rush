@@ -3,6 +3,7 @@ package ua.com.javarush.web;
 import javax.mail.*;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
+import javax.mail.internet.MimeMultipart;
 
 import java.util.Properties;
 
@@ -47,6 +48,8 @@ public class Solution {
     }
 
     public static void setAttachment(Message message, String filename) throws MessagingException {
-        message.setText(filename);
+        Multipart multipart = new MimeMultipart();
+        message.setContent(multipart);
+
     }
 }
