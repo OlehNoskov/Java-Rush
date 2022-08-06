@@ -2,6 +2,7 @@ package ua.com.javarush.web;
 
 import javax.activation.DataHandler;
 import javax.activation.FileDataSource;
+
 import javax.mail.*;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeBodyPart;
@@ -10,9 +11,9 @@ import javax.mail.internet.MimeMultipart;
 
 import java.util.Properties;
 
-public class Solution {
+public class SendMessageWithFile {
     public static void main(String[] args) {
-        Solution solution = new Solution();
+        SendMessageWithFile solution = new SendMessageWithFile();
         solution.sendMail("name.lastname@gmail.com", "password", "friend@gmail.com");
     }
 
