@@ -34,14 +34,14 @@ public class Server {
                 while (true) {
                     BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
 
+                    // отвечает кто то на сервере
                     connection.send(bufferedReader.readLine());
                     String message = connection.receive();
 
                     if (message.equals("exit"))
                         break;
-
+                    // печать сообщения от клиента
                     System.out.println(message);
-
                 }
             } catch (Exception e) {
                 System.out.println(e.getMessage());

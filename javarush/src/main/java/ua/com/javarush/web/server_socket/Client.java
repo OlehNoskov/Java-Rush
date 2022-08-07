@@ -26,10 +26,13 @@ public class Client {
             socketThread.start();
 
             while (true) {
+                System.out.println(connection.receive());
+
                 String text = bis.readLine();
                 if (text.equalsIgnoreCase("exit"))
                     break;
                 connection.send(text);
+
             }
         } catch (Exception e) {
             e.printStackTrace();
