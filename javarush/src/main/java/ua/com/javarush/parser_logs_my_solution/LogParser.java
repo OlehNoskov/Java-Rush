@@ -1,6 +1,5 @@
 package ua.com.javarush.parser_logs_my_solution;
 
-import org.checkerframework.common.value.qual.EnumVal;
 import ua.com.javarush.parser_logs_my_solution.query.*;
 
 import java.io.BufferedReader;
@@ -13,7 +12,6 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 
 import java.util.*;
-import java.util.function.Function;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
