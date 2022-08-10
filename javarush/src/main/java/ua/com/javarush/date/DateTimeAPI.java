@@ -10,6 +10,6 @@ public class DateTimeAPI {
     }
 
     public static void printDate(String date) {
-        //напишите тут ваш код
+        System.out.println(date);
     }
 }
