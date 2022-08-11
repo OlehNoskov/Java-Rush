@@ -6,7 +6,6 @@ import java.time.LocalTime;
 import java.time.Period;
 import java.time.temporal.ChronoUnit;
 
-
 public class DateMethods {
     public static void main(String[] args) {
         System.out.println(isLeap(LocalDate.of(2000, 10, 10)));
