@@ -2,6 +2,7 @@ package ua.com.javarush.game_sokoban.view;
 
 import ua.com.javarush.game_sokoban.conroller.Controller;
 import ua.com.javarush.game_sokoban.conroller.EventListener;
+import ua.com.javarush.game_sokoban.model.GameObjects;
 
 import javax.swing.*;
 
@@ -13,7 +14,7 @@ public class View extends JFrame {
         this.controller = controller;
     }
 
-   public void setEventListener(EventListener eventListener){
+    public void setEventListener(EventListener eventListener) {
         field.setEventListener(eventListener);
     }
 
@@ -26,5 +27,19 @@ public class View extends JFrame {
         setLocationRelativeTo(null);
         setTitle("Сокобан");
         setVisible(true);
+    }
+
+    public void update() {
+        field.repaint();
+    }
+
+    public GameObjects getGameObjects() {
+        return controller.getGameObjects();
+    }
+
+    public void completed(int level) {
+        update();
+        JOptionPane.showMessageDialog(this, "Уровень " + level + " пройден.", "Вы выиграли", JOptionPane.INFORMATION_MESSAGE);
+        controller.startNextLevel();
     }
 }
