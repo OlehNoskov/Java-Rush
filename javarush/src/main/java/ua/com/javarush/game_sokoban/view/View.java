@@ -1,6 +1,7 @@
 package ua.com.javarush.game_sokoban.view;
 
 import ua.com.javarush.game_sokoban.conroller.Controller;
+import ua.com.javarush.game_sokoban.conroller.EventListener;
 
 import javax.swing.*;
 
@@ -10,6 +11,10 @@ public class View extends JFrame {
 
     public View(Controller controller) {
         this.controller = controller;
+    }
+
+   public void setEventListener(EventListener eventListener){
+        field.setEventListener(eventListener);
     }
 
     public void init() {
