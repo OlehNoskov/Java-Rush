@@ -6,7 +6,7 @@ import java.util.Map;
  class TestMap {
     private static Map<User, String> users = new HashMap<>();
 
-    public static void main(String[] args) {
+     public static void main(String[] args) {
             User user1 = new User(1, "Oleg", "Noskov");
             User user2 = new User(1, "Oleg", "Noskov");
             User user3 = new User(1, "Oleg", "Noskov");
@@ -16,7 +16,7 @@ import java.util.Map;
 
         System.out.println(users.get(user2));
         System.out.println(testFinally());
-    }
+     }
 
     private static class User {
         int index;
