@@ -1,50 +1,61 @@
 package ua.com.javarush.solution_for_anastasia_salyuk;
 
-import lombok.Getter;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import java.util.stream.Collectors;
 
 public class Initialization {
     public static Random RANDOM_NUMBER = new Random();
-    @Getter
-    public List<Passenger> passengerList = new ArrayList<>();
-    @Getter
-    public List<Floor> floorList = new ArrayList<>();
+    public static List<Passenger> passengerList = new ArrayList<>();
+    public static List<Floor> floorList = new ArrayList<>();
     private static int currentFloor;
     private static int nextFloor;
 
-    public void initListPassengers() {
+    public static void initListPassengers() {
         for (int i = 0; i < Passenger.RANDOM_AMOUNT_PASSENGERS; i++) {
             Passenger passenger = new Passenger();
             currentFloor = RANDOM_NUMBER.nextInt(Floor.FIRST_FLOOR, Floor.RANDOM_AMOUNT_FLOORS) + 1;
             passenger.setCurrentFloor(currentFloor);
 
             nextFloor = RANDOM_NUMBER.nextInt(Floor.FIRST_FLOOR, Floor.RANDOM_AMOUNT_FLOORS) + 1;
-//            if (currentFloor != nextFloor) {
-            passenger.setNextFloor(nextFloor);
-//            }
+            passenger.setNextFloor(getRandomNextFloorForPassenger(passenger));
             passengerList.add(passenger);
         }
     }
 
-    public void initFloors() {
+    public static void initFloors() {
         for (int i = 1; i <= Floor.RANDOM_AMOUNT_FLOORS; i++) {
             Floor floor = new Floor();
             floor.setNumberFloor(i);
-            addPassengers(floor);
+            addPassengersOnFloor(floor);
+            floor.setListWaitingPassengers(listWaitingPassengers(floor));
             floorList.add(floor);
         }
     }
 
-    private void addPassengers(Floor floor) {
-        List<Passenger> passengersOnFloors = new ArrayList<>();
-        for (Passenger passenger : passengerList) {
-            if (passenger.getCurrentFloor() == floor.getNumberFloor()) {
-                passengersOnFloors.add(passenger);
-            }
-        }
-        floor.setListPassengers(passengersOnFloors);
+    private static void addPassengersOnFloor(Floor floor) {
+        floor.setListPassengers(passengerList.stream()
+                .filter(p -> p.getCurrentFloor() == floor.getNumberFloor())
+                .collect(Collectors.toList()));
     }
+
+    private static int getRandomNextFloorForPassenger(Passenger passenger) {
+        int currentNumber = RANDOM_NUMBER.nextInt(Floor.FIRST_FLOOR, Floor.RANDOM_AMOUNT_FLOORS) + 1;
+        return currentNumber != passenger.getCurrentFloor() ? currentNumber : getRandomNextFloorForPassenger(passenger);
+    }
+
+    private static List<Integer> listWaitingPassengers(Floor floor) {
+        return passengerList.stream().map(Passenger::getNextFloor)
+                .filter(pNextFloor -> pNextFloor == floor.getNumberFloor())
+                .collect(Collectors.toList());
+    }
+
+//    private static String convertListToString(Floor floor) {
+//        StringBuilder stringBuilder = new StringBuilder();
+//        for (Integer integer: listWaitingPassengers(floor)){
+//            stringBuilder.append(integer).append(" ");
+//        }
+//        return stringBuilder.toString();
+//    }
 }

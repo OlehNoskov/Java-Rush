@@ -2,11 +2,12 @@ package ua.com.javarush.solution_for_anastasia_salyuk;
 
 public class Main {
     public static void main(String[] args) {
-        Initialization initialization = new Initialization();
-        initialization.initListPassengers();
-        System.out.println(initialization.getPassengerList());
+        Initialization.initListPassengers();
+        Initialization.initFloors();
+
+        System.out.println(Initialization.passengerList);
+        System.out.println(Initialization.passengerList.size());
         System.out.println("===========================");
-        initialization.initFloors();
-        System.out.println(initialization.floorList);
+        System.out.println(Initialization.floorList);
     }
 }

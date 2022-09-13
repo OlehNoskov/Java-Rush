@@ -19,11 +19,15 @@ public class Floor {
     @Setter
     private List<Passenger> listPassengers = new ArrayList<>();
 
+    @Getter
+    @Setter
+    private List<Integer> listWaitingPassengers;
+
+
     @Override
     public String toString() {
-        return "Floor{" +
-                "numberFloor=" + numberFloor +
-                ", listPassengers=" + listPassengers +
-                '}';
+        return "№" + numberFloor +
+                "|          |" +
+                "" + listWaitingPassengers;
     }
 }
