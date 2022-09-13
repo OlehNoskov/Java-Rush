@@ -46,16 +46,7 @@ public class Initialization {
     }
 
     private static List<Integer> listWaitingPassengers(Floor floor) {
-        return passengerList.stream().map(Passenger::getNextFloor)
-                .filter(pNextFloor -> pNextFloor == floor.getNumberFloor())
-                .collect(Collectors.toList());
+        return passengerList.stream().filter(p-> p.getCurrentFloor() == floor.getNumberFloor())
+                .map(Passenger::getNextFloor).collect(Collectors.toList());
     }
-
-//    private static String convertListToString(Floor floor) {
-//        StringBuilder stringBuilder = new StringBuilder();
-//        for (Integer integer: listWaitingPassengers(floor)){
-//            stringBuilder.append(integer).append(" ");
-//        }
-//        return stringBuilder.toString();
-//    }
 }

@@ -8,6 +8,8 @@ public class Main {
         System.out.println(Initialization.passengerList);
         System.out.println(Initialization.passengerList.size());
         System.out.println("===========================");
-        System.out.println(Initialization.floorList);
+        for (int i = Initialization.floorList.size()-1; i >= 0; i--) {
+            System.out.println(Initialization.floorList.get(i));
+        }
     }
 }

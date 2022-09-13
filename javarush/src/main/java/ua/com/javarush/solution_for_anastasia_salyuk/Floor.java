@@ -18,7 +18,6 @@ public class Floor {
     @Getter
     @Setter
     private List<Passenger> listPassengers = new ArrayList<>();
-
     @Getter
     @Setter
     private List<Integer> listWaitingPassengers;
