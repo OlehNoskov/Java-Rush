@@ -20,13 +20,13 @@ public class Floor {
     private List<Passenger> listPassengers = new ArrayList<>();
     @Getter
     @Setter
-    private List<Integer> listWaitingPassengers;
+    private List<Integer> listNextFloorPassenger;
 
 
     @Override
     public String toString() {
         return "№" + numberFloor +
                 "|          |" +
-                "" + listWaitingPassengers;
+                "" + listNextFloorPassenger;
     }
 }

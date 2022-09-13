@@ -29,7 +29,7 @@ public class Initialization {
             Floor floor = new Floor();
             floor.setNumberFloor(i);
             addPassengersOnFloor(floor);
-            floor.setListWaitingPassengers(listWaitingPassengers(floor));
+            floor.setListNextFloorPassenger(getListNextFloors(floor));
             floorList.add(floor);
         }
     }
@@ -45,8 +45,8 @@ public class Initialization {
         return currentNumber != passenger.getCurrentFloor() ? currentNumber : getRandomNextFloorForPassenger(passenger);
     }
 
-    private static List<Integer> listWaitingPassengers(Floor floor) {
-        return passengerList.stream().filter(p-> p.getCurrentFloor() == floor.getNumberFloor())
+    private static List<Integer> getListNextFloors(Floor floor) {
+        return passengerList.stream().filter(p -> p.getCurrentFloor() == floor.getNumberFloor())
                 .map(Passenger::getNextFloor).collect(Collectors.toList());
     }
 }
