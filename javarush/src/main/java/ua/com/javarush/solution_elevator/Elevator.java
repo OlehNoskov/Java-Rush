@@ -8,16 +8,14 @@ import java.util.List;
 
 public class Elevator {
     private static Elevator instance = null;
-    @Getter
-    private final int MAX_CAPACITY = 5;
+    public static final int MAX_CAPACITY = 5;
     @Getter
     @Setter
     private int currentMaxFloor;
     @Getter
     @Setter
     private int currentFloor;
-    @Getter
-    private List<Passenger> listPassengers = new ArrayList<>(MAX_CAPACITY);
+    public static List<Passenger> listPassengers = new ArrayList<>(MAX_CAPACITY);
 
     private Elevator() {
     }

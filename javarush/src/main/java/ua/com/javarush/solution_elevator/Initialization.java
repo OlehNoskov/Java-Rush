@@ -8,11 +8,12 @@ import java.util.stream.Collectors;
 
 public class Initialization {
     public static Random RANDOM_NUMBER = new Random();
-    public static final List<Floor> listFloors = new LinkedList<>();
+    public static List<Floor> listFloors = new LinkedList<>();
 
     public static void initListFloors() {
-        int amountPassengersOnCurrentFloor = Passenger.getRandomAmountPassengers();
+        int amountPassengersOnCurrentFloor;
         for (int i = Floor.FIRST_FLOOR; i <= Floor.RANDOM_AMOUNT_FLOORS; i++) {
+            amountPassengersOnCurrentFloor = Passenger.getRandomAmountPassengers();
             Floor floor = new Floor();
             floor.setNumberFloor(i);
             floor.setListPassengers(getListPassengersOnCurrentFloor(i, amountPassengersOnCurrentFloor));
