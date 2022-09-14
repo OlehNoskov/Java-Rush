@@ -1,15 +1,16 @@
 package ua.com.javarush.solution_elevator;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
 import java.util.stream.Collectors;
 
 public class Initialization {
     public static Random RANDOM_NUMBER = new Random();
+    public static final List<Floor> listFloors = new LinkedList<>();
 
-    public static List<Floor> getInitListFloors() {
-        List<Floor> listFloors = new ArrayList<>();
+    public static void initListFloors() {
         int amountPassengersOnCurrentFloor = Passenger.getRandomAmountPassengers();
         for (int i = Floor.FIRST_FLOOR; i <= Floor.RANDOM_AMOUNT_FLOORS; i++) {
             Floor floor = new Floor();
@@ -18,7 +19,6 @@ public class Initialization {
             floor.setListNextFloorPassenger(getListNextFloors(floor.getListPassengers()));
             listFloors.add(floor);
         }
-        return listFloors;
     }
 
     private static List<Passenger> getListPassengersOnCurrentFloor(int indexFloor, int amountPassengers) {
