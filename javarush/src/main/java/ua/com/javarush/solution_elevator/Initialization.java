@@ -40,4 +40,8 @@ public class Initialization {
         int currentNumber = RANDOM_NUMBER.nextInt(Floor.FIRST_FLOOR, Floor.RANDOM_AMOUNT_FLOORS) + 1;
         return currentNumber != passenger.getCurrentFloor() ? currentNumber : getRandomNextFloorForPassenger(passenger);
     }
+
+    public static void restartData(){
+        listFloors = new LinkedList<>();
+    }
 }

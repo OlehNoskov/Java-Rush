@@ -12,6 +12,7 @@ public class Floor {
     private static final int MAX_AMOUNT_FLOORS = 5;
     public static final int FIRST_FLOOR = 1;
     public static int RANDOM_AMOUNT_FLOORS = Initialization.RANDOM_NUMBER.nextInt(Floor.MIN_AMOUNT_FLOORS, Floor.MAX_AMOUNT_FLOORS) + 1;
+
     @Getter
     @Setter
     private int numberFloor;
