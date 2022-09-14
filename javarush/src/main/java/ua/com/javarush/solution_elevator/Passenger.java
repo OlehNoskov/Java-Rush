@@ -6,7 +6,7 @@ import lombok.Setter;
 import java.util.Random;
 
 public class Passenger {
-    private static final int MAX_AMOUNT_PASSENGERS = 10;
+    private static final int MAX_AMOUNT_PASSENGERS = 5;
     @Getter
     @Setter
     private int currentFloor;
