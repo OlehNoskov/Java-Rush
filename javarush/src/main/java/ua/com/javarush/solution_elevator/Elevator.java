@@ -1,4 +1,4 @@
-package ua.com.javarush.solution_for_anastasia_salyuk;
+package ua.com.javarush.solution_elevator;
 
 import lombok.Getter;
 import lombok.Setter;

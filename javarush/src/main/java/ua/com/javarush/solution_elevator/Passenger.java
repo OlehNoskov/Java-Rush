@@ -1,17 +1,22 @@
-package ua.com.javarush.solution_for_anastasia_salyuk;
+package ua.com.javarush.solution_elevator;
 
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.Random;
+
 public class Passenger {
-    public static final int MAX_AMOUNT_PASSENGERS = 10;
-    public static final int RANDOM_AMOUNT_PASSENGERS = Initialization.RANDOM_NUMBER.nextInt(MAX_AMOUNT_PASSENGERS) + 1;
+    private static final int MAX_AMOUNT_PASSENGERS = 10;
     @Getter
     @Setter
     private int currentFloor;
     @Getter
     @Setter
     private int nextFloor;
+
+    public static int getRandomAmountPassengers() {
+        return new Random().nextInt(MAX_AMOUNT_PASSENGERS) + 1;
+    }
 
     @Override
     public String toString() {

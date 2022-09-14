@@ -1,4 +1,4 @@
-package ua.com.javarush.solution_for_anastasia_salyuk;
+package ua.com.javarush.solution_elevator;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -21,7 +21,6 @@ public class Floor {
     @Getter
     @Setter
     private List<Integer> listNextFloorPassenger;
-
 
     @Override
     public String toString() {
