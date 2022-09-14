@@ -15,6 +15,7 @@ public class Elevator {
     @Getter
     @Setter
     private int currentFloor;
+    @Setter
     @Getter
     private List<Passenger> listPassengers = new ArrayList<>(MAX_CAPACITY);
 

@@ -17,7 +17,6 @@ public class Initialization {
             Floor floor = new Floor();
             floor.setNumberFloor(i);
             floor.setListPassengers(getListPassengersOnCurrentFloor(i, amountPassengersOnCurrentFloor));
-            floor.setListNextFloorPassenger(getListNextFloors(floor.getListPassengers()));
             listFloors.add(floor);
         }
     }
@@ -37,7 +36,7 @@ public class Initialization {
         return passengers.stream().map(Passenger::getNextFloor).collect(Collectors.toList());
     }
 
-    private static int getRandomNextFloorForPassenger(Passenger passenger) {
+    public static int getRandomNextFloorForPassenger(Passenger passenger) {
         int currentNumber = RANDOM_NUMBER.nextInt(Floor.FIRST_FLOOR, Floor.RANDOM_AMOUNT_FLOORS) + 1;
         return currentNumber != passenger.getCurrentFloor() ? currentNumber : getRandomNextFloorForPassenger(passenger);
     }
