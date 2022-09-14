@@ -33,12 +33,12 @@ public class Initialization {
         return passengerList;
     }
 
+    public static List<Integer> getListNextFloors(List<Passenger> passengers) {
+        return passengers.stream().map(Passenger::getNextFloor).collect(Collectors.toList());
+    }
+
     private static int getRandomNextFloorForPassenger(Passenger passenger) {
         int currentNumber = RANDOM_NUMBER.nextInt(Floor.FIRST_FLOOR, Floor.RANDOM_AMOUNT_FLOORS) + 1;
         return currentNumber != passenger.getCurrentFloor() ? currentNumber : getRandomNextFloorForPassenger(passenger);
-    }
-
-    private static List<Integer> getListNextFloors(List<Passenger> passengers) {
-        return passengers.stream().map(Passenger::getNextFloor).collect(Collectors.toList());
     }
 }

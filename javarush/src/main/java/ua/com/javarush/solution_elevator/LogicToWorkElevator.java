@@ -1,5 +1,7 @@
 package ua.com.javarush.solution_elevator;
 
+import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -23,17 +25,23 @@ public class LogicToWorkElevator {
             System.out.println(passenger);
         }
 
-        for (int i = 1; i <= maxFloor; i++) {
+        for (int i = 1; i < maxFloor; i++) {
             System.out.println("=== Step " + stepCount + " ===");
             removePassengersFromElevator(Initialization.listFloors.get(i));
             addPassengersToElevatorUp(Initialization.listFloors.get(i));
-            maxFloor = getCurrentMaxFloor();
+            if (!elevator.getListPassengers().isEmpty()) {
+                maxFloor = getCurrentMaxFloor();
+            }
+            else {
+                System.out.println("Lift is UP!");
+            }
             show();
             System.out.println("Elevator passengers ont the floor #" + stepCount + "\n");
             for (Passenger passenger: elevator.getListPassengers()){
                 System.out.println(passenger);
             }
-            elevator.setCurrentFloor(i);
+            elevator.setCurrentFloor(stepCount);
+            System.out.println(elevator.getCurrentFloor());
             stepCount++;
         }
     }
@@ -53,12 +61,29 @@ public class LogicToWorkElevator {
     }
 
     private static void addPassengersToElevatorUp(Floor currentFloor) {
+        List<Passenger> passengersToRemove = new ArrayList<>();
+
         for (Passenger passenger : currentFloor.getListPassengers()) {
-            if (elevator.getListPassengers().size() != Elevator.MAX_CAPACITY && passenger.getNextFloor() > elevator.getCurrentFloor()) {
+            if (elevator.getListPassengers().size() != Elevator.MAX_CAPACITY
+                    && passenger.getNextFloor() > elevator.getCurrentFloor()) {
                 elevator.getListPassengers().add(passenger);
+                passengersToRemove.add(passenger);
+            }
+            else {
+                System.out.println("No passengers!");
             }
         }
+        removePassengersFromFloor(currentFloor, passengersToRemove);
+        currentFloor.setListNextFloorPassenger(Initialization.getListNextFloors(currentFloor.getListPassengers()));
     }
+
+//    private static void addPassengersToElevatorDown(Floor currentFloor) {
+//        for (Passenger passenger : currentFloor.getListPassengers()) {
+//            if (elevator.getListPassengers().size() != Elevator.MAX_CAPACITY && passenger.getNextFloor() < elevator.getCurrentFloor()) {
+//                elevator.getListPassengers().add(passenger);
+//            }
+//        }
+//    }
 
     private static void removePassengersFromElevator(Floor currentFloor) {
         elevator.getListPassengers().removeIf(passenger -> passenger.getNextFloor() == currentFloor.getNumberFloor());
@@ -68,7 +93,7 @@ public class LogicToWorkElevator {
         return elevator.getListPassengers().stream().map(Passenger::getNextFloor).toList().stream().max(Integer::compare).get();
     }
 
-    private static void removePassengersFromFloor(Floor floor, Passenger passengers) {
+    private static void removePassengersFromFloor(Floor floor, List<Passenger> passengers) {
         floor.getListPassengers().remove(passengers);
     }
 }
