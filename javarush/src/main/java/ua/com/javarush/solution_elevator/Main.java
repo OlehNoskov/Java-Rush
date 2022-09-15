@@ -8,10 +8,9 @@ public class Main {
     private static Random random = new Random();
 
     public static void main(String[] args) {
-
-        Building building = new Building((random.nextInt(16)+5)); // (0...15) +5 = 5... 20
-        System.out.println("START");
+        Building building = new Building((random.nextInt(Building.MIN_AMOUNT_FLOORS, Building.MAX_AMOUNT_FLOORS) + 1));
+        System.out.println("===== START =====");
         System.out.println(building);
-        building.startCycle();
+        building.run();
     }
 }

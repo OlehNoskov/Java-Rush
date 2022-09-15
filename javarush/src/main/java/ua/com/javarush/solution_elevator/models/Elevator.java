@@ -3,15 +3,14 @@ package ua.com.javarush.solution_elevator.models;
 import ua.com.javarush.solution_elevator.intergaces.ElevatorInterface;
 
 public class Elevator implements ElevatorInterface {
-    private static final int MAX_PASSENGERS = 5;
-    private int[] passengers = new int[MAX_PASSENGERS]; //passengers in elevator
-
+    public static final int MAX_PASSENGERS = 10;
+    private int[] passengers = new int[MAX_PASSENGERS]; //array passengers in elevator
     private int currentFloor = 1;
     private int maxFloor;
     private boolean direction = true; //true - UP , false - DOWN
 
-    public Elevator(int maxfloor) {
-        this.maxFloor = maxfloor;
+    public Elevator(int maxFloor) {
+        this.maxFloor = maxFloor;
     }
 
     public int move() {
@@ -65,6 +64,33 @@ public class Elevator implements ElevatorInterface {
         return removedPassengersCount;
     }
 
+    public boolean isDirection() {
+        return direction;
+    }
+
+    public void setDirection(boolean direction) {
+        this.direction = direction;
+    }
+
+    public int getCurrentFloor() {
+        return currentFloor;
+    }
+
+    public void correctDirrection() {
+        if (currentFloor == 1) direction = true;
+        else if (currentFloor == maxFloor) direction = false;
+    }
+
+    public String toString() {
+        StringBuilder res = new StringBuilder();
+        for (int passenger : passengers) {
+            if (passenger != 0)
+                res.append(passenger).append(" ");
+        }
+        if (res.length() > 0) res.deleteCharAt(res.length() - 1);
+        return res.toString();
+    }
+
     private int findClosestPassengerFloorIfElevatorFull() {
         int result = 0;
         if (direction) {
@@ -80,33 +106,5 @@ public class Elevator implements ElevatorInterface {
         }
         if (result == 0) throw new IllegalStateException("Method can`t find next floor!");
         return result;
-    }
-
-    public boolean isDirection() {
-        return direction;
-    }
-
-    public void setDirection(boolean direction) {
-        this.direction = direction;
-    }
-
-    public int getCurrentFloor() {
-        return currentFloor;
-    }
-
-
-    public void correctDirrection() {
-        if (currentFloor == 1) direction = true;
-        else if (currentFloor == maxFloor) direction = false;
-    }
-
-    public String toString() {
-        StringBuilder res = new StringBuilder();
-        for (int passenger : passengers) {
-            if (passenger != 0)
-                res.append(passenger + " ");
-        }
-        if (res.length() > 0) res.deleteCharAt(res.length() - 1);
-        return res.toString();
     }
 }
