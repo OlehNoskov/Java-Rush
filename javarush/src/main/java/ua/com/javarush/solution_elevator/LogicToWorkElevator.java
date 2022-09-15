@@ -28,13 +28,14 @@ public class LogicToWorkElevator {
                 Elevator.getInstance().setCurrentFloor(currentFloor);
 
                 if (currentFloor == maxFloor) {
-                    System.out.println("=== Step " + countStep + " ===");
                     // search direction among passengers on upper floor: UP or DOWN, Elevator at the moment is empty.
                     if (whereMoveUpOrDown(Initialization.getListNextFloors(Building.getInstance()
                             .getListFloors().get(currentFloor - 1).getListPassengers()), currentFloor) == 0) {
                         continue;
                     }
                     removePassengerFromElevator();
+                    addPassengerToElevator();
+                    System.out.println("=== Step " + countStep + " ===");
                     System.out.println(Building.getInstance().toString());
                     direction = false;
                     countStep++;
@@ -50,7 +51,6 @@ public class LogicToWorkElevator {
                 minFloor = getCurrentMinFloor();
                 if (currentFloor == minFloor) {
                     direction = true;
-                    minFloor = 1;
                 }
             }
             Thread.sleep(500);
@@ -64,6 +64,7 @@ public class LogicToWorkElevator {
                 if (passenger.getNextFloor() == currentFloor) {
                     Elevator.getInstance().getListPassengers().remove(passenger);
                     // set next Random number floor
+                    passenger.setCurrentFloor(currentFloor);
                     passenger.setNextFloor(Initialization.getRandomNextFloorForPassenger(passenger));
                     removePassengerFromElevator.add(passenger);
                 }
@@ -105,11 +106,13 @@ public class LogicToWorkElevator {
     }
 
     private static int getCurrentMaxFloor() {
-        return Elevator.getInstance().getListPassengers().stream().map(Passenger::getNextFloor).toList().stream().max(Integer::compare).get();
+        return Elevator.getInstance().getListPassengers().size() == 1 ? Elevator.getInstance().getListPassengers().element().getCurrentFloor() :
+                Elevator.getInstance().getListPassengers().stream().map(Passenger::getNextFloor).toList().stream().max(Integer::compare).get();
     }
 
     private static int getCurrentMinFloor() {
-        return Elevator.getInstance().getListPassengers().stream().map(Passenger::getNextFloor).toList().stream().min(Integer::compare).get();
+        return Elevator.getInstance().getListPassengers().size() == 1 ? Elevator.getInstance().getListPassengers().element().getCurrentFloor() :
+                Elevator.getInstance().getListPassengers().stream().map(Passenger::getNextFloor).toList().stream().min(Integer::compare).get();
     }
 
     private static int whereMoveUpOrDown(List<Integer> numberFloors, int currentMaxFloor) {
