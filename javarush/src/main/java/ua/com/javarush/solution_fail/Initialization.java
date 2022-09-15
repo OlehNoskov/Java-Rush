@@ -1,4 +1,4 @@
-package ua.com.javarush.solution_elevator;
+package ua.com.javarush.solution_fail;
 
 import java.util.ArrayList;
 import java.util.List;
