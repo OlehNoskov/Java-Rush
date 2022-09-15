@@ -31,6 +31,6 @@ public class Elevator {
 
     @Override
     public String toString() {
-        return "Elevator: " + listPassengers;
+        return "-> Elevator: " + listPassengers;
     }
 }

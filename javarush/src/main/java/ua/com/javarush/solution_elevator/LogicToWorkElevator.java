@@ -28,18 +28,20 @@ public class LogicToWorkElevator {
                 Elevator.getInstance().setCurrentFloor(currentFloor);
 
                 if (currentFloor == maxFloor) {
+                    System.out.println("MAX FLOOR!!!");
+                    removePassengerFromElevator();
                     // search direction among passengers on upper floor: UP or DOWN, Elevator at the moment is empty.
                     if (whereMoveUpOrDown(Initialization.getListNextFloors(Building.getInstance()
-                            .getListFloors().get(currentFloor - 1).getListPassengers()), currentFloor) == 0) {
-                        continue;
+                            .getListFloors().get(currentFloor - 1).getListPassengers()), currentFloor) == 1) {
+
+//                        removePassengerFromElevator();
+                        addPassengerToElevator();
+                        System.out.println("=== Step " + countStep + " ===");
+                        System.out.println(Building.getInstance().toString());
+                        direction = false;
+                        countStep++;
+                        maxFloor = 1;
                     }
-                    removePassengerFromElevator();
-                    addPassengerToElevator();
-                    System.out.println("=== Step " + countStep + " ===");
-                    System.out.println(Building.getInstance().toString());
-                    direction = false;
-                    countStep++;
-                    maxFloor = 1;
                 }
                 // Elevator DOWN
             } else {
@@ -49,11 +51,13 @@ public class LogicToWorkElevator {
                 System.out.println(Building.getInstance().toString());
                 currentFloor--;
                 minFloor = getCurrentMinFloor();
+
                 if (currentFloor == minFloor) {
+                    removePassengerFromElevator();
                     direction = true;
+                    minFloor = 1;
                 }
             }
-            Thread.sleep(500);
         }
     }
 
@@ -106,12 +110,18 @@ public class LogicToWorkElevator {
     }
 
     private static int getCurrentMaxFloor() {
-        return Elevator.getInstance().getListPassengers().size() == 1 ? Elevator.getInstance().getListPassengers().element().getCurrentFloor() :
+        if (Elevator.getInstance().getListPassengers().isEmpty()) {
+            System.out.println("List is empty!");
+        }
+        return Elevator.getInstance().getListPassengers().size() == 1 ? Elevator.getInstance().getListPassengers().element().getNextFloor() :
                 Elevator.getInstance().getListPassengers().stream().map(Passenger::getNextFloor).toList().stream().max(Integer::compare).get();
     }
 
     private static int getCurrentMinFloor() {
-        return Elevator.getInstance().getListPassengers().size() == 1 ? Elevator.getInstance().getListPassengers().element().getCurrentFloor() :
+        if (Elevator.getInstance().getListPassengers().isEmpty()) {
+            System.out.println("List is empty!");
+        }
+        return Elevator.getInstance().getListPassengers().size() == 1 ? Elevator.getInstance().getListPassengers().element().getNextFloor() :
                 Elevator.getInstance().getListPassengers().stream().map(Passenger::getNextFloor).toList().stream().min(Integer::compare).get();
     }
 
