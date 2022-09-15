@@ -17,4 +17,9 @@ public class Passenger {
     public static int getRandomAmountPassengers() {
         return new Random().nextInt(MAX_AMOUNT_PASSENGERS) + 1;
     }
+
+    @Override
+    public String toString() {
+        return nextFloor + "";
+    }
 }

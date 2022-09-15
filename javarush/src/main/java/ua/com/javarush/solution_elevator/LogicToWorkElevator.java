@@ -1,155 +1,102 @@
 package ua.com.javarush.solution_elevator;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class LogicToWorkElevator {
-    private static Elevator elevator = Elevator.getInstance();
-    private static int stepCount = 2;
-    private static int currentNumberFloor = 1;
+    //true - up, false - down
+    private static boolean direction = true;
+    private static int maxFloor = 1;
+    private static int currentFloor = 1;
+    private static int countStep = 1;
 
-    public static void start() throws InterruptedException {
+    public static void test() {
         Initialization.initListFloors();
-        System.out.println("=== Step 1 ===");
-        System.out.println("^^^ Elevator with passengers on the floor №1 ^^^" + "\n");
+        Elevator.getInstance().setCurrentFloor(currentFloor);
+        while (true) {
+            if (direction) {
+                System.out.println("=== Step " + countStep + " ===");
+                System.out.println(Building.getInstance().toString());
+                removePassengerFromElevator();
+                addPassengerToElevator();
 
-        show();
-        addPassengersToEmptyElevator(Initialization.listFloors.get(0));
-        removePassengersFromFloor(Initialization.listFloors.get(0), elevator.getListPassengers());
-        int maxFloor = getCurrentMaxFloor();
-        int index = 0;
-
-        Thread.sleep(500);
-
-        for (int i = 1; i < maxFloor; i++) {
-            index = i;
-            currentNumberFloor++;
-            System.out.println("=== Step " + stepCount + " ===");
-            System.out.println("^^^ Elevator with passengers on the floor №" + stepCount + " ^^^" + "\n");
-            elevator.setCurrentFloor(stepCount);
-
-            removePassengersFromElevator(Initialization.listFloors.get(i));
-            Initialization.listFloors.get(i).setListNumbersNextFloors(elevator.getListPassengers().stream()
-                    .map(Passenger::getNextFloor).toList());
-            addPassengersToElevatorUp(Initialization.listFloors.get(i));
-
-            if (!elevator.getListPassengers().isEmpty()) {
+                currentFloor++;
                 maxFloor = getCurrentMaxFloor();
-            }
-            stepCount++;
-            Initialization.listFloors.get(i).setListNumbersNextFloors(Collections.emptyList());
+                countStep++;
+                Elevator.getInstance().setCurrentFloor(currentFloor);
 
-            Thread.sleep(500);
-        }
-        if (elevator.getCurrentFloor() == maxFloor) {
-            Initialization.listFloors.get(index).setListNumbersNextFloors(Collections.emptyList());
-            if (whereMoveUpOrDown(Initialization.getListNextFloors(Initialization.listFloors.get(Initialization.listFloors.size() - 1).getListPassengers()), maxFloor) == 0) {
-                Initialization.restartData();
-                start();
-            } else {
-                System.out.println("Stop on upper floor!!!");
-//                startElevatorFromUpperFloorDown();
+                if (currentFloor == maxFloor) {
+                    System.out.println("=== Step " + countStep + " ===");
+                    System.out.println("It's upper Floor!!!");
+                    // search direction : UP or DOWN
+                    if (whereMoveUpOrDown(Initialization.getListNextFloors(Building.getInstance()
+                            .getListFloors().get(currentFloor - 1).getListPassengers()), currentFloor) == 0) {
+                        continue;
+                    }
+                    removePassengerFromElevator();
+                    System.out.println(Building.getInstance().toString());
+                    direction = false;
+                }
+            }
+            if (!direction) {
+                break;
             }
         }
     }
 
-//    public static void startElevatorFromUpperFloorDown() throws InterruptedException {
-//        addPassengersToEmptyElevator(Initialization.listFloors.get(currentNumberFloor - 1));
-//        removePassengersFromFloor(Initialization.listFloors.get(0), elevator.getListPassengers());
-////        show();
-//
-//        int minFloor = getCurrentMinFloor();
-//        for (int i = currentNumberFloor - 1; i >= minFloor; i--) {
-//            System.out.println("=== Step " + stepCount + " ===");
-//            System.out.println("vvv Elevator with passengers on the floor №" + currentNumberFloor + " vvv" + "\n");
-//
-//            elevator.setCurrentFloor(currentNumberFloor);
-//            removePassengersFromElevator(Initialization.listFloors.get(i));
-//            Initialization.listFloors.get(i - 1).setListNumbersNextFloors(elevator.getListPassengers().stream()
-//                    .map(Passenger::getNextFloor).toList());
-//            show();
-//            addPassengersToElevatorDown(Initialization.listFloors.get(i));
-//
-//            if (!elevator.getListPassengers().isEmpty()) {
-//                minFloor = getCurrentMinFloor();
-//            }
-//            stepCount++;
-//            Initialization.listFloors.get(i).setListNumbersNextFloors(Collections.emptyList());
-//
-//            Thread.sleep(500);
-//        }
-//    }
-
-    private static void show() {
-        for (int i = Initialization.listFloors.size() - 1; i >= 0; i--) {
-            System.out.println(Initialization.listFloors.get(i));
+    private static void removePassengerFromElevator() {
+        List<Passenger> removePassengerFromElevator = new ArrayList<>();
+        if (!Elevator.getInstance().getListPassengers().isEmpty()) {
+            for (Passenger passenger : Elevator.getInstance().getListPassengers()) {
+                if (passenger.getNextFloor() == currentFloor) {
+                    Elevator.getInstance().getListPassengers().remove(passenger);
+                    // set next Random number floor
+                    passenger.setNextFloor(Initialization.getRandomNextFloorForPassenger(passenger));
+                    removePassengerFromElevator.add(passenger);
+                }
+            }
+            addPassengerToFloor(removePassengerFromElevator);
         }
-        System.out.println();
     }
 
-    private static void addPassengersToElevatorUp(Floor currentFloor) {
+    private static void addPassengerToElevator() {
         List<Passenger> passengersForRemove = new ArrayList<>();
-
-        for (Passenger passenger : currentFloor.getListPassengers()) {
-            if (elevator.getListPassengers().size() < Elevator.MAX_CAPACITY
-                    && passenger.getNextFloor() > elevator.getCurrentFloor()) {
-                elevator.getListPassengers().add(passenger);
-                passengersForRemove.add(passenger);
+        // add passengers to elevator when moves UP
+        if (direction) {
+            for (Passenger passenger : Building.getInstance().getListFloors().get(currentFloor - 1).getListPassengers()) {
+                if (Elevator.getInstance().getListPassengers().size() < Elevator.MAX_CAPACITY
+                        && passenger.getNextFloor() > currentFloor) {
+                    Elevator.getInstance().getListPassengers().add(passenger);
+                    passengersForRemove.add(passenger);
+                }
+            }
+            // add passengers to elevator when moves DOWN
+        } else {
+            for (Passenger passenger : Building.getInstance().getListFloors().get(currentFloor - 1).getListPassengers()) {
+                if (Elevator.getInstance().getListPassengers().size() < Elevator.MAX_CAPACITY
+                        && passenger.getNextFloor() < currentFloor) {
+                    Elevator.getInstance().getListPassengers().add(passenger);
+                    passengersForRemove.add(passenger);
+                }
             }
         }
-        show();
-        removePassengersFromFloor(currentFloor, passengersForRemove);
+        removePassengerToFloor(passengersForRemove);
     }
 
-    private static void addPassengersToElevatorDown(Floor currentFloor) {
-        List<Passenger> passengersForRemove = new ArrayList<>();
-
-        for (Passenger passenger : currentFloor.getListPassengers()) {
-            if (elevator.getListPassengers().size() < Elevator.MAX_CAPACITY
-                    && passenger.getNextFloor() < elevator.getCurrentFloor()) {
-                elevator.getListPassengers().add(passenger);
-                passengersForRemove.add(passenger);
-            }
-        }
-        removePassengersFromFloor(currentFloor, passengersForRemove);
+    private static void addPassengerToFloor(List<Passenger> passengers) {
+        Building.getInstance().getListFloors().get(currentFloor - 1).getListPassengers().addAll(passengers);
     }
 
-    private static void addPassengersToEmptyElevator(Floor firstFloor) {
-        for (Passenger passenger : firstFloor.getListPassengers()) {
-            if (elevator.getListPassengers().size() != Elevator.MAX_CAPACITY) {
-                elevator.getListPassengers().add(passenger);
-            }
-        }
-    }
-
-    private static void removePassengersFromFloor(Floor floor, List<Passenger> passengers) {
-        floor.getListPassengers().removeAll(passengers);
-    }
-
-    private static void removePassengersFromElevator(Floor currentFloor) {
-        List<Passenger> listAddToFloor = elevator.getListPassengers().stream()
-                .filter(passenger -> passenger.getNextFloor() == currentFloor.getNumberFloor())
-                .collect(Collectors.toList());
-        elevator.getListPassengers().removeIf(passenger -> passenger.getNextFloor() == currentFloor.getNumberFloor());
-        addPassengersToFloorFromElevator(currentFloor, listAddToFloor);
-    }
-
-    private static void addPassengersToFloorFromElevator(Floor floor, List<Passenger> passengers) {
-        for (Passenger passenger : passengers) {
-            passenger.setCurrentFloor(floor.getNumberFloor());
-            passenger.setNextFloor(Initialization.getRandomNextFloorForPassenger(passenger));
-            floor.getListPassengers().add(passenger);
-        }
+    private static void removePassengerToFloor(List<Passenger> passengers) {
+        Building.getInstance().getListFloors().get(currentFloor - 1).getListPassengers().removeAll(passengers);
     }
 
     private static int getCurrentMaxFloor() {
-        return elevator.getListPassengers().stream().map(Passenger::getNextFloor).toList().stream().max(Integer::compare).get();
+        return Elevator.getInstance().getListPassengers().stream().map(Passenger::getNextFloor).toList().stream().max(Integer::compare).get();
     }
 
     private static int getCurrentMinFloor() {
-        return elevator.getListPassengers().stream().map(Passenger::getNextFloor).toList().stream().min(Integer::compare).get();
+        return Elevator.getInstance().getListPassengers().stream().map(Passenger::getNextFloor).toList().stream().min(Integer::compare).get();
     }
 
     private static int whereMoveUpOrDown(List<Integer> numberFloors, int currentMaxFloor) {

@@ -3,8 +3,8 @@ package ua.com.javarush.solution_elevator;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Queue;
+import java.util.concurrent.ConcurrentLinkedDeque;
 
 public class Elevator {
     private static Elevator instance = null;
@@ -17,7 +17,7 @@ public class Elevator {
     private int currentFloor;
     @Setter
     @Getter
-    private List<Passenger> listPassengers = new ArrayList<>(MAX_CAPACITY);
+    private Queue<Passenger> listPassengers = new ConcurrentLinkedDeque<>();
 
     private Elevator() {
     }
@@ -27,5 +27,10 @@ public class Elevator {
             instance = new Elevator();
         }
         return instance;
+    }
+
+    @Override
+    public String toString() {
+        return "Elevator: " + listPassengers;
     }
 }
