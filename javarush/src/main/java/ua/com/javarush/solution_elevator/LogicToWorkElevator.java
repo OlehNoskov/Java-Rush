@@ -10,7 +10,7 @@ public class LogicToWorkElevator {
     private static int currentFloor = 1;
     private static int countStep = 1;
 
-    public static void test() {
+    public static void run() {
         Initialization.initListFloors();
         Elevator.getInstance().setCurrentFloor(currentFloor);
         while (true) {
