@@ -7,28 +7,29 @@ public class LogicToWorkElevator {
     //true - up, false - down
     private static boolean direction = true;
     private static int maxFloor = 1;
+    private static int minFloor = 1;
     private static int currentFloor = 1;
     private static int countStep = 1;
 
-    public static void run() {
+    public static void run() throws InterruptedException {
         Initialization.initListFloors();
         Elevator.getInstance().setCurrentFloor(currentFloor);
         while (true) {
+            System.out.println("=== Step " + countStep + " ===");
+            countStep++;
+            // Elevator UP
             if (direction) {
-                System.out.println("=== Step " + countStep + " ===");
                 System.out.println(Building.getInstance().toString());
                 removePassengerFromElevator();
                 addPassengerToElevator();
 
                 currentFloor++;
                 maxFloor = getCurrentMaxFloor();
-                countStep++;
                 Elevator.getInstance().setCurrentFloor(currentFloor);
 
                 if (currentFloor == maxFloor) {
                     System.out.println("=== Step " + countStep + " ===");
-                    System.out.println("It's upper Floor!!!");
-                    // search direction : UP or DOWN
+                    // search direction among passengers on upper floor: UP or DOWN, Elevator at the moment is empty.
                     if (whereMoveUpOrDown(Initialization.getListNextFloors(Building.getInstance()
                             .getListFloors().get(currentFloor - 1).getListPassengers()), currentFloor) == 0) {
                         continue;
@@ -36,11 +37,23 @@ public class LogicToWorkElevator {
                     removePassengerFromElevator();
                     System.out.println(Building.getInstance().toString());
                     direction = false;
+                    countStep++;
+                    maxFloor = 1;
+                }
+                // Elevator DOWN
+            } else {
+                Elevator.getInstance().setCurrentFloor(currentFloor);
+                removePassengerFromElevator();
+                addPassengerToElevator();
+                System.out.println(Building.getInstance().toString());
+                currentFloor--;
+                minFloor = getCurrentMinFloor();
+                if (currentFloor == minFloor) {
+                    direction = true;
+                    minFloor = 1;
                 }
             }
-            if (!direction) {
-                break;
-            }
+            Thread.sleep(500);
         }
     }
 
