@@ -48,9 +48,6 @@ public class LogicToWorkElevator {
                 if (maxFloor == currentFloor) {
                     if (whereMoveUpOrDown(Initialization.getListNextFloors(Building.getInstance()
                             .getListFloors().get(currentFloor - 1).getListPassengers()), currentFloor) == 0) {
-                        System.out.println("!!!!!!!!");
-                        System.out.println(Elevator.getInstance().getCurrentFloor());
-                        System.out.println(currentFloor);
                         removePassengerFromElevator();
                         addPassengerToElevator();
                         System.out.println("=== Step " + countStep + " ===");
@@ -63,6 +60,7 @@ public class LogicToWorkElevator {
                 currentFloor--;
             }
             countStep++;
+            Thread.sleep(500);
         }
     }
 
