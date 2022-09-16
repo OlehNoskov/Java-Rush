@@ -1,4 +1,4 @@
-package ua.com.javarush.solution_fail;
+package ua.com.javarush.solution_elevator_version_two;
 
 import lombok.Getter;
 import lombok.Setter;
