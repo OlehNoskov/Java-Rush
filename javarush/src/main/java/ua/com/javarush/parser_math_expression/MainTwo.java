@@ -18,7 +18,7 @@ public class MainTwo {
 
 
     public static void main(String[] args) {
-        String expressionText = "122 - 34 - 3* (55 + 5* (3 - 2)) * 2";
+        String expressionText = "((122-34-(3*2))/2 +100*2)-41";
         List<Lexeme> lexemes = lexAnalyze(expressionText);
         LexemeBuffer lexemeBuffer = new LexemeBuffer(lexemes);
         System.out.println(expr(lexemeBuffer));
@@ -79,7 +79,7 @@ public class MainTwo {
     public static List<Lexeme> lexAnalyze(String expText) {
         ArrayList<Lexeme> lexemes = new ArrayList<>();
         int pos = 0;
-        while (pos< expText.length()) {
+        while (pos < expText.length()) {
             char c = expText.charAt(pos);
             switch (c) {
                 case '(':
