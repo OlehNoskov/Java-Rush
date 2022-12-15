@@ -10,9 +10,11 @@ import java.util.Map;
             User user1 = new User(1, "Oleg", "Noskov");
             User user2 = new User(1, "Oleg", "Noskov");
             User user3 = new User(1, "Oleg", "Noskov");
+            User user4 = new User(1, "Oleg", "Boss");
             users.put(user1, "Trainee");
             users.put(user2, "Junior");
             users.put(user3, "Middle");
+            users.put(user4, "Boss");
 
         System.out.println(users.get(user2));
         System.out.println(testFinally());
